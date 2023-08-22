@@ -86,9 +86,9 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-06-24 21:00:39.117296",
+ "modified": "2023-08-22 18:30:25.761957",
  "modified_by": "Administrator",
- "module": "VIM",
+ "module": "Ecs Vim",
  "name": "Salesforce Integration",
  "owner": "Administrator",
  "permissions": [

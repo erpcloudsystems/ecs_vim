@@ -17,9 +17,9 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-02-18 08:47:41.065500",
+ "modified": "2023-08-22 18:30:22.641389",
  "modified_by": "Administrator",
- "module": "VIM",
+ "module": "Ecs Vim",
  "name": "CopyandPay Settings",
  "owner": "Administrator",
  "permissions": [

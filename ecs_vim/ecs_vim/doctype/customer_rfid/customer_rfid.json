@@ -68,9 +68,9 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-03-04 08:52:32.348434",
+ "modified": "2023-08-22 18:30:22.129177",
  "modified_by": "Administrator",
- "module": "VIM",
+ "module": "Ecs Vim",
  "name": "Customer RFID",
  "owner": "Administrator",
  "permissions": [
@@ -94,7 +94,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "POS User",
+   "role": "POS user",
    "share": 1,
    "write": 1
   },
