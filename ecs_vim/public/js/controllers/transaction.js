@@ -2204,7 +2204,7 @@ erpnext.show_serial_batch_selector = function (frm, d, callback, on_close, show_
 		}
 	}
     //console.log("vimdev")
-	frappe.require(["assets/vim/js/utils/serial_no_batch_selector.js","assets/vim/css/serial_no_batch_selector.css"], function() {
+	frappe.require(["assets/ecs_vim/js/utils/serial_no_batch_selector.js","assets/ecs_vim/css/serial_no_batch_selector.css"], function() {
 		new erpnext.SerialNoBatchSelector({
 			frm: frm,
 			item: d,

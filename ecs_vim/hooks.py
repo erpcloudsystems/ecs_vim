@@ -8,13 +8,17 @@ app_email = "info@erpcloud.systems"
 app_license = "MIT"
 fixtures = ["Custom Field", "Property Setter", "Print Format"]
 # include assets
-app_include_css = "/assets/ecs_vim/css/ecs_vim.css"
+app_include_css = [
+    "//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css",
+    "/assets/ecs_vim/css/ecs_vim.css",
+]
 
 # session creation
 app_include_js = [
     "/assets/ecs_vim/js/customer_quick_entry.js",
     "//cdnjs.cloudflare.com/ajax/libs/echarts/4.8.0/echarts.min.js",
     "/assets/ecs_vim/js/frappe/ui/toolbar/search_utils.js",
+    "//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js",
 ]
 
 
@@ -198,22 +202,28 @@ doc_events = {
         "before_save": "ecs_vim.doctype_triggers.crm.opportunity.opportunity.before_save",
         "on_update": "ecs_vim.doctype_triggers.crm.opportunity.opportunity.on_update",
     },
+    "Payroll Period": {
+        "validate": "ecs_vim.custom_script.payroll_period.payroll_period.validate"
+    },
     "Employee": {
+        "onload": ["ecs_vim.custom_script.employee.employee.onload"],
+        "validate": ["ecs_vim.custom_script.employee.employee.validate"],
         "before_insert": "ecs_vim.doctype_triggers.hr.employee.employee.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.employee.employee.after_insert",
-        "onload": "ecs_vim.doctype_triggers.hr.employee.employee.onload",
+        # "onload": "ecs_vim.doctype_triggers.hr.employee.employee.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.employee.employee.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.employee.employee.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.employee.employee.validate",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.employee.employee.on_update_after_submit",
         "before_save": "ecs_vim.doctype_triggers.hr.employee.employee.before_save",
         "on_update": "ecs_vim.doctype_triggers.hr.employee.employee.on_update",
     },
     "Employee Checkin": {
+        "validate": "ecs_vim.custom_script.employee_checkin.employee_checkin.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.validate",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.on_update_after_submit",
         "before_save": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.before_save",
         "on_update": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.on_update",
@@ -242,13 +252,19 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.additional_salary.additional_salary.on_update",
     },
     "Attendance": {
+        "validate": "ecs_vim.custom_script.attendance.attendance.validate",
+        "on_cancel": "ecs_vim.custom_script.attendance.attendance.on_cancel",
+        "after_insert": "ecs_vim.custom_script.attendance.attendance.after_insert",
+        # 	"on_submit": ["ecs_vim.custom_script.attendance.attendance.on_submit"],
+        # 	"before_cancel": ["ecs_vim.custom_script.attendance.attendance.before_cancel"],
+        "on_trash": ["ecs_vim.custom_script.attendance.attendance.on_trash"],
         "before_insert": "ecs_vim.doctype_triggers.hr.attendance.attendance.before_insert",
-        "after_insert": "ecs_vim.doctype_triggers.hr.attendance.attendance.after_insert",
+        # "after_insert": "ecs_vim.doctype_triggers.hr.attendance.attendance.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.attendance.attendance.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.attendance.attendance.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.attendance.attendance.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.attendance.attendance.validate",
         "on_submit": "ecs_vim.doctype_triggers.hr.attendance.attendance.on_submit",
-        "on_cancel": "ecs_vim.doctype_triggers.hr.attendance.attendance.on_cancel",
+        # "on_cancel": "ecs_vim.doctype_triggers.hr.attendance.attendance.on_cancel",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.attendance.attendance.on_update_after_submit",
         "before_save": "ecs_vim.doctype_triggers.hr.attendance.attendance.before_save",
         "before_cancel": "ecs_vim.doctype_triggers.hr.attendance.attendance.before_cancel",
@@ -294,37 +310,49 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.expense_claim.expense_claim.on_update",
     },
     "Leave Application": {
+        "validate": "ecs_vim.custom_script.leave_application.leave_application.validate",
+		"before_cancel": "ecs_vim.custom_script.leave_application.leave_application.before_cancel",
+		"on_cancel": "ecs_vim.custom_script.leave_application.leave_application.on_cancel",
+		"on_trash": "ecs_vim.custom_script.leave_application.leave_application.on_trash",
+        "before_save" : "ecs_vim.custom_script.leave_application.leave_application.get_user_role",
+		# "before_cancel" :"ecs_vim.custom_script.leave_application.leave_application.cancel_wf_doc",
+		# "on_trash":"ecs_vim.custom_script.leave_application.leave_application.delete_wf",
+		"before_submit":"ecs_vim.custom_script.leave_application.leave_application.get_user_role_validation",
         "before_insert": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.validate",
         "on_submit": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.on_submit",
-        "on_cancel": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.on_cancel",
+        # "on_cancel": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.on_cancel",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.on_update_after_submit",
-        "before_save": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_save",
-        "before_cancel": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_cancel",
+        # "before_save": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_save",
+        # "before_cancel": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_cancel",
         "on_update": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.on_update",
     },
     "Loan": {
+        "validate": "ecs_vim.custom_script.loan.loan.validate",
+		"on_cancel": "ecs_vim.custom_script.loan.loan.on_cancel",
+		"on_trash": ["ecs_vim.custom_script.loan.loan.on_trash"],
         "before_insert": "ecs_vim.doctype_triggers.hr.loan.loan.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.loan.loan.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.loan.loan.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.loan.loan.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.loan.loan.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.loan.loan.validate",
         "on_submit": "ecs_vim.doctype_triggers.hr.loan.loan.on_submit",
-        "on_cancel": "ecs_vim.doctype_triggers.hr.loan.loan.on_cancel",
+        # "on_cancel": "ecs_vim.doctype_triggers.hr.loan.loan.on_cancel",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.loan.loan.on_update_after_submit",
         "before_save": "ecs_vim.doctype_triggers.hr.loan.loan.before_save",
         "before_cancel": "ecs_vim.doctype_triggers.hr.loan.loan.before_cancel",
         "on_update": "ecs_vim.doctype_triggers.hr.loan.loan.on_update",
     },
     "Loan Application": {
+        "validate": "ecs_vim.custom_script.loan_application.loan_application.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.validate",
         "on_submit": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.on_submit",
         "on_cancel": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.on_cancel",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.on_update_after_submit",
@@ -358,12 +386,17 @@ doc_events = {
         "before_cancel": "ecs_vim.doctype_triggers.hr.loan_repayment.loan_repayment.before_cancel",
         "on_update": "ecs_vim.doctype_triggers.hr.loan_repayment.loan_repayment.on_update",
     },
+    'Leave Type': {
+		"on_change": "ecs_vim.custom_script.leave_type.leave_type.on_change",
+		"on_trash": "ecs_vim.custom_script.leave_type.leave_type.on_trash"
+	},
     "Loan Type": {
+        "validate": "ecs_vim.custom_script.loan_type.loan_type.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.validate",
         "on_submit": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.on_submit",
         "on_cancel": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.on_cancel",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.on_update_after_submit",
@@ -385,11 +418,12 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.payroll_entry.payroll_entry.on_update",
     },
     "Salary Slip": {
+        "validate": "ecs_vim.custom_script.salary_slip.salary_slip.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.onload",
         "before_validate": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.before_validate",
-        "validate": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.validate",
+        # "validate": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.validate",
         "on_submit": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.on_submit",
         "on_cancel": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.on_cancel",
         "on_update_after_submit": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.on_update_after_submit",
@@ -468,12 +502,17 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.projects.task.task.on_update",
     },
     "Timesheet": {
+        "on_submit": "ecs_vim.custom_script.timesheet.timesheet.on_submit",
+        # "on_submit": "ecs_vim.custom_script.timesheet.timesheet.create_attendance"
+        "on_cancel": "ecs_vim.custom_script.timesheet.timesheet.on_cancel",
+        "validate": "ecs_vim.custom_script.timesheet.timesheet.validate",
+        "before_save": "ecs_vim.custom_script.timesheet.timesheet.before_save",
         "before_insert": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.after_insert",
         "onload": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.onload",
         "before_validate": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.before_validate",
-        "validate": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.validate",
-        "before_save": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.before_save",
+        # "validate": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.validate",
+        # "before_save": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.before_save",
         "on_update": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.on_update",
     },
     "Customer": {
@@ -656,29 +695,43 @@ doctype_js = {
     "Contact": "doctype_triggers/crm/contact/contact.js",
     "Lead": "doctype_triggers/crm/lead/lead.js",
     "Oppurtunity": "doctype_triggers/crm/oppurtunity/oppurtunity.js",
-    "Employee": "doctype_triggers/hr/employee/employee.js",
+    ##
+    "Employee": ["custom_script/employee/employee.js"],
+    "Company": ["custom_script/company/company.js"],
+    "Attendance": ["custom_script/attendance/attendance.js"],
+    "Salary Slip": ["custom_script/salary_slip/salary_slip.js"],
+    "Leave Application": "custom_script/leave_application/leave_application.js",
+    "Payroll Entry": "custom_script/payroll_entry/payroll_entry.js",
+    "Designation": "custom_script/designation/designation.js",
+    "Holiday List": "custom_script/holiday_list/holiday_list.js",
+    "Loan Application": "custom_script/loan_application/loan_application.js",
+    "Shift Request": "custom_script/shift_request/shift_request.js",
+    "Shift Type": "custom_script/shift_type/shift_type.js",
+    "Timesheet": "custom_script/timesheet/timesheet.js",
+    "Loan": "custom_script/Loan/Loan.js",
+    # "Employee": "doctype_triggers/hr/employee/employee.js",
     "Employee Checkin": "doctype_triggers/hr/employee_checkin/employee_checkin.js",
     "Salary Component": "doctype_triggers/hr/salary_component/salary_component.js",
     "Additional Salary": "doctype_triggers/hr/additional_salary/additional_salary.js",
-    "Attendance": "doctype_triggers/hr/attendance/attendance.js",
+    # "Attendance": "doctype_triggers/hr/attendance/attendance.js",
     "Attendance Request": "doctype_triggers/hr/attendance_request/attendance_request.js",
     "Employee Advance": "doctype_triggers/hr/employee_advance/employee_advance.js",
     "Expense Claim": "doctype_triggers/hr/expense_claim/expense_claim.js",
-    "Leave Application": "doctype_triggers/hr/leave_application/leave_application.js",
-    "Loan": "doctype_triggers/hr/loan/loan.js",
-    "Loan Application": "doctype_triggers/hr/loan_application/loan_application.js",
+    # "Leave Application": "doctype_triggers/hr/leave_application/leave_application.js",
+    # "Loan": "doctype_triggers/hr/loan/loan.js",
+    # "Loan Application": "doctype_triggers/hr/loan_application/loan_application.js",
     "Loan Disbursement": "doctype_triggers/hr/loan_disbursement/loan_disbursement.js",
     "Loan Repayment": "doctype_triggers/hr/loan_repayment/loan_repayment.js",
     "Loan Type": "doctype_triggers/hr/loan_type/loan_type.js",
-    "Payroll Entry": "doctype_triggers/hr/payroll_entry/payroll_entry.js",
-    "Salary Slip": "doctype_triggers/hr/salary_slip/salary_slip.js",
+    # "Payroll Entry": "doctype_triggers/hr/payroll_entry/payroll_entry.js",
+    # "Salary Slip": "doctype_triggers/hr/salary_slip/salary_slip.js",
     "Salary Structure": "doctype_triggers/hr/salary_structure/salary_structure.js",
     "BOM": "doctype_triggers/manufacturing/bom/bom.js",
     "Job Card": "doctype_triggers/manufacturing/job_card/job_card.js",
     "Work Order": "doctype_triggers/manufacturing/work_order/work_order.js",
     "Project": "doctype_triggers/projects/project/project.js",
     "Task": "doctype_triggers/projects/task/task.js",
-    "Timesheet": "doctype_triggers/projects/timesheet/timesheet.js",
+    # "Timesheet": "doctype_triggers/projects/timesheet/timesheet.js",
     "Customer": "doctype_triggers/selling/customer/customer.js",
     "Customer Group": "doctype_triggers/selling/customer_group/customer_group.js",
     "Pricing Rule": "doctype_triggers/selling/pricing_rule/pricing_rule.js",
@@ -736,6 +789,11 @@ doctype_js = {
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+
+doctype_list_js = {
+    "Loan Application": "custom_script/loan_application/loan_application_list.js",
+    "Attendance": "custom_script/attendance/attendance_list.js",
+}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -789,6 +847,7 @@ override_doctype_class = {
     "Item": "ecs_vim.doctype_triggers.item.item.CustomItem",
     "Communication": "ecs_vim.doctype_triggers.communication.email.Customemail",
     "Payment Entry": "ecs_vim.doctype_triggers.payment_entry.payment_entry.CustomPaymentEntry",
+    "Shift Assignment": "ecs_vim.custom_script.shift_assignment.shift_assignment.CustomShiftAssignment",
 }
 
 # Document Events
@@ -821,8 +880,13 @@ scheduler_events = {
     },
     "monthly_long": ["ecs_vim.doctype_triggers.employee.employee.generate_coupon"],
     "daily": [
-        "ecs_vim.ecs_vim.doctype.biostar_settings.biostar_settings.syn_attendance"
+        "ecs_vim.ecs_vim.doctype.biostar_settings.biostar_settings.syn_attendance",
+        "ecs_vim.ecs_vim.doctype.workflow_delegation.workflow_delegation.assign_delegated_role"
+
     ],
+    "hourly": [
+		"ecs_vim.custom_script.attendance.holiday_attendance.holiday_attendance"
+	],
 }
 # Testing
 # -------

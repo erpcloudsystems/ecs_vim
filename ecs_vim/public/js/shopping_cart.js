@@ -2,8 +2,8 @@
 // License: GNU General Public License v3. See license.txt
 
 // shopping cart
-frappe.provide("erpnext.e_commerce.shopping_cart");
-var shopping_cart = erpnext.e_commerce.shopping_cart;
+frappe.provide("erpnext.shopping_cart");
+var shopping_cart = erpnext.shopping_cart;
 
 var getParams = function (url) {
 	var params = [];
@@ -67,7 +67,7 @@ $.extend(shopping_cart, {
 		$(".shopping-cart").on('shown.bs.dropdown', function() {
 			if (!$('.shopping-cart-menu .cart-container').length) {
 				return frappe.call({
-					method: 'erpnext.e_commerce.shopping_cart.cart.get_shopping_cart_menu',
+					method: 'erpnext.shopping_cart.cart.get_shopping_cart_menu',
 					callback: function(r) {
 						if (r.message) {
 							$('.shopping-cart-menu').html(r.message);
@@ -89,7 +89,7 @@ $.extend(shopping_cart, {
             // console.log("opts.slot",opts.slot,opts)
 			return frappe.call({
 				type: "POST",
-				method: "erpnext.e_commerce.shopping_cart.cart.update_cart",
+				method: "erpnext.shopping_cart.cart.update_cart",
 				args: {
 					item_code: opts.item_code,
 					qty: opts.qty,
@@ -196,7 +196,7 @@ $.extend(shopping_cart, {
 
 	show_cart_navbar: function () {
 		frappe.call({
-			method: "erpnext.e_commerce.doctype.e_commerce_settings.e_commerce_settings.is_cart_enabled",
+			method: "erpnext.shopping_cart.doctype.shopping_cart_settings.shopping_cart_settings.is_cart_enabled",
 			callback: function(r) {
 				$(".shopping-cart").toggleClass('hidden', r.message ? false : true);
 			}
