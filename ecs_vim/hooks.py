@@ -311,13 +311,13 @@ doc_events = {
     },
     "Leave Application": {
         "validate": "ecs_vim.custom_script.leave_application.leave_application.validate",
-		"before_cancel": "ecs_vim.custom_script.leave_application.leave_application.before_cancel",
-		"on_cancel": "ecs_vim.custom_script.leave_application.leave_application.on_cancel",
-		"on_trash": "ecs_vim.custom_script.leave_application.leave_application.on_trash",
-        "before_save" : "ecs_vim.custom_script.leave_application.leave_application.get_user_role",
-		# "before_cancel" :"ecs_vim.custom_script.leave_application.leave_application.cancel_wf_doc",
-		# "on_trash":"ecs_vim.custom_script.leave_application.leave_application.delete_wf",
-		"before_submit":"ecs_vim.custom_script.leave_application.leave_application.get_user_role_validation",
+        "before_cancel": "ecs_vim.custom_script.leave_application.leave_application.before_cancel",
+        "on_cancel": "ecs_vim.custom_script.leave_application.leave_application.on_cancel",
+        "on_trash": "ecs_vim.custom_script.leave_application.leave_application.on_trash",
+        "before_save": "ecs_vim.custom_script.leave_application.leave_application.get_user_role",
+        # "before_cancel" :"ecs_vim.custom_script.leave_application.leave_application.cancel_wf_doc",
+        # "on_trash":"ecs_vim.custom_script.leave_application.leave_application.delete_wf",
+        "before_submit": "ecs_vim.custom_script.leave_application.leave_application.get_user_role_validation",
         "before_insert": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.onload",
@@ -332,8 +332,8 @@ doc_events = {
     },
     "Loan": {
         "validate": "ecs_vim.custom_script.loan.loan.validate",
-		"on_cancel": "ecs_vim.custom_script.loan.loan.on_cancel",
-		"on_trash": ["ecs_vim.custom_script.loan.loan.on_trash"],
+        "on_cancel": "ecs_vim.custom_script.loan.loan.on_cancel",
+        "on_trash": ["ecs_vim.custom_script.loan.loan.on_trash"],
         "before_insert": "ecs_vim.doctype_triggers.hr.loan.loan.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.loan.loan.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.loan.loan.onload",
@@ -386,10 +386,10 @@ doc_events = {
         "before_cancel": "ecs_vim.doctype_triggers.hr.loan_repayment.loan_repayment.before_cancel",
         "on_update": "ecs_vim.doctype_triggers.hr.loan_repayment.loan_repayment.on_update",
     },
-    'Leave Type': {
-		"on_change": "ecs_vim.custom_script.leave_type.leave_type.on_change",
-		"on_trash": "ecs_vim.custom_script.leave_type.leave_type.on_trash"
-	},
+    "Leave Type": {
+        "on_change": "ecs_vim.custom_script.leave_type.leave_type.on_change",
+        "on_trash": "ecs_vim.custom_script.leave_type.leave_type.on_trash",
+    },
     "Loan Type": {
         "validate": "ecs_vim.custom_script.loan_type.loan_type.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.before_insert",
@@ -869,7 +869,7 @@ scheduler_events = {
     "cron": {
         # Sync data to salesforce every 5 minutes
         "*/5 * * * *": [
-            # "vim.api.send_renew_sms",
+            # "ecs_vim.api.send_renew_sms",
             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncCustomer",
             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncCustomerFamily",
             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncOrders",
@@ -881,12 +881,11 @@ scheduler_events = {
     "monthly_long": ["ecs_vim.doctype_triggers.employee.employee.generate_coupon"],
     "daily": [
         "ecs_vim.ecs_vim.doctype.biostar_settings.biostar_settings.syn_attendance",
-        "ecs_vim.ecs_vim.doctype.workflow_delegation.workflow_delegation.assign_delegated_role"
-
+        "ecs_vim.ecs_vim.doctype.workflow_delegation.workflow_delegation.assign_delegated_role",
     ],
     "hourly": [
-		"ecs_vim.custom_script.attendance.holiday_attendance.holiday_attendance"
-	],
+        "ecs_vim.custom_script.attendance.holiday_attendance.holiday_attendance"
+    ],
 }
 # Testing
 # -------

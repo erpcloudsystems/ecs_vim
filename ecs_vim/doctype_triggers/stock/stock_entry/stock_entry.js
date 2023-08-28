@@ -1,6 +1,6 @@
 // frappe.ui.form.on('Stock Entry Detail', {
 //     // items_on_form_rendered: function(doc, grid_row) {
-//     //     vim.setup_serial_or_batch_no();
+//     //     ecs_vim.setup_serial_or_batch_no();
 //     // },
   
 // });

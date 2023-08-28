@@ -78,7 +78,7 @@
      $(document).ready(function() {
         console.log('data')
             frappe.call({   
-                method: "vim.www.booking_renewal.index.get_booking_renewal_body",
+                method: "ecs_vim.www.booking_renewal.index.get_booking_renewal_body",
                 args:{'url':window.location.href}
                 , callback: function (r) {
                     if (r.message) {
@@ -117,7 +117,7 @@ function renewbooking() {
         frappe.confirm('Are you sure you want to proceed?',
             () => {
                 frappe.call({   
-                method: "vim.www.booking_renewal.index.create_sales_invoice",
+                method: "ecs_vim.www.booking_renewal.index.create_sales_invoice",
                 args:{'sales_order':so}
                 , callback: function (r) {
                     if (r.message) {

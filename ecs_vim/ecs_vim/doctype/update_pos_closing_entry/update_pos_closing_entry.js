@@ -4,8 +4,8 @@
 frappe.ui.form.on('UPDATE POS CLOSING ENTRY', {
 	update_closing: function(frm) {
         frappe.call({
-            // "method": "vim.vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_stock_ledger",
-            "method": "vim.vim.doctype.update_pos_closing_entry.update_pos_closing_entry.update_pos_closing_entry",
+            // "method": "ecs_vim.ecs_vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_stock_ledger",
+            "method": "ecs_vim.ecs_vim.doctype.update_pos_closing_entry.update_pos_closing_entry.update_pos_closing_entry",
             
             freeze: true,
             args: {

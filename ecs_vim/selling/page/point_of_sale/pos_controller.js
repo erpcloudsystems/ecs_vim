@@ -421,7 +421,7 @@ erpnext.PointOfSale.Controller = class {
                         return frappe.utils.play_sound("error");
                     }
                    
-                    const method = "vim.custom_script.point_of_sale.point_of_sale.validate_user_permission";
+                    const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.validate_user_permission";
 				    const res = await frappe.call({ method, args: { appuser, apppassword }, freeze:true });
 					
 					if(res.message==1)
@@ -1411,7 +1411,7 @@ erpnext.PointOfSale.Controller = class {
         if(!cur_pos.cart.location_so_field.value && cur_pos.cart.location_event_field.value && cur_pos.cart.location_event_slot_field.value  ) 
         {
 			//cur_frm.doc.posting_date.set_value(cur_pos.cart.location_visitdate.value)
-            const method = "vim.custom_script.point_of_sale.point_of_sale.create_event_booking";
+            const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.create_event_booking";
             frappe.call({
                  method,  
                  freeze:true,
@@ -1434,7 +1434,7 @@ erpnext.PointOfSale.Controller = class {
     {
         // if(!cur_pos.cart.custom_field.value && cur_pos.cart.event_field.value ) 
         // {
-        //     const method = "vim.custom_script.point_of_sale.point_of_sale.update_Item";
+        //     const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.update_Item";
             
         //         frappe.call({
         //             method,  
@@ -1447,7 +1447,7 @@ erpnext.PointOfSale.Controller = class {
 			
 			cur_frm.doc.items.forEach(item => {				
                 
-				 const method = "vim.custom_script.point_of_sale.point_of_sale.update_Item";
+				 const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.update_Item";
             
                 frappe.call({
                     method,  
@@ -1463,7 +1463,7 @@ erpnext.PointOfSale.Controller = class {
         if(!cur_pos.cart.location_so_field.value && cur_pos.cart.location_event_field.value   ) 
         {
 			
-            const method = "vim.custom_script.point_of_sale.point_of_sale.update_POS_Item";
+            const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.update_POS_Item";
             
                 frappe.call({
                     method,  
@@ -1482,7 +1482,7 @@ erpnext.PointOfSale.Controller = class {
 			//&& cur_pos.cart.location_event_field.value  ) 
         {
 			
-            // const method = "vim.custom_script.point_of_sale.point_of_sale.update_POS";
+            // const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.update_POS";
             //     frappe.call({
             //         method,  
             //          freeze:true,
@@ -1500,7 +1500,7 @@ erpnext.PointOfSale.Controller = class {
 		else{
 			return frappe.call({
 				async:false,
-				method: "vim.custom_script.point_of_sale.point_of_sale.update_accounting_dimension",
+				method: "ecs_vim.custom_script.point_of_sale.point_of_sale.update_accounting_dimension",
 				args: {
 					'sales_order': cur_pos.cart.location_so_field.value,
 					'pos_invoice':cur_frm.doc.name

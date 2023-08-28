@@ -950,7 +950,7 @@ erpnext.PointOfSale.ItemCart = class {
            
            var  pos_details=[];
             frappe.call({
-                method: 'vim.custom_script.point_of_sale.point_of_sale.get_pos_from_rfid',
+                method: 'ecs_vim.custom_script.point_of_sale.point_of_sale.get_pos_from_rfid',
                 args: {
                     rfid: search_term?search_term:''
                 },
@@ -1094,7 +1094,7 @@ erpnext.PointOfSale.ItemCart = class {
 		`);
 		const me = this;
 		// const query = { query: 'erpnext.controllers.queries.customer_query' }; 
-		const query = { query: 'vim.custom_script.customer.customer.customer_query' }; 
+		const query = { query: 'ecs_vim.custom_script.customer.customer.customer_query' }; 
 		const allowed_customer_group = this.allowed_customer_groups || [];
 		if (allowed_customer_group.length) {
 			query.filters = {
@@ -1167,7 +1167,7 @@ erpnext.PointOfSale.ItemCart = class {
 	update_customer_branch(customer){
 		frappe.call({
 			async:false,
-			method: "vim.custom_script.point_of_sale.point_of_sale.update_customer_branch",
+			method: "ecs_vim.custom_script.point_of_sale.point_of_sale.update_customer_branch",
 			args: {
 				'customer': customer,
 				'pos_profile':cur_frm.doc.pos_profile
@@ -1178,7 +1178,7 @@ erpnext.PointOfSale.ItemCart = class {
 	getslotDetails(select_event,delivery_date){
         var resultlist=[];var slotlist=[];
 		frappe.call({
-				"method": "vim.custom_script.point_of_sale.point_of_sale.get_slot_list",
+				"method": "ecs_vim.custom_script.point_of_sale.point_of_sale.get_slot_list",
 				async: true,
 				args:{item_name:select_event?select_event:'',is_new:0,delivery_date:delivery_date?delivery_date:''},
 				callback: function (r) {
@@ -1199,7 +1199,7 @@ erpnext.PointOfSale.ItemCart = class {
 	// getbranchDetails(brand){
     //     var resultlist=[];var slotlist=[];
 	// 	frappe.call({
-	// 		"method": "vim.custom_script.point_of_sale.point_of_sale.get_branch_list",
+	// 		"method": "ecs_vim.custom_script.point_of_sale.point_of_sale.get_branch_list",
 	// 		async: true,
 	// 		args:{brand:brand?brand:''},
 	// 		callback: function (r) {
@@ -1251,7 +1251,7 @@ erpnext.PointOfSale.ItemCart = class {
 				if(cur_pos.cart.location_info["so"])
 				{
 					frappe.call({
-						method: "vim.custom_script.point_of_sale.point_of_sale.get_payment_entry",
+						method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_payment_entry",
 						args: {
 							sorder: cur_pos.cart.location_info["so"]
 						},
@@ -2460,8 +2460,8 @@ erpnext.PointOfSale.ItemCart = class {
 	// 	var slotoptions= this.getslotDetails('','');
 	// 	var opbranch=this.getbranchDetails('');
 	// 	const $customer_form = this.$customer_section.find('.location-fields-container');
-    //     const query = { query: 'vim.custom_script.point_of_sale.point_of_sale.event_query' };
-    //     const soquery = { soquery: 'vim.custom_script.point_of_sale.point_of_sale.so_query' };
+    //     const query = { query: 'ecs_vim.custom_script.point_of_sale.point_of_sale.event_query' };
+    //     const soquery = { soquery: 'ecs_vim.custom_script.point_of_sale.point_of_sale.so_query' };
 	// 	const dfs = [{
 	// 		fieldname: 'visitdate',
 	// 		label: __('Visit Date'),
@@ -2647,7 +2647,7 @@ erpnext.PointOfSale.ItemCart = class {
 	// 				if(this.value)
 	// 				{
 	// 					frappe.call({
-	// 						method: "vim.custom_script.point_of_sale.point_of_sale.get_payment_entry",
+	// 						method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_payment_entry",
 	// 						args: {
 	// 							sorder: sorder
 	// 						},
@@ -2744,7 +2744,7 @@ erpnext.PointOfSale.ItemCart = class {
     //
     render_location_fields() {
 		const $customer_form = this.$location_fields_container;
-        const soquery = { soquery: 'vim.custom_script.point_of_sale.point_of_sale.so_query' };
+        const soquery = { soquery: 'ecs_vim.custom_script.point_of_sale.point_of_sale.so_query' };
 		const dfs = [{
 			fieldname: 'visitdate',
 			label: __('Visit Date'),
@@ -2874,7 +2874,7 @@ erpnext.PointOfSale.ItemCart = class {
 					if(this.value)
 					{
 						frappe.call({
-							method: "vim.custom_script.point_of_sale.point_of_sale.get_payment_entry",
+							method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_payment_entry",
 							args: {
 								sorder: sorder
 							},
@@ -3033,7 +3033,7 @@ erpnext.PointOfSale.ItemCart = class {
                     tbl[i].packed_quantity=tbl[i].packed_quantity*-1
                  }
                 frappe.call({
-                    method: "vim.custom_script.point_of_sale.point_of_sale.get_return_packed_items",
+                    method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_return_packed_items",
                     args: {
                         pos_invoice: cur_frm.doc.return_against
                     },
@@ -3208,7 +3208,7 @@ erpnext.PointOfSale.ItemCart = class {
 		const me=this;	
         
 		frappe.call({
-			method: "vim.custom_script.point_of_sale.point_of_sale.get_items",
+			method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_items",
 			args: {
 				sorder: sorder
 			},
@@ -3286,7 +3286,7 @@ erpnext.PointOfSale.ItemCart = class {
     //        			 var resultlist=[];var slotlist=[];
 	// 				if(cur_pos.cart.location_visitdate_field.value){
     //        			 frappe.call({
-    //                 "method": "vim.custom_script.point_of_sale.point_of_sale.get_slot_list",
+    //                 "method": "ecs_vim.custom_script.point_of_sale.point_of_sale.get_slot_list",
     //                 async: false,
     //                 args:{item_name:event?event:'',is_new:0,delivery_date:cur_pos.cart.location_visitdate_field.value},
     //                 callback: function (r) {
@@ -3351,7 +3351,7 @@ erpnext.PointOfSale.ItemCart = class {
 	
 	// 	var resultlist=[];
 	// 	frappe.call({
-	// 	"method": "vim.custom_script.point_of_sale.point_of_sale.get_branch_list",
+	// 	"method": "ecs_vim.custom_script.point_of_sale.point_of_sale.get_branch_list",
 	// 	async: false,
 	// 	    args:{brand:brandname?brandname:''},
 	// 	    callback: function (r) {
@@ -3401,7 +3401,7 @@ validate_approver(){
                     return frappe.utils.play_sound("error");
                 }
                
-                const method = "vim.custom_script.point_of_sale.point_of_sale.validate_user_permission";
+                const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.validate_user_permission";
                 const res = await frappe.call({ method, args: { appuser, apppassword }, freeze:true });
                 
                 if(res.message==1)

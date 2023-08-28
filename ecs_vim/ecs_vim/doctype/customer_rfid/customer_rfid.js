@@ -43,7 +43,7 @@ frappe.ui.form.on('Customer RFID', {
             
             var gust_detail = []
             frappe.call({
-                "method": "vim.vim.doctype.customer_rfid.customer_rfid.get_family_details",
+                "method": "ecs_vim.ecs_vim.doctype.customer_rfid.customer_rfid.get_family_details",
                 args:{"customer":frm.doc.customer},
                 async: false,
                 callback: function (r) {

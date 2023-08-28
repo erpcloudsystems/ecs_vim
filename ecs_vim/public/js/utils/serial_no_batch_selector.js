@@ -61,7 +61,7 @@ erpnext.SerialNoBatchSelector = Class.extend({
 						batches.grid.df.data = [];
 						batches.grid.refresh();
                         frappe.call({
-                            "method": "vim.custom_script.stock_entry.stock_entry.get_batch_list",
+                            "method": "ecs_vim.custom_script.stock_entry.stock_entry.get_batch_list",
                             args:{
                                 warehouse:me.warehouse_details.name,
                                 item_code:me.item_code
@@ -193,7 +193,7 @@ erpnext.SerialNoBatchSelector = Class.extend({
         var dialog=this.dialog;
         
         frappe.call({
-            "method": "vim.custom_script.stock_entry.stock_entry.get_batch_list",
+            "method": "ecs_vim.custom_script.stock_entry.stock_entry.get_batch_list",
             args:{
                 warehouse:this.item.s_warehouse,
                 item_code:this.item_code

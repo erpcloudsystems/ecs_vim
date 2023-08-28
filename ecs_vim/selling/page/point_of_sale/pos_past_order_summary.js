@@ -181,7 +181,7 @@ erpnext.PointOfSale.PastOrderSummary = class {
                     return frappe.utils.play_sound("error");
                 }
                
-                const method = "vim.custom_script.point_of_sale.point_of_sale.validate_user_permission";
+                const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.validate_user_permission";
                 const res = await frappe.call({ method, args: { appuser, apppassword }, freeze:true });
                 
                 if(res.message==1)

@@ -412,7 +412,7 @@ erpnext.PointOfSale.ComboItemDetails = class {
 
         
             return frappe.call({
-                method: "vim.custom_script.point_of_sale.point_of_sale.get_combo_items",
+                method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_combo_items",
                 freeze: true,
                 args: { item },
             });

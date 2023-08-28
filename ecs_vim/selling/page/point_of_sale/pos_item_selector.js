@@ -110,7 +110,7 @@ erpnext.PointOfSale.ItemSelector = class {
         if(price_list)
         {
             return frappe.call({
-                method: "vim.custom_script.point_of_sale.point_of_sale.get_pos_items",
+                method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_pos_items",
                 freeze: true,
                 args: { start, page_length, price_list, item_group, search_value, pos_profile },
             });
@@ -628,7 +628,7 @@ erpnext.PointOfSale.ItemSelector = class {
         
 		var me = this;
 		frappe.call({
-			method: "vim.custom_script.point_of_sale.point_of_sale.get_item_group",
+			method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_item_group",
 			freeze: true,
 			args: {
 				pos_profile: me.pos_profile ? me.pos_profile : ''
@@ -688,7 +688,7 @@ erpnext.PointOfSale.ItemSelector = class {
         //me.show_sub_group(false);
 		var sub_html ='<div class="row" style="width: 100%; ">';
 				frappe.call({
-					method: "vim.custom_script.point_of_sale.point_of_sale.get_item_sub_group",
+					method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_item_sub_group",
 					freeze: true,
 					args: {
 						pos_profile: me.pos_profile ? me.pos_profile : '',

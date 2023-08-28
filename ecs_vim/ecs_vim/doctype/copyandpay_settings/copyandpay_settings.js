@@ -7,7 +7,7 @@ frappe.ui.form.on('CopyandPay Settings', {
 	},
     // on_payment: function(frm) {
     //     frappe.call({
-    //         method: "vim.vim.doctype.copyandpay_payment.copyandpay_payment.request",
+    //         method: "ecs_vim.ecs_vim.doctype.copyandpay_payment.copyandpay_payment.request",
             
     //         callback: function (r, rt) {
                

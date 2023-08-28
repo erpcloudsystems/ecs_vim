@@ -34,7 +34,7 @@ function make_payment_log(options,doctype, docname, token,checkout,amount,entity
 	$('.copyandpay-confirming').removeClass('hidden');
     console.log(amount,entityid)
 	frappe.call({
-            method: "vim.vim.doctype.copyandpay_settings.copyandpay_settings.payment_request",
+            method: "ecs_vim.ecs_vim.doctype.copyandpay_settings.copyandpay_settings.payment_request",
             args:{"checkout_id":checkout},
             callback: function (r, rt) {
                
@@ -43,7 +43,7 @@ function make_payment_log(options,doctype, docname, token,checkout,amount,entity
                     if(r.message.id &&  checkout==r.message.ndc)
                     {
                         frappe.call({
-							method:"vim.custom_script.copyandpay.copyandpay_checkout.make_payment",
+							method:"ecs_vim.custom_script.copyandpay.copyandpay_checkout.make_payment",
 							freeze:true,
 							headers: {"X-Requested-With": "XMLHttpRequest"},
 							args: {

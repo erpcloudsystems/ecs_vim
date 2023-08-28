@@ -3,7 +3,7 @@ frappe.ui.form.on('Work Order', {
         frm.fields_dict['reusable_items'].grid.get_field('asset_name').get_query = function(frm, cdt, cdn) {
 			var child = locals[cdt][cdn];
 			return{
-                query: "vim.custom_script.work_order.work_order.get_asset_list",
+                query: "ecs_vim.custom_script.work_order.work_order.get_asset_list",
 				filters: {
 					'item_code': child.item_code
                     // ,
@@ -59,7 +59,7 @@ frappe.ui.form.on('Work Order', {
         if(frm.doc.bom_no){
             console.log(frm.doc.bom_no,"bom")
             frappe.call({
-                "method": "vim.custom_script.work_order.work_order.get_item_list",
+                "method": "ecs_vim.custom_script.work_order.work_order.get_item_list",
                 args:{bom:frm.doc.bom_no},
                 async: true,
                 callback: function (r) {
@@ -84,7 +84,7 @@ frappe.ui.form.on('Work Order', {
             }
             if(!frm.doc.reusable_items[i].asset_name)
             frappe.call({
-            "method": "vim.custom_script.work_order.work_order.check_asset_name",
+            "method": "ecs_vim.custom_script.work_order.work_order.check_asset_name",
             args:{item_code:frm.doc.reusable_items[i].item_code},
             async: false,
             callback: function (r) {

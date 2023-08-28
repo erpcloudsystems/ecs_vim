@@ -5,7 +5,7 @@ frappe.ui.form.on('Salesforce Integration', {
 	refresh: function(frm) {
 		cur_frm.add_custom_button("Test Sales Order Upload",function(){
 			frappe.call({
-				method: 'vim.vim.doctype.salesforce_integration.salesforce_integration.syncOrders',
+				method: 'ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncOrders',
 				callback:(r) => {
 						console.log(r);
 				}
@@ -13,7 +13,7 @@ frappe.ui.form.on('Salesforce Integration', {
 		});
 		cur_frm.add_custom_button("Test Customer Upload",function(){
 			frappe.call({
-				method: 'vim.vim.doctype.salesforce_integration.salesforce_integration.syncCustomer',
+				method: 'ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncCustomer',
 				callback:(r) => {
 						console.log(r);
 				}
@@ -21,7 +21,7 @@ frappe.ui.form.on('Salesforce Integration', {
 		});
 		cur_frm.add_custom_button("Test Sales Invoice Upload",function(){
 			frappe.call({
-				method: 'vim.vim.doctype.salesforce_integration.salesforce_integration.syncInvoices',
+				method: 'ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncInvoices',
 				callback:(r) => {
 						console.log(r);
 				}

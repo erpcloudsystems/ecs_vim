@@ -12,7 +12,7 @@
         "selling/page/point_of_sale/pos_combo_item_details.js"
 	],
     
-	"css/vim.css": [
+	"css/ecs_vim.css": [
 		
 		"public/css/pos.css"      
 	],

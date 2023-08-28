@@ -25,6 +25,6 @@ frappe.views.calendar["Event Booking"] = {
 	// 		"label": __("Branch")
 	// 	}
 	// ],
-	get_events_method: "vim.vim.doctype.event_booking.event_booking.get_events"
-	// get_events_method: "vim.vim.doctype.event_booking.event_booking.get_shows"
+	get_events_method: "ecs_vim.ecs_vim.doctype.event_booking.event_booking.get_events"
+	// get_events_method: "ecs_vim.ecs_vim.doctype.event_booking.event_booking.get_shows"
 }

@@ -29,7 +29,7 @@
 <script>
 	frappe.ready(() => {
 		frappe.call({
-			"method": "vim.www.me.check_customer",
+			"method": "ecs_vim.www.me.check_customer",
 			async: true,
 			callback: function (r) {
 				// return slotlist;

@@ -6,8 +6,8 @@ frappe.ui.form.on('Sales Invoice Packed Item', {
     update_ledger_entry: function(frm) {
        
         frappe.call({
-            // "method": "vim.vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_stock_ledger",
-            "method": "vim.vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_stock_ledger_bundle",
+            // "method": "ecs_vim.ecs_vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_stock_ledger",
+            "method": "ecs_vim.ecs_vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_stock_ledger_bundle",
             
             freeze: true,
             args: {
@@ -23,7 +23,7 @@ frappe.ui.form.on('Sales Invoice Packed Item', {
     //  update_packed_item:function(frm) {
         
     //      frappe.call({
-    //         method: "vim.vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_packed_item",
+    //         method: "ecs_vim.ecs_vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_packed_item",
     //         freeze: true,
     //         callback: function (r, rt) {
                
@@ -38,7 +38,7 @@ frappe.ui.form.on('Sales Invoice Packed Item', {
      make_gl_entries:function(frm) {
         
         frappe.call({
-           method: "vim.vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.make_gl_entries_bundle",
+           method: "ecs_vim.ecs_vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.make_gl_entries_bundle",
            freeze: true,
            callback: function (r, rt) {
               
@@ -53,7 +53,7 @@ frappe.ui.form.on('Sales Invoice Packed Item', {
     update_bundle_double_qty:function(frm) {
         
         frappe.call({
-           method: "vim.vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_bundle_double_qty",
+           method: "ecs_vim.ecs_vim.doctype.sales_invoice_packed_item.sales_invoice_packed_item.update_bundle_double_qty",
            freeze: true,
            callback: function (r, rt) {
               

@@ -4,7 +4,7 @@ frappe.ui.form.on('Employee', {
             if(!cur_frm.doc.__islocal){
             if(frm.doc.allow_gift_coupon){
                 frappe.call({
-                    method: "vim.custom_script.employee.employee.generate_coupon",
+                    method: "ecs_vim.custom_script.employee.employee.generate_coupon",
                     args:{employee:cur_frm.doc.name},
                     callback: function(r) {
                         // console.log(r);

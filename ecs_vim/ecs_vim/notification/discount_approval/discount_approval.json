@@ -15,7 +15,7 @@
  "method": "validate",
  "modified": "2021-10-06 12:01:26.992136",
  "modified_by": "Administrator",
- "module": "VIM",
+ "module": "Ecs Vim",
  "name": "Discount Approval",
  "owner": "Administrator",
  "property_value": "",

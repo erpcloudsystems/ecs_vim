@@ -568,7 +568,7 @@ function add_child(cust_details){
 function get_data(){
     
     frappe.call({
-            method: "vim.www.customer_details.get_customer_Detail",
+            method: "ecs_vim.www.customer_details.get_customer_Detail",
             async: false,
                 args: {
                 },
@@ -769,7 +769,7 @@ function update_click(){
         }
         if(_return==true){
             frappe.call({
-            method: "vim.www.customer_details.update",
+            method: "ecs_vim.www.customer_details.update",
             async: false,
                 args: {
                     'customer_array':array_customer,

@@ -1562,7 +1562,7 @@ def reset_password(self, send_email=False, password_expired=False):
     if password_expired:
         url = "/setpassword?key=" + key + "&password_expired=true"
 
-    link = "https://web.vim.sa" + url  # get_url(url)
+    link = "https://vim.erpcloud.systems" + url  # get_url(url)
     if send_email:
         self.password_reset_mail(link)
 

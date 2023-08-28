@@ -7,7 +7,7 @@ frappe.ui.form.on('Event Booking', {
 	// }
     send_sms:function(frm){
         return frappe.call({
-            method: "vim.api.send_renew_sms",
+            method: "ecs_vim.api.send_renew_sms",
             
             callback(res) {
                 
