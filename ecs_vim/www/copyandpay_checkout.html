@@ -55,7 +55,7 @@ make_payment_log = function(response, options, doctype, docname, token,checkout)
     
     console.log(make_payment_log,"make_payment_log")
 	frappe.call({
-		method:"ecs_vim.custom_script/copyandpay/copyandpay_checkout.make_payment",
+		method:"ecs_vim.doctype_triggers/copyandpay/copyandpay_checkout.make_payment",
 		freeze:true,
 		headers: {"X-Requested-With": "XMLHttpRequest"},
 		args: {
@@ -89,7 +89,7 @@ function make_payment_log(options, doctype, docname, token,checkout){
                 if(r && r.message){
                     console.log(r.message.id,"message",r.message)
 					frappe.call({
-							method:"ecs_vim.custom_script.copyandpay.copyandpay_checkout.make_payment",
+							method:"ecs_vim.doctype_triggers.copyandpay.copyandpay_checkout.make_payment",
 							freeze:true,
 							headers: {"X-Requested-With": "XMLHttpRequest"},
 							args: {

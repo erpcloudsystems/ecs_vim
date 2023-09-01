@@ -101,7 +101,7 @@ erpnext.PointOfSale.PastOrderList = class {
 		this.$invoices_container.html('');
 
 		return frappe.call({
-			method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_past_order_list",
+			method: "ecs_vim.doctype_triggers.point_of_sale.point_of_sale.get_past_order_list",
 			freeze: true,
 			args: { search_term, status,pos_profile },
 			callback: (response) => {

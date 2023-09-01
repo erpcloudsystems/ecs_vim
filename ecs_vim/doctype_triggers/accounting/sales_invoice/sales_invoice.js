@@ -51,7 +51,7 @@ frappe.ui.form.on('Sales Invoice', {
                                     frappe.throw("Invalid Mobile No !!")
                                 }
                                 return frappe.call({
-                                    method: "invoice_sms.sms.send_sms.send_invoice_sms",
+                                    method: "ecs_vim.sms.send_sms.send_invoice_sms",
                                     args: {
                                         'mobile_no': mobile_no,
                                         'name': frm.doc.name,

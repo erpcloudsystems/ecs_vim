@@ -6,6 +6,7 @@ from erpnext.e_commerce.doctype.e_commerce_settings.e_commerce_settings import (
     get_shopping_cart_settings,
     show_quantity_in_website,
 )
+from erpnext.e_commerce.shopping_cart.cart import *
 from erpnext.e_commerce.shopping_cart.cart import _get_cart_quotation, _set_price_list
 from erpnext.utilities.product import (
     get_price as get_price_default,
@@ -167,15 +168,15 @@ def update_cart(
     item_code,
     qty,
     additional_notes=None,
-    with_items=False,
     slot=None,
     delivery_date=None,
     brand=None,
     branch=None,
-    city=None,
     phone=None,
     uom=None,
+    with_items=False,
     restapi=False,
+    city=None,
 ):
     # try :
     user_name = frappe.get_doc("User", frappe.session.user)
@@ -425,7 +426,7 @@ def update_cart(
             "shopping_cart_menu": get_shopping_cart_menu(context),
         }
 
-
+@frappe.whitelist()
 def logerror(status=None, resp=None, method=None, ref_doc=None):
     new_log = frappe.new_doc("Error Log")
     new_log.method = method
@@ -438,7 +439,7 @@ def logerror(status=None, resp=None, method=None, ref_doc=None):
 def place_order(restapi=False, advance_amount=0, payment_status="", transactionid=""):
     quotation = _get_cart_quotation()
     cart_settings = frappe.db.get_value(
-        "Shopping Cart Settings",
+        "E Commerce Settings",
         None,
         ["company", "allow_items_not_in_stock"],
         as_dict=1,
@@ -551,9 +552,10 @@ def place_order(restapi=False, advance_amount=0, payment_status="", transactioni
     for item in sales_order.get("items"):
         if quotation.items[item.idx - 1].delivery_date:
             item.delivery_date = quotation.items[item.idx - 1].delivery_date
+            
             if (
                 not sales_order.delivery_date
-                or item.delivery_date < sales_order.delivery_date
+                or datetime.strptime(item.delivery_date.strftime("%Y-%m-%d"), "%Y-%m-%d")  <  datetime.strptime(sales_order.delivery_date, "%Y-%m-%d")
             ):
                 sales_order.delivery_date = item.delivery_date
             if item.slot_name:
@@ -601,93 +603,6 @@ def place_order(restapi=False, advance_amount=0, payment_status="", transactioni
     if hasattr(frappe.local, "cookie_manager"):
         frappe.local.cookie_manager.delete_cookie("cart_count")
     return sales_order.name
-
-
-# def place_order():
-# 	quotation = _get_cart_quotation()
-# 	cart_settings = frappe.db.get_value("Shopping Cart Settings", None,
-# 		["company", "allow_items_not_in_stock"], as_dict=1)
-# 	quotation.company = cart_settings.company
-
-# 	for item in quotation.get("items"):
-# 		min_qty = frappe.db.get_value('Item', item.item_code, 'minimum_sales_quantity')
-# 		max_qty = frappe.db.get_value('Item', item.item_code, 'maximum_sales_quantity')
-# 		non_sharable_slot = frappe.db.get_value('Item',item.item_code, 'non_sharable_slot')
-# 		if non_sharable_slot  :
-# 			cond = "date = '"+item.delivery_date.strftime("%Y-%m-%d") +"'"
-# 			if item.item_code :
-# 				cond += " and event_item = '"+ item.item_code +"'"
-# 			if quotation.branch :
-# 				cond += " and branch = '"+ quotation.branch +"'"
-# 			if quotation.brand :
-# 				cond += " and brand = '"+ quotation.brand +"'"
-# 			if quotation.city :
-# 				cond += " and city = '"+ quotation.city +"'"
-# 			if item.slot_name :
-# 				cond += " and slot = '"+ item.slot_name +"'"
-# 			booked_rows = frappe.db.sql("""select name as id,'Booked' as title, CONCAT(date, 'T', from_time ) as start, CONCAT(date, 'T', to_time) as end, 0 as allDay , 'booked-slot' as classNames from `tabEvent Booking` where {cond}""".format(cond=cond),as_dict = 1)
-# 			if  len(booked_rows) :
-# 				frappe.throw("Sorry for inconvenience, Slot is already booked for {} for date {} ".format(item.item_code,item.delivery_date))
-# 			if min_qty and item.qty<min_qty:
-# 				# qty = min_qty
-# 				frappe.throw("Minimum Quantity allowed for {} is {}".format(item.item_name , min_qty))
-# 			if max_qty and item.qty > max_qty:
-# 				# qty = max_qty
-# 				frappe.throw("Maximum Quantity allowed fot {} is {}".format(item.item_name,max_qty))
-# 	if quotation.customer_from_website :
-# 		quotation.party_name =  quotation.customer_from_website
-# 		customer_user = frappe.db.get_value("Customer", quotation.customer_from_website,
-# 		["email_id"], as_dict=1)
-
-
-# 		contact = get_contact_name(customer_user.email_id)
-# 		quotation.contact_person = contact
-# 		quotation.contact_email = customer_user.email_id
-# 	quotation.flags.ignore_permissions = True
-# 	quotation.submit()
-
-# 	if quotation.quotation_to == 'Lead' and quotation.party_name:
-# 		# company used to create customer accounts
-# 		frappe.defaults.set_user_default("company", quotation.company)
-
-# 	# if not (quotation.shipping_address_name or quotation.customer_address):
-# 	# 	frappe.throw(_("Set Shipping Address or Billing Address"))
-
-# 	from erpnext.selling.doctype.quotation.quotation import _make_sales_order
-# 	sales_order = frappe.get_doc(_make_sales_order(quotation.name, ignore_permissions=True))
-# 	sales_order.payment_schedule = []
-# 	for item in sales_order.get("items"):
-# 			if quotation.items[item.idx-1].delivery_date :
-# 				item.delivery_date = quotation.items[item.idx-1].delivery_date
-# 				if not sales_order.delivery_date or item.delivery_date < sales_order.delivery_date :
-# 					sales_order.delivery_date = item.delivery_date
-# 				if item.slot_name :
-# 					sales_order.select_event = item.item_code
-# 					sales_order.select_slot = item.slot_name
-# 					sales_order.set_warehouse  =item.warehouse
-# 					sales_order.no_of_entries = item.qty
-# 			# frappe.errprint(["delivery_date",item.delivery_date,item.slot_name,quotation.items[item.idx-1].delivery_date])
-# 	if not cint(cart_settings.allow_items_not_in_stock):
-# 		for item in sales_order.get("items"):
-# 			item.reserved_warehouse, is_stock_item = frappe.db.get_value("Item",
-# 				item.item_code, ["website_warehouse", "is_stock_item"])
-# 			if is_stock_item:
-# 				item_stock = get_web_item_qty_in_stock(item.item_code, "website_warehouse")
-# 				if not cint(item_stock.in_stock):
-# 					throw(_("{1} Not in Stock").format(item.item_code))
-# 				if item.qty > item_stock.stock_qty[0][0]:
-# 					throw(_("Only {0} in Stock for item {1}").format(item_stock.stock_qty[0][0], item.item_code))
-# 	address = frappe.db.sql("""select parent as address from `tabDynamic Link` where parenttype = 'Address'  and link_doctype = 'Warehouse' and link_name = '{}'""".format(sales_order.set_warehouse),as_dict = 1)
-# 	if len(address) >0:
-# 		sales_order.company_address = address[0]['address']
-# 	sales_order.flags.ignore_permissions = True
-# 	sales_order.insert()
-# 	sales_order.flags.ignore_permissions = True
-# 	sales_order.submit()
-# 	frappe.cache().delete_key("web_customer")
-# 	if hasattr(frappe.local, "cookie_manager"):
-# 		frappe.local.cookie_manager.delete_cookie("cart_count")
-# 	return sales_order.name
 
 
 @frappe.whitelist(allow_guest=True)
@@ -1298,7 +1213,7 @@ def alt_login(usr=None, pwd=None):
             contact.save(ignore_permissions=True)
     return {"data": {"user": frappe.session.user, "sid": frappe.session.sid}}
 
-
+@frappe.whitelist()
 def party_exists(doctype, user):
     # check if contact exists against party and if it is linked to the doctype
     mobile_no = frappe.db.get_value("User", {"email": user}, "mobile_no")
@@ -1332,6 +1247,7 @@ def party_exists(doctype, user):
 
 
 # Doctype User override create conatct so, same mobile conattc is availale can be used
+@frappe.whitelist()
 def create_contact(user, ignore_links=False, ignore_mandatory=False):
     from frappe.contacts.doctype.contact.contact import get_contact_name
 
@@ -1426,7 +1342,7 @@ def create_contact(user, ignore_links=False, ignore_mandatory=False):
 
         contact.save(ignore_permissions=True)
 
-
+@frappe.whitelist()
 def create_customer_or_supplier():
     """Based on the default Role (Customer, Supplier), create a Customer / Supplier.
     Called on_session_creation hook.
@@ -1526,7 +1442,7 @@ def create_customer_or_supplier():
 
     return party
 
-
+@frappe.whitelist()
 def create_party_contact(doctype, fullname, user, party_name):
     mobile_no = frappe.db.get_value("User", {"email": user}, "mobile_no")
     # contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no })
@@ -1551,7 +1467,7 @@ def create_party_contact(doctype, fullname, user, party_name):
     contact.flags.ignore_mandatory = True
     contact.save(ignore_permissions=True)
 
-
+@frappe.whitelist()
 def reset_password(self, send_email=False, password_expired=False):
     from frappe.utils import random_string  # , get_url
 
@@ -1562,7 +1478,7 @@ def reset_password(self, send_email=False, password_expired=False):
     if password_expired:
         url = "/setpassword?key=" + key + "&password_expired=true"
 
-    link = "https://vim.erpcloud.systems" + url  # get_url(url)
+    link = "https://https://erp.vim.sa" + url  # get_url(url)
     if send_email:
         self.password_reset_mail(link)
 

@@ -1,6 +1,8 @@
 {% if shopping_cart and shopping_cart.cart_settings.enabled %} {% set
 cart_settings = shopping_cart.cart_settings %} {% set product_info =
-shopping_cart.product_info %}
+shopping_cart.product_info %} {%- set non_sharable_slot =
+frappe.db.get_value('Item', doc.item_code, 'non_sharable_slot') %}
+
 <style>
   /* {box-sizing: border-box;} */
 
@@ -201,13 +203,13 @@ shopping_cart.product_info %}
           data-item-code="{{ item_code }}"
           min-val="{{min_qty}}"
           max-val="{{maximum_qty}}"
-          non-sharable="{{doc.non_sharable_slot}}"
+          non-sharable="{{non_sharable_slot}}"
         />
         <span class="input-group-append d-none d-sm-inline-block">
           <button class="btn cart-btn" data-dir="up">+</button>
         </span>
       </div>
-      {% if doc.non_sharable_slot or doc.non_sharable_slot == 1 %}
+      {% if non_sharable_slot or non_sharable_slot == 1 %}
 
       <div>
         <!-- <div class="visit-date">
@@ -590,7 +592,7 @@ shopping_cart.product_info %}
     // console.log(this.slot_field.df);
     var slot_df = this.slot_field;
     frappe.call({
-      method: "ecs_vim.custom_script.point_of_sale.point_of_sale.get_slot_list",
+      method: "ecs_vim.doctype_triggers.point_of_sale.point_of_sale.get_slot_list",
       async: true,
       args: {
         item_name: select_event ? select_event : "",
@@ -644,18 +646,24 @@ shopping_cart.product_info %}
       $btn.prop("disabled", true);
       const item_code = $btn.data("item-code");
       check_available();
-      erpnext.shopping_cart.update_cart({
-        item_code,
-        qty: quantity,
-        additional_notes: additional_note,
-        slot: "" + slot,
-        delivery_date: date,
-        brand: brand,
-        branch: branch,
-        phone: phone,
-        uom: unit,
-
-        callback(r) {
+      console.log(date)
+      frappe.call({
+        method:
+          "ecs_vim.api.update_cart",
+        args: {
+          item_code,
+          qty: quantity,
+          additional_notes: additional_note,
+          slot: "" + slot,
+          delivery_date: date,
+          brand: brand,
+          branch: branch,
+          phone: phone,
+          uom: unit,
+          with_items: false,
+          restapi: false,
+        },
+        callback: (r) => {
           $btn.prop("disabled", false);
           if (r.message) {
             // console.log(r.message);
@@ -663,6 +671,7 @@ shopping_cart.product_info %}
           }
         },
       });
+   
     });
     var options = [];
     quantity = $(".number-spinner input").val();
@@ -857,34 +866,6 @@ shopping_cart.product_info %}
         render_input: true,
       });
 
-    // if	(document.getElementById('date-field'))
-    // this.date_field = frappe.ui.form.make_control({
-    // 	df: {
-
-    // 		fieldtype: 'Date',
-    // 		// options:[],
-    //        // get_query: () => querys,
-    // 		placeholder: __("Visit Date"),
-    //         onchange:function(){
-    //             //  branch=this.value;
-
-    // 			// if( brand != "" && branch != ""  &&( !internal_user || (internal_user && phone != "")))
-    // 			// 	{$('.custom-calendar').removeClass('hidden');
-    // 			// 	// $('.selected_slot').removeClass('hidden');
-    // 			// 	}
-    // 			// else
-    // 			// {$('.custom-calendar').addClass('hidden');
-    // 			// $('.selected_slot').addClass('hidden');
-    // 			// 	}
-    // 		options =  getslotDetails($('.page_content').data('item-code'),this.value);
-    // 		window.slot_field.df.options = options;
-    //     		window.slot_field.refresh();
-    //         },
-
-    // 	},
-    // 	parent: $('.date-field'),
-    // 	render_input: true,
-    // });
     if (document.getElementById("unit-field")) {
       this.unit_field = frappe.ui.form.make_control({
         df: {
@@ -925,16 +906,6 @@ shopping_cart.product_info %}
           // get_query: () => querys,
           placeholder: __("Available Slot"),
           onchange: function () {
-            //  branch=this.value;
-
-            // if( brand != "" && branch != ""  &&( !internal_user || (internal_user && phone != "")))
-            // 	{$('.custom-calendar').removeClass('hidden');
-            // 	// $('.selected_slot').removeClass('hidden');
-            // 	}
-            // else
-            // {$('.custom-calendar').addClass('hidden');
-            // $('.selected_slot').addClass('hidden');
-            // 	}
             $("#Slot").removeClass("hidden");
             var strings = this.value.split(" ");
 
@@ -942,13 +913,7 @@ shopping_cart.product_info %}
             var visit_time = strings[strings.length - 1];
             document.getElementById("Slot").innerHTML =
               "Visit Date : " + date + "<br>" + "Visit Time : " + visit_time;
-            //  +" - " +info.event.extendedProps.slot_end;
-            //  additional_note = "Visit Date : " +date +"&#13;&#10;" + "Visit Time : "+visit_time;
-            //  +" - " +info.event.extendedProps.slot_end;
-            // document.getElementById('Slot_date').innerHTML= info.event.extendedProps.slot_date;
-            // slot = info.event.extendedProps.name;
             date = date;
-            // (!internal_user || (internal_user && phone != ""))
             if (
               brand != "" &&
               branch != "" &&
@@ -960,31 +925,8 @@ shopping_cart.product_info %}
         parent: $(".slot-field"),
         render_input: true,
       });
-    // options =  getslotDetails($('.page_content').data('item-code'),'');
-    // console.log(options);
-    // this.date_field = frappe.ui.form.make_control({
-    // 	df: {
-
-    // 		fieldtype: 'Date',
-    // 		// options:["option1","option2"],
-    //        // get_query: () => querys,
-    // 		placeholder: __("Slot Date"),
-    //         onchange:function(){
-    //             date=this.value
-    // 				console.log(date);
-    // 		// 	me.clear_cart();
-    //         //    if(date)
-    // 		//    {
-    //         //     me.make_item_slot(slot,cur_pos.cart.event_field.value)
-    // 		//    }
-    //         },
-
-    // 	},
-    // 	parent: $('.visit-date'),
-    // 	render_input: true,
-    // });
+   
     $(".custom-calendar").click((e) => {
-      // openForm();
       calendar_render();
     });
 

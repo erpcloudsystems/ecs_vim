@@ -181,7 +181,7 @@ erpnext.PointOfSale.PastOrderSummary = class {
                     return frappe.utils.play_sound("error");
                 }
                
-                const method = "ecs_vim.custom_script.point_of_sale.point_of_sale.validate_user_permission";
+                const method = "ecs_vim.doctype_triggers.point_of_sale.point_of_sale.validate_user_permission";
                 const res = await frappe.call({ method, args: { appuser, apppassword }, freeze:true });
                 
                 if(res.message==1)
@@ -421,7 +421,7 @@ async validate_approver(){
                                             frappe.throw("Invalid Mobile No !!")
                                         }
                                         return frappe.call({
-                                            method: "invoice_sms.sms.send_sms.send_invoice_sms",
+                                            method: "ecs_vim.sms.send_sms.send_invoice_sms",
                                             args: {
                                                 'mobile_no': mobile_no,
                                                 'name': posinvoice_name,

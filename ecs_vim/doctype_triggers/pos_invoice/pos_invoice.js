@@ -53,7 +53,7 @@ frappe.ui.form.on("POS Invoice",{
         console.log(cur_frm.doc.set_warehouse)
 		return frappe.call({
 			type: "POST",
-			method: "ecs_vim.custom_script.point_of_sale.point_of_sale.apply_coupon_code",
+			method: "ecs_vim.doctype_triggers.point_of_sale.point_of_sale.apply_coupon_code",
             async:false,
 			btn: btn,
 			args : {
@@ -87,7 +87,7 @@ frappe.ui.form.on("POS Invoice",{
 		var args = _get_args(item);
 		
 		return frappe.call({
-			method: "ecs_vim.custom_script.point_of_sale.point_of_sale.apply_pricing_rule",
+			method: "ecs_vim.doctype_triggers.point_of_sale.point_of_sale.apply_pricing_rule",
 			args: {	args: args, doc: cur_frm.doc },
             async:false,
 			callback: function(r) {

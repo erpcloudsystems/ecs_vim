@@ -98,6 +98,9 @@ def on_cancel(self, method):
         if doc:
             doc.delete()
 
+@frappe.whitelist()
+def before_cancel(self, method):
+    pass
 
 @frappe.whitelist()
 def get_item_list(doctype, txt, searchfield, start, page_len, filters):

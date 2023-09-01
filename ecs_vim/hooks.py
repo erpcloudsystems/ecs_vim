@@ -865,28 +865,46 @@ override_doctype_class = {
 # Scheduled Tasks
 # ---------------
 
+# scheduler_events = {
+#     "cron": {
+#         # Sync data to salesforce every 5 minutes
+#         "*/5 * * * *": [
+#             # "ecs_vim.api.send_renew_sms",
+#             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncCustomer",
+#             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncCustomerFamily",
+#             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncOrders",
+#             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncInvoices",
+#             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncItems",
+#             "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.updateItems",
+#         ]
+#     },
+#     "monthly_long": ["ecs_vim.doctype_triggers.employee.employee.generate_coupon"],
+#     "daily": [
+#         "ecs_vim.ecs_vim.doctype.biostar_settings.biostar_settings.syn_attendance",
+#         "ecs_vim.ecs_vim.doctype.workflow_delegation.workflow_delegation.assign_delegated_role",
+#     ],
+#     "hourly": [
+#         "ecs_vim.custom_script.attendance.holiday_attendance.holiday_attendance"
+#     ],
+# }
+
 scheduler_events = {
-    "cron": {
-        # Sync data to salesforce every 5 minutes
-        "*/5 * * * *": [
-            # "ecs_vim.api.send_renew_sms",
-            "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncCustomer",
-            "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncCustomerFamily",
-            "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncOrders",
-            "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncInvoices",
-            "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.syncItems",
-            "ecs_vim.ecs_vim.doctype.salesforce_integration.salesforce_integration.updateItems",
-        ]
-    },
-    "monthly_long": ["ecs_vim.doctype_triggers.employee.employee.generate_coupon"],
+    "all": ["ecs_vim.scheduler_events.all.all"],
     "daily": [
+        "ecs_vim.scheduler_events.daily.daily",
         "ecs_vim.ecs_vim.doctype.biostar_settings.biostar_settings.syn_attendance",
         "ecs_vim.ecs_vim.doctype.workflow_delegation.workflow_delegation.assign_delegated_role",
     ],
-    "hourly": [
-        "ecs_vim.custom_script.attendance.holiday_attendance.holiday_attendance"
+    "hourly": ["ecs_vim.scheduler_events.hourly.hourly"],
+    "weekly": ["ecs_vim.scheduler_events.weekly.weekly"],
+    "monthly": [
+        "ecs_vim.scheduler_events.monthly.monthly",
+        "ecs_vim.doctype_triggers.employee.employee.generate_coupon",
     ],
+    "cron": {"*/30 * * * *": ["ecs_vim.scheduler_events.cron.cron"]},
 }
+
+
 # Testing
 # -------
 
@@ -896,9 +914,9 @@ scheduler_events = {
 # ------------------------------
 #
 override_whitelisted_methods = {
-    "erpnext.e_commerce.product_info.get_product_info_for_website": "ecs_vim.api.get_product_info_for_website",
-    "erpnext.e_commerce.shopping_cart.update_cart": "ecs_vim.api.update_cart",
-    "erpnext.e_commerce.shopping_cart.place_order": "ecs_vim.api.place_order",
+    "erpnext.e_commerce.shopping_cart.product_info.get_product_info_for_website": "ecs_vim.api.get_product_info_for_website",
+    "erpnext.e_commerce.shopping_cart.cart.update_cart": "ecs_vim.api.update_cart",
+    "erpnext.e_commerce.shopping_cart.cart.place_order": "ecs_vim.api.place_order",
     "erpnext.selling.doctype.sales_order.sales_order.make_work_orders": "ecs_vim.doctype_triggers.selling.sales_order.sales_order.make_work_orders",
     "frappe.core.doctype.user.user.sign_up": "ecs_vim.api.sign_up",
     "frappe.core.doctype.user.user.update_password": "ecs_vim.api.update_password",

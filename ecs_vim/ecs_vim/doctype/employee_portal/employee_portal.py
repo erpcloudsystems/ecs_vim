@@ -323,12 +323,14 @@ class EmployeePortal(Document):
 
         return frappe.db.sql(leave_appl, as_dict=True)
 
+    @frappe.whitelist()
     def employee_data_change(self):
         edc_doc = frappe.new_doc("Employee Data Changes")
         edc_doc.employee = self.get("employee")
 
         return edc_doc.as_dict()
 
+    @frappe.whitelist()
     def create_late_request(self):
         clr_doc = frappe.new_doc("Late Coming Request")
         clr_doc.employee = self.get("employee")
@@ -338,6 +340,7 @@ class EmployeePortal(Document):
 
         return clr_doc.as_dict()
 
+    @frappe.whitelist()
     def create_early_request(self):
         cer_doc = frappe.new_doc("Early Going Request")
         cer_doc.employee = self.get("employee")
@@ -347,6 +350,7 @@ class EmployeePortal(Document):
 
         return cer_doc.as_dict()
 
+    @frappe.whitelist()
     def create_vacation_appl(self):
         vac_doc = frappe.new_doc("Vacation Leave Application")
         vac_doc.employee_id = self.get("employee")
@@ -356,6 +360,7 @@ class EmployeePortal(Document):
 
         return vac_doc.as_dict()
 
+    @frappe.whitelist()
     def create_vacation_rejoining_appl(self):
         vac_rejoin_doc = frappe.new_doc("Vacation Rejoining")
         vac_rejoin_doc.employee_id = self.get("employee")
@@ -368,6 +373,7 @@ class EmployeePortal(Document):
 
         return vac_rejoin_doc.as_dict()
 
+    @frappe.whitelist()
     def create_ot_request(self):
         ot_doc = frappe.new_doc("OT Request")
         ot_doc.applicant = self.get("employee")
@@ -379,6 +385,7 @@ class EmployeePortal(Document):
 
         return ot_doc.as_dict()
 
+    @frappe.whitelist()
     def create_leave_request(self):
         leave_doc = frappe.new_doc("Leave Request")
         leave_doc.employee = self.get("employee")
@@ -388,12 +395,14 @@ class EmployeePortal(Document):
 
         return leave_doc.as_dict()
 
+    @frappe.whitelist()
     def create_loan_appl(self):
         loan_doc = frappe.new_doc("Loan Application")
         loan_doc.applicant = self.get("employee")
 
         return loan_doc.as_dict()
 
+    @frappe.whitelist()
     def create_workflow_action(self):
         WA_doc = frappe.new_doc("Workflow Action")
         WA_doc.status = "Open"

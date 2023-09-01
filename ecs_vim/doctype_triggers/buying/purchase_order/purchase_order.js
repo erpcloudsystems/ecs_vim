@@ -8,7 +8,7 @@ frappe.ui.form.on('Purchase Order', {
 cur_frm.cscript.onload = function(frm) {
     cur_frm.set_query("item_code", "items", function(frm,cdt,cdn) {
                 return {
-                    query: "ecs_vim.custom_script.common_functions.item_query",
+                    query: "ecs_vim.doctype_triggers.common_functions.item_query",
                     filters: {'supplier': cur_frm.doc.supplier,'is_purchase_item': 1}
     
                 };

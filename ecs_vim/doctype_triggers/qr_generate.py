@@ -1,44 +1,39 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2021, Tushar Kuwar and contributors
+# For license information, please see license.txt
 import frappe
 import pyqrcode
-import io
-import base64
-import time
-from datetime import datetime, timedelta
-@frappe.whitelist()
-def get_qr(data=""):
-	# img = url.svg("myqr.svg", scale = 8)
-	# frappe.errprint(data.encode('utf-8'))
-	# data = data.encode('utf-8')
-	c = pyqrcode.create(data,version=25,encoding = "utf-8")
-	s = io.BytesIO()
-	c.png(s,scale=6)
-	# frappe.errprint(["data",base64.b64encode(s.getvalue())])
-	encoded = base64.b64encode(s.getvalue()).decode("ascii")
-	# frappe.errprint([encoded])
-	# image_as_str = c.png_as_base64_str(scale=5)
-	# frappe.errprint([image_as_str])
+import io, sys, base64
 
-	# return'<img src="data:image/png;base64,{}">'.format(image_as_str)
-	return '<img src="data:image/png;base64,' + encoded + '">'
 @frappe.whitelist()
-def get_out_time(data=""):
-    datetime_object = datetime.strptime(data[1][1], '%d-%m-%Y').date()
-    datetime_time = datetime.strptime(data[2][1], '%H:%M:%S').time()
-    so_doc=frappe.get_doc("Sales Order",data[0][1])
-    item_doc=frappe.get_doc("Item",so_doc.select_event)
-    slot_list=item_doc.slot_list
-    diff=''
-    for slot in slot_list:
-        
-        if str(slot.slot_name)==str(so_doc.select_slot): 
-            if slot.uom:
-                is_full_day=frappe.get_value("UOM",slot.uom,'is_full_day')
-            if is_full_day:
-                return "Full Day"
-            else:
-                diff=slot.end_time-slot.start_time 
-                timeArray = str(diff).split(":");
-                HH = int(timeArray[0]);      
-                now=datetime.combine(datetime_object, datetime_time) + timedelta(hours=HH)
-                return now.strftime("%d-%m-%Y %H:%M:%S")
-              
+def get_qr(data):
+    getbase_data = get_base_qr(data)
+    c = pyqrcode.create(getbase_data, error="M")
+    s = io.BytesIO()
+    c.png(s, scale=2)
+    encoded = base64.b64encode(s.getvalue()).decode("ascii")
+    return '<img src="data:image/png;base64,' + encoded + '">'
+
+
+def get_base_qr(list_data):
+    data_dict = list_data
+    result = ""
+    for data in data_dict:
+        _tag = data[0]
+        _val = data[1]
+
+        tag_hex = hex(int(_tag))[2:].zfill(2)
+        if sys.version_info.major == 3:
+            vlen_hex = hex(len(_val.encode("utf8")))[2:].zfill(2)
+            val_hex = _val.encode("utf8").hex()
+        else:
+            vlen_hex = hex(len(_val))[2:].zfill(2)
+            val_hex = _val.encode("hex")
+        result = result + (tag_hex + vlen_hex + val_hex)
+
+    if sys.version_info.major == 3:
+        result = base64.b64encode(bytes.fromhex(result))
+    else:
+        result = base64.b64encode(result.decode("hex"))
+
+    return result.decode("ascii")

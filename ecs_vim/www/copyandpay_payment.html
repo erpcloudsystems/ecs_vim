@@ -43,7 +43,7 @@ function make_payment_log(options,doctype, docname, token,checkout,amount,entity
                     if(r.message.id &&  checkout==r.message.ndc)
                     {
                         frappe.call({
-							method:"ecs_vim.custom_script.copyandpay.copyandpay_checkout.make_payment",
+							method:"ecs_vim.doctype_triggers.copyandpay.copyandpay_checkout.make_payment",
 							freeze:true,
 							headers: {"X-Requested-With": "XMLHttpRequest"},
 							args: {
