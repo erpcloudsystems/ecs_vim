@@ -18,8 +18,10 @@ def validate(self, method):
     # 			if x < '0' or  x > '9' :
     # 				mobile_error_throw =True
     # 				break
-    if self.mobile_no and len(self.mobile_no) == 9:
-        self.mobile_no = "0" + self.mobile_no
+    if not self.mobile_no:
+        self.mobile_no = self.customer_name
+        if self.mobile_no and len(self.mobile_no) == 9:
+            self.mobile_no = "0" + self.mobile_no
 
     if mobile_error_throw:
         frappe.throw(
@@ -224,12 +226,11 @@ def reset_syncedflag(self, method):
         )
 
 
+@frappe.whitelist()
 def make_contact(args, is_primary_contact=1):
     mobile_no = frappe.db.get_value("User", {"email": frappe.session.user}, "mobile_no")
     contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no})
     contact = None
-    # if len(check_contact) :
-    # 	contact = frappe.get_doc("Contact" , check_contact[0]["parent"] )
     if not contact_name:
         contact = frappe.get_doc(
             {
@@ -251,35 +252,9 @@ def make_contact(args, is_primary_contact=1):
     contact.save(ignore_permissions=True)
 
     return contact
-    # check_contact = """ select parent from `tabDynamic Link` where link_name = "{}"	and parenttype = "Contact" limit 1 """.format(args.get('name'))
-    # check_contact = frappe.db.sql(check_contact,as_dict= True)
-    # contact = None
-    # if len(check_contact) :
-    # 	contact = frappe.get_doc("Contact" , check_contact[0]["parent"] )
-    # if not contact :
-    # 	contact = frappe.get_doc({
-    # 		'doctype': 'Contact',
-    # 		'first_name': args.get('name'),
-    # 		'is_primary_contact': is_primary_contact,
-    # 		'links': [{
-    # 			'link_doctype': args.get('doctype'),
-    # 			'link_name': args.get('name')
-    # 		}]
-    # 	})
-    # contact.is_primary_contact = is_primary_contact
-    # if args.get('email_id'):
-    # 	contact.add_email(args.get('email_id'), is_primary=True)
-    # if args.get('mobile_no'):
-    # 	contact.add_phone(args.get('mobile_no'), is_primary_mobile_no=True)
-    # contact.save(ignore_permissions=True)
-
-    # return contact
 
 
 def after_insert(self, method):
-    # frappe.throw("Test")
-    # if from_utils :
-    # frappe.errprint(self.as_dict())
     if not self.first_name and not self.last_name:
         fullname = self.name
         from erpnext.e_commerce.doctype.e_commerce_settings.e_commerce_settings import (

@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-10-05 11:10:39.925751",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "email",
+  "first_name",
+  "enabled",
+  "phone_no",
+  "new_password",
+  "user_type",
+  "csrf_token",
+  "user",
+  "status",
+  "verfication_id",
+  "remarks",
+  "sent"
+ ],
+ "fields": [
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "email"
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "first_name"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Data",
+   "label": "enabled"
+  },
+  {
+   "fieldname": "new_password",
+   "fieldtype": "Data",
+   "label": "new_password"
+  },
+  {
+   "fieldname": "user_type",
+   "fieldtype": "Data",
+   "label": "user_type"
+  },
+  {
+   "fieldname": "csrf_token",
+   "fieldtype": "Data",
+   "label": "csrf_token"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "user",
+   "options": "User"
+  },
+  {
+   "fieldname": "phone_no",
+   "fieldtype": "Data",
+   "label": "phone_no"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "status"
+  },
+  {
+   "fieldname": "verfication_id",
+   "fieldtype": "Data",
+   "label": "verfication_id"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "label": "remarks"
+  },
+  {
+   "default": "0",
+   "fieldname": "sent",
+   "fieldtype": "Check",
+   "label": "sent"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-10-05 14:12:04.670881",
+ "modified_by": "Administrator",
+ "module": "Ecs Vim",
+ "name": "Session OTP Users",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1094,7 +1094,7 @@ erpnext.PointOfSale.ItemCart = class {
 		`);
 		const me = this;
 		// const query = { query: 'erpnext.controllers.queries.customer_query' }; 
-		const query = { query: 'ecs_vim.custom_script.customer.customer.customer_query' }; 
+		const query = { query: 'ecs_vim.doctype_triggers.customer.customer.customer_query' }; 
 		const allowed_customer_group = this.allowed_customer_groups || [];
 		if (allowed_customer_group.length) {
 			query.filters = {
@@ -1213,7 +1213,7 @@ erpnext.PointOfSale.ItemCart = class {
 	fetch_customer_details(customer) {
 		if (customer) {
 			return new Promise((resolve) => {
-				frappe.db.get_value('Customer', customer, ["email_id", "mobile_no", "image", "loyalty_program"]).then(({ message }) => {
+				frappe.db.get_value('Customer', customer, ["email_id", "mobile_no", "image", "loyalty_program", "customer_name"]).then(({ message }) => {
 					const { loyalty_program } = message;
 					// if loyalty program then fetch loyalty points too
 					if (loyalty_program) {
@@ -1531,46 +1531,143 @@ erpnext.PointOfSale.ItemCart = class {
 	// 	}
 	// }
 
-	update_customer_section() {
-		const me = this;
-		const { customer, email_id='', mobile_no='', image } = this.customer_info || {}; 
-
-		if (customer) {
-			this.$customer_section.html(
-				`<div class="customer-details">
-					<div class="customer-display">
-						${this.get_customer_image()}
-						<div class="customer-name-desc">
-							<div class="customer-name">${customer}</div>
-							${get_customer_description()}
-						</div>
-						<div class="reset-customer-btn" data-customer="${escape(customer)}">
-							<svg width="32" height="32" viewBox="0 0 14 14" fill="none">
-								<path d="M4.93764 4.93759L7.00003 6.99998M9.06243 9.06238L7.00003 6.99998M7.00003 6.99998L4.93764 9.06238L9.06243 4.93759" stroke="#8D99A6"/>
-							</svg>
-						</div>
+	custom_customer_selection () {
+		const { customer, email_id='', mobile_no='', image, customer_name } = this.customer_info || {};
+		this.$customer_section.html(
+			`<div class="customer-details">
+				<div class="customer-display">
+					${this.get_customer_image()}
+					<div class="customer-name-desc">
+						<div class="customer-name">${customer_name}</div>
+						${get_customer_description()}
 					</div>
-				</div>`
-			);
-			
-		} else {
-			// reset customer selector
-			this.reset_customer_selector();
-		}
-
+					<div class="reset-customer-btn" data-customer="${escape(customer)}">
+						<svg width="32" height="32" viewBox="0 0 14 14" fill="none">
+							<path d="M4.93764 4.93759L7.00003 6.99998M9.06243 9.06238L7.00003 6.99998M7.00003 6.99998L4.93764 9.06238L9.06243 4.93759" stroke="#8D99A6"/>
+						</svg>
+					</div>
+				</div>
+			</div>`
+		);
 		function get_customer_description() {
 			if (!email_id && !mobile_no) {
 				return `<div class="customer-desc">Click to add email / phone</div>`;
 			} else if (email_id && !mobile_no) {
-				return `<div class="customer-desc">${email_id}</div>`;
+				return `<div class="customer-desc">${email_id} / ${customer_name}</div>`;
 			} else if (mobile_no && !email_id) {
-				
-				return `<div class="customer-desc">${mobile_no}</div>`;
+				return `<div class="customer-desc">${mobile_no} / ${customer_name}</div>`;
 			} else {
-				return `<div class="customer-desc">${email_id} - ${mobile_no}</div>`;
+				return `<div class="customer-desc">${email_id} - ${mobile_no} / ${customer_name}</div>`;
 			}
 		}
+	}
+	fetch_standard_customer_details(customer) {
 
+		let standardCustomerInfo = {}
+		if (customer) {
+			
+				frappe.db.get_value('Customer', customer, ["email_id", "mobile_no", "image", "loyalty_program"]).then(({ message }) => {
+					const { loyalty_program } = message;
+					// if loyalty program then fetch loyalty points too
+					if (loyalty_program) {
+						frappe.call({
+							method: "erpnext.accounts.doctype.loyalty_program.loyalty_program.get_loyalty_program_details_with_points",
+							args: { customer, loyalty_program, "silent": true },
+							callback: (r) => {
+								const { loyalty_points, conversion_factor } = r.message;
+								if (!r.exc) {
+									standardCustomerInfo = { ...message, customer, loyalty_points, conversion_factor };
+								}
+							}
+						});
+					} else {
+						standardCustomerInfo = { ...message, customer };
+
+					}
+				});
+			
+		} else {
+			standardCustomerInfo = {}
+
+		}
+		return standardCustomerInfo;
+	}
+	default_customer_selection (vimCustomerInfo) {
+		const { customer, email_id='', mobile_no='', image } = vimCustomerInfo || {};
+		this.customer_info = vimCustomerInfo;
+		this.$customer_section.html(
+			`<div class="customer-details">
+				<div class="customer-display">
+					${this.get_customer_image()}
+					<div class="customer-name-desc">
+						<div class="customer-name">${customer}</div>
+						${get_customer_description()}
+					</div>
+					<div class="reset-customer-btn" data-customer="${escape(customer)}">
+						<svg width="32" height="32" viewBox="0 0 14 14" fill="none">
+							<path d="M4.93764 4.93759L7.00003 6.99998M9.06243 9.06238L7.00003 6.99998M7.00003 6.99998L4.93764 9.06238L9.06243 4.93759" stroke="#8D99A6"/>
+						</svg>
+					</div>
+				</div>
+			</div>`
+		);
+		function get_customer_description() {
+			if (!email_id && !mobile_no) {
+				return `<div class="customer-desc">Click to add email / phone</div>`;
+			} else if (email_id && !mobile_no) {
+				return `<div class="customer-desc">${email_id} / ${customer}</div>`;
+			} else if (mobile_no && !email_id) {
+				return `<div class="customer-desc">${mobile_no} / ${customer}</div>`;
+			} else {
+				return `<div class="customer-desc">${email_id} - ${mobile_no} / ${customer}</div>`;
+			}
+		}
+	}
+	update_customer_section() {
+		const me = this;
+		
+		const { customer, email_id='', mobile_no='', image, customer_name } = this.customer_info || {};
+		frappe.call({
+			method: "erpnext.selling.page.point_of_sale.point_of_sale.check_opening_entry",
+			args: {
+				user: frappe.user.name,
+			},
+			callback(r) {
+				if (customer) {
+					me.custom_customer_selection();
+				} else if (r.message[0].pos_profile.slice(-2) == "FB") { 
+					const vimCustomerInfo = {email_id: '', mobile_no: '8002440306', image: null, loyalty_program: null, customer: 'VIM ENTERTAINMENT'};                           
+					me.default_customer_selection(vimCustomerInfo);
+					me.customer_info = vimCustomerInfo;
+					//uncomment ,if SO Select
+					cur_frm.set_value('customer_pos', undefined);  
+					cur_frm.set_value('customer_so', undefined);  
+					me.get_positems('');
+					const frm = me.events.get_frm();
+					frappe.dom.freeze();
+					frappe.model.set_value(frm.doc.doctype, frm.doc.name, 'customer', 'VIM ENTERTAINMENT');
+					frm.script_manager.trigger('customer', frm.doc.doctype, frm.doc.name).then(() => {
+						frappe.run_serially([
+							() => me.fetch_customer_details('VIM ENTERTAINMENT'),
+							() => me.events.customer_details_updated(me.customer_info),
+							() => me.update_customer_section(),
+							() => me.update_totals_section(),
+							() => frappe.dom.unfreeze(),
+							//uncomment ,if SO Select
+							() => me.render_location_fields(),
+							() => me.fetch_location_details(),
+							
+						]);
+						$('.search-item-group').find('.dropdown-menu').find("a:first").trigger("click");
+					})
+					
+				} else {
+					// reset customer selector
+					me.reset_customer_selector();
+				}
+			}
+		})
+	   
 	}
 	
 	get_customer_image() {

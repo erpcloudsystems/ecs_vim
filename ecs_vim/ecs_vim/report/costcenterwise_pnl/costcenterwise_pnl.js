@@ -31,10 +31,10 @@ frappe.require("assets/erpnext/js/financial_statements.js", function() {
 				"reqd": 1,
 				on_change: function() {
 					let filter_based_on = frappe.query_report.get_filter_value('filter_based_on');
-					frappe.query_report.toggle_filter_display('from_fiscal_year', filter_based_on === 'Date Range');
-					frappe.query_report.toggle_filter_display('to_fiscal_year', filter_based_on === 'Date Range');
-					frappe.query_report.toggle_filter_display('period_start_date', filter_based_on === 'Fiscal Year');
-					frappe.query_report.toggle_filter_display('period_end_date', filter_based_on === 'Fiscal Year');
+					// frappe.query_report.toggle_filter_display('from_fiscal_year', filter_based_on === 'Date Range');
+					// frappe.query_report.toggle_filter_display('to_fiscal_year', filter_based_on === 'Date Range');
+					// frappe.query_report.toggle_filter_display('period_start_date', filter_based_on === 'Fiscal Year');
+					// frappe.query_report.toggle_filter_display('period_end_date', filter_based_on === 'Fiscal Year');
 	
 					frappe.query_report.refresh();
 				}
@@ -44,22 +44,22 @@ frappe.require("assets/erpnext/js/financial_statements.js", function() {
 				"label": __("Start Date"),
 				"fieldtype": "Date",
 				"reqd": 1,
-				"depends_on": "eval:doc.filter_based_on == 'Date Range'"
+				// "depends_on": "eval:doc.filter_based_on == 'Date Range'"
 			},
 			{
 				"fieldname":"period_end_date",
 				"label": __("End Date"),
 				"fieldtype": "Date",
 				"reqd": 1,
-				"depends_on": "eval:doc.filter_based_on == 'Date Range'"
+				// "depends_on": "eval:doc.filter_based_on == 'Date Range'"
 			},
 			{
 				"fieldname":"from_fiscal_year",
 				"label": __("Start Year"),
 				"fieldtype": "Link",
 				"options": "Fiscal Year",
-				"default": frappe.defaults.get_user_default("fiscal_year"),
-				"reqd": 1,
+				
+				// "reqd": 1,
 				"depends_on": "eval:doc.filter_based_on == 'Fiscal Year'"
 			},
 			{
@@ -67,8 +67,8 @@ frappe.require("assets/erpnext/js/financial_statements.js", function() {
 				"label": __("End Year"),
 				"fieldtype": "Link",
 				"options": "Fiscal Year",
-				"default": frappe.defaults.get_user_default("fiscal_year"),
-				"reqd": 1,
+				
+				// "reqd": 1,
 				"depends_on": "eval:doc.filter_based_on == 'Fiscal Year'"
 			},
 			{
@@ -103,7 +103,9 @@ frappe.require("assets/erpnext/js/financial_statements.js", function() {
 					return frappe.db.get_link_options('Cost Center', txt, {
 						company: frappe.query_report.get_filter_value("company")
 					});
-				}
+				},
+				"reqd": 1,
+
 			},
 		// {
 		// 	"fieldname": "project",

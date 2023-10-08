@@ -848,6 +848,7 @@ override_doctype_class = {
     "Communication": "ecs_vim.doctype_triggers.communication.email.Customemail",
     "Payment Entry": "ecs_vim.doctype_triggers.payment_entry.payment_entry.CustomPaymentEntry",
     "Shift Assignment": "ecs_vim.custom_script.shift_assignment.shift_assignment.CustomShiftAssignment",
+    # "Auto Email Report":"ecs_vim.overrides.auto_email_report"
 }
 
 # Document Events
@@ -933,7 +934,10 @@ override_whitelisted_methods = {
 #
 # auto_cancel_exempted_doctypes = ["Auto Repeat"]
 
-
+website_route_rules = [
+    # absolute location
+    {"from_route": "/otp-verification/<docname>", "to_route": "otp-verification"},
+]
 # User Data Protection
 # --------------------
 

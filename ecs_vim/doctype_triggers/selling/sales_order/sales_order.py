@@ -93,6 +93,8 @@ def on_cancel(self, method):
         self.name
     )
     event_exist = frappe.db.sql(event, as_dict=True)
+
+    frappe.msgprint(str(event_exist))
     if event_exist:
         doc = frappe.get_doc("Event Booking", event_exist[0]["name"])
         if doc:
@@ -267,9 +269,6 @@ def on_submit(doc, method=None):
     pass
 
 
-@frappe.whitelist()
-def on_cancel(doc, method=None):
-    pass
 
 
 @frappe.whitelist()

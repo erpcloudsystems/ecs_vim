@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-
-
 erpnext.PointOfSale.Payment = class {
 	constructor({ events, wrapper }) {
 		this.wrapper = wrapper;
@@ -527,6 +524,7 @@ erpnext.PointOfSale.Payment = class {
 		const payments = doc.payments;
 		const currency = doc.currency;
 		console.log(doc.payments,"doc.payments")
+		
 		this.$payment_modes.html(`${
 			payments.map((p, i) => {
 				const mode = p.mode_of_payment.replace(/ +/g, "_").toLowerCase();
@@ -596,13 +594,13 @@ erpnext.PointOfSale.Payment = class {
 				render_input: true,
 			});
 			this[`${mode}_control`].toggle_label(false);
-			this[`${mode}_control`].set_value(p.amount.toFixed(2));
+			this[`${mode}_control`].set_value(0.0);
 
-			if (p.default) {
-				setTimeout(() => {
-					this.$payment_modes.find(`.${mode}.mode-of-payment-control`).parent().click();
-				}, 500);
-			}
+			// if (p.default) {
+			// 	setTimeout(() => {
+			// 		this.$payment_modes.find(`.${mode}.mode-of-payment-control`).parent().click();
+			// 	}, 500);
+			// }
 		});
 
 		this.render_loyalty_points_payment_mode();

@@ -552,10 +552,10 @@ def place_order(restapi=False, advance_amount=0, payment_status="", transactioni
     for item in sales_order.get("items"):
         if quotation.items[item.idx - 1].delivery_date:
             item.delivery_date = quotation.items[item.idx - 1].delivery_date
-            
+            frappe.msgprint(str(item.delivery_date))
             if (
                 not sales_order.delivery_date
-                or datetime.strptime(item.delivery_date.strftime("%Y-%m-%d"), "%Y-%m-%d")  <  datetime.strptime(sales_order.delivery_date, "%Y-%m-%d")
+                or datetime.strptime(item.delivery_date.strftime("%Y-%m-%d"), "%Y-%m-%d")  >  datetime.strptime(sales_order.delivery_date, "%Y-%m-%d")
             ):
                 sales_order.delivery_date = item.delivery_date
             if item.slot_name:
@@ -685,7 +685,7 @@ def sign_up(email, full_name, mobile, city, national_id, redirect_to):
         if (
             frappe.db.sql(
                 """select count(*) from tabUser where
-			HOUR(TIMEDIFF(CURRENT_TIMESTAMP, TIMESTAMP(modified)))=1"""
+            HOUR(TIMEDIFF(CURRENT_TIMESTAMP, TIMESTAMP(modified)))=1"""
             )[0][0]
             > 300
         ):
@@ -791,7 +791,7 @@ def successful_login():
             # 	customer=frappe.get_doc("Customer", {'name': user_name.first_name})
 
             if not customer or (customer and not customer.is_first_time_login):
-                frappe.local.response["home_page"] = "customer_details"
+                frappe.local.response["home_page"] = "user-details"
 
 
 @frappe.whitelist(allow_guest=True)
@@ -876,52 +876,9 @@ def vim_get_slot_list(
                         "id": slot["name"],
                     }
                 )
-        # ev_date += dt.timedelta(days=1)
-    # for row in booked_rows :
-    # 	rows.append(row)
+        
     return rows
     # return frappe.db.sql("""select name as id,'Booked' as title, CONCAT(date, 'T', from_time ) as start, CONCAT(date, 'T', to_time) as end, 0 as allDay from `tabEvent Booking`""",as_dict = 1)
-
-
-# def vim_get_slot_list(item_code = None,visit_date= None,branch = None,brand =None, city = None,unit = None) :
-# 	# from datetime import date
-# 	import datetime as dt
-# 	# ev_date = date.today()
-# 	ev_date =  dt.datetime.strptime(visit_date,"%Y-%m-%d")
-# 	cond = "date >= '"+ev_date.strftime("%m/%d/%Y") +"'"
-# 	# cond = "date >= '"+ev_date +"'"
-# 	if item_code :
-# 		cond += " and event_item = '"+ item_code +"'"
-# 	if branch :
-# 		cond += " and branch = '"+ branch +"'"
-# 	if brand :
-# 		cond += " and brand = '"+ brand +"'"
-# 	if city :
-# 		cond += " and city = '"+ city +"'"
-# 	booked_rows = frappe.db.sql("""select name as id,'Booked' as title, CONCAT(date, 'T', from_time ) as start, CONCAT(date, 'T', to_time) as end, 0 as allDay , 'booked-slot' as classNames from `tabEvent Booking` where {cond}""".format(cond=cond),as_dict = 1)
-# 	slot_cond = ""
-# 	if unit :
-# 		slot_cond += " and uom = '"+ unit +"'"
-# 	item_slots = frappe.db.sql("""select TIME(start_time) as start_time, TIME(end_time) as end_time, slot_name as name from `tabSlot List` where parent='{}' {slot_cond} order by idx""".format(item_code,slot_cond=slot_cond),as_dict = 1)
-# 	# frappe.errprint(["Slot",item_slots,item_code])
-# 	rows = []
-# 	free_slot  ={}
-# 	for i in range(1):
-# 		for slot in item_slots:
-# 			# frappe.errprint([str(slot['start_time']),str(slot['start_time'])[0:5]])
-# 			if not frappe.db.sql("""select name as id,'Booked' as title, CONCAT(date, 'T', from_time ) as start, CONCAT(date, 'T', to_time) as end, 0 as allDay from `tabEvent Booking` where {cond} and date ='{0}' and slot = '{1}'""".format(ev_date,slot['name'],cond=cond),as_dict = 1) :
-# 				# frappe.errprint([slot,"""select name as id,'Booked' as title, CONCAT(date, 'T', from_time ) as start, CONCAT(date, 'T', to_time) as end, 0 as allDay from `tabEvent Booking` where {cond} and date ='{0}' and slot = '{1}'""".format(ev_date,slot['name'],cond=cond),
-# 				if not frappe.db.sql("""select name as id,from_time  as start, to_time as end from `tabEvent Booking` where {cond} and from_time<'{2}' and  to_time>'{3}' and date ='{0}' """.format(ev_date,slot['name'],slot['end_time'],slot['start_time'],cond=cond),as_dict = 1) :
-# 					rows.append({
-# 					'Name':slot['name'] + " "+":".join(str(slot['start_time']).split(":")[0:2]) + "-"+":".join(str(slot['end_time']).split(":")[0:2]),
-# 					"id": slot['name']})
-# 		# ev_date += dt.timedelta(days=1)
-# 	# for row in booked_rows :
-# 	# 	rows.append(row)
-# 	return rows
-# 	# return frappe.db.sql("""select name as id,'Booked' as title, CONCAT(date, 'T', from_time ) as start, CONCAT(date, 'T', to_time) as end, 0 as allDay from `tabEvent Booking`""",as_dict = 1)
-
-
 @frappe.whitelist(allow_guest=True)
 def check_available(item_code=None, visit_date=None, branch=None):
     # from datetime import date
@@ -955,9 +912,9 @@ def check_available(item_code=None, visit_date=None, branch=None):
     if branch:
         block_list = frappe.db.sql(
             """select a.name , a.block_from , a.block_to ,a.reason,a.applicable_for from `tabBlock Order Booking` a 
-		 inner join `tabBlock Branch` c on c.parent = a.name
-		where   c.block_branch = '{0}'  and  a.block_from <='{2}'
-		and a.block_to >='{2}' and a.applicable_for =0 and a.docstatus=1 """.format(
+         inner join `tabBlock Branch` c on c.parent = a.name
+        where   c.block_branch = '{0}'  and  a.block_from <='{2}'
+        and a.block_to >='{2}' and a.applicable_for =0 and a.docstatus=1 """.format(
                 branch, item_code, ev_date.strftime("%Y-%m-%d")
             ),
             as_dict=1,
@@ -965,9 +922,9 @@ def check_available(item_code=None, visit_date=None, branch=None):
         if not block_list and len(block_list) < 1:
             block_list = frappe.db.sql(
                 """select a.name , a.block_from , a.block_to ,a.reason,a.applicable_for from `tabBlock Order Booking` a 
-			inner join `tabBlock Item`  b on  b.parent = a.name  inner join `tabBlock Branch` c on c.parent = a.name
-			where c.block_branch = '{0}'  and b.item = '{1}'  and a.block_from <='{2}'
-			and a.block_to >='{2}' and a.applicable_for =1 and a.docstatus=1 """.format(
+            inner join `tabBlock Item`  b on  b.parent = a.name  inner join `tabBlock Branch` c on c.parent = a.name
+            where c.block_branch = '{0}'  and b.item = '{1}'  and a.block_from <='{2}'
+            and a.block_to >='{2}' and a.applicable_for =1 and a.docstatus=1 """.format(
                     branch, item_code, ev_date.strftime("%Y-%m-%d")
                 ),
                 as_dict=1,
@@ -1095,9 +1052,9 @@ def get_price(item_code=None, uom=None):
     else:
         uom_conversion_factor = frappe.db.sql(
             """select	C.conversion_factor
-					from `tabUOM Conversion Detail` C
-					inner join `tabItem` I on C.parent = I.name and C.uom = '%s'
-					where I.item_code = '%s'"""
+                    from `tabUOM Conversion Detail` C
+                    inner join `tabItem` I on C.parent = I.name and C.uom = '%s'
+                    where I.item_code = '%s'"""
             % (uom, item_code)
         )
 
@@ -1190,7 +1147,7 @@ def update_password(new_password, logout_all_sessions=0, key=None, old_password=
     if user_doc.user_type == "System User":
         return "/app"
     else:
-        redirect_url = "/customer_details"
+        redirect_url = "/user-details"
         return redirect_url if redirect_url else "/"
 
 
@@ -1253,6 +1210,10 @@ def create_contact(user, ignore_links=False, ignore_mandatory=False):
 
     if user.name in ["Administrator", "Guest"]:
         return
+    try:
+        print("a")
+    except:
+        print("A")
     mobile_no = frappe.db.get_value("User", {"email_id": user.email_id}, "mobile_no")
     # mobile_contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no })
     # if mobile_contact_name and user.email:
@@ -1474,11 +1435,11 @@ def reset_password(self, send_email=False, password_expired=False):
     key = random_string(32)
     self.db_set("reset_password_key", key)
 
-    url = "/setpassword?key=" + key
+    url = "/update-password?key=" + key
     if password_expired:
-        url = "/setpassword?key=" + key + "&password_expired=true"
+        url = "/update-password?key=" + key + "&password_expired=true"
 
-    link = "https://https://erp.vim.sa" + url  # get_url(url)
+    link = "https://erp.vim.sa" + url  # get_url(url)
     if send_email:
         self.password_reset_mail(link)
 

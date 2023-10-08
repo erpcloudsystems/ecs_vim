@@ -14,7 +14,7 @@ frappe.ui.form.on('Sales Order', {
     frm.set_query("select_event", function() {
             
         return {
-            query: "ecs_vim.custom_script.sales_order.sales_order.get_item_list",
+            query: "ecs_vim.doctype_triggers.selling.sales_order.sales_order.get_item_list",
             filters: {'is_sales_item': 1, 'is_fixed_asset':0,
             'is_stock_item':1,
             'has_variants':0}
@@ -124,7 +124,7 @@ frappe.ui.form.on('Sales Order', {
 		var unit_list_data=[];var unitlist=[];var isnew=0;
     
         frappe.call({
-            "method": "ecs_vim.custom_script.sales_order.sales_order.get_item_list",
+            "method": "ecs_vim.doctype_triggers.selling.sales_order.sales_order.get_item_list",
             async: true,
             callback: function (r) {
                 unit_list_data = (r.message['result_list'] || []);
@@ -149,7 +149,7 @@ frappe.ui.form.on('Sales Order', {
         }
         if (frm.doc.select_event){
             frappe.call({
-                "method": "ecs_vim.custom_script.sales_order.sales_order.get_slot_list",
+                "method": "ecs_vim.doctype_triggers.selling.sales_order.sales_order.get_slot_list",
                 async: true,
                 args:{item_name:frm.doc.select_event,is_new:isnew,delivery_date:frm.doc.delivery_date},
                 callback: function (r) {
@@ -168,7 +168,7 @@ frappe.ui.form.on('Sales Order', {
     customer:function(frm){
         if(frm.doc.customer){
             frappe.call({
-                "method": "ecs_vim.custom_script.sales_order.sales_order.get_family_details",
+                "method": "ecs_vim.doctype_triggers.selling.sales_order.sales_order.get_family_details",
                 async: true,
                 args:{customer_name:frm.doc.customer},
                 callback: function (r) {
@@ -243,7 +243,7 @@ frappe.ui.form.on('Sales Order', {
             frappe.throw("Please Select Event & Enter No of entries")
         }
         frappe.call({
-            "method": "ecs_vim.custom_script.sales_order.sales_order.get_item_details",
+            "method": "ecs_vim.doctype_triggers.selling.sales_order.sales_order.get_item_details",
             async: true,
             args:{item_name:frm.doc.select_event},
             callback: function (r) {

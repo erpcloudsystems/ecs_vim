@@ -282,6 +282,8 @@ def get_past_order_list(search_term, status, pos_profile, limit=20):
         "grand_total",
         "currency",
         "customer",
+        "customer_name",
+        "contact_display",
         "posting_time",
         "posting_date",
     ]

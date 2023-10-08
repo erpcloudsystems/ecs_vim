@@ -1,0 +1,48 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+{% macro logo_section() %}
+<div class="page-card-head">
+	<img class="app-logo" src="{{ logo }}">
+	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
+</div>
+{% endmacro %}
+{{response}}
+{{docname}}
+{{phone_no}}
+{{sent}}
+<div style="display: flex; justify-content: center;  align-items: center;">
+
+    <section class='for-signup' style="width: 30%;">
+        <div class="login-content page-card">
+            {%- if True -%}
+            <form class="form-signin form-signup form-otp" role="form">
+                <div class="page-card-body">
+                    <div class="form-group">
+                        <label class="form-label sr-only" for="signup_fullname">OTP</label>
+                        <input type="text" id="otp" class="form-control" placeholder="{{ _('OTP') }}"
+                            required autofocus>
+                    </div>
+                    
+                </div>
+                <div class="page-card-actions">
+                        <button class="btn btn-sm btn-primary btn-block btn-signup"
+                            type="submit">{{ _("Submit") }}</button>
+    
+                    <p class="text-center sign-up-message">
+                        <a href="/login" class="blue">{{ _("Have an account? Login") }}</a>
+                    </p>
+                </div>
+            </form>
+            {%- else -%}
+            <div class='page-card-head'>
+                <span class='indicator gray'>{{_("Signup Disabled")}}</span>
+            </div>
+            <p>{{_("Signups have been disabled for this website.")}}</p>
+            <div><a href='/' class='btn btn-primary btn-sm'>{{ _("Home") }}</a></div>
+            {%- endif -%}
+        </div>
+    
+    </section>
+</div>
+ {% endblock %}

@@ -143,25 +143,20 @@
 						<input type="email" id="signup_email" class="form-control"
 							placeholder="{{ _('jane@example.com') }}" required>
 					</div>
-					<!-- <div class="form-group">
-						<label class="form-label sr-only" for="signup_city">City</label>
-						<input type="text" id="signup_city" class="form-control"
-							placeholder="{{ _('City') }}" required>
-					</div>
 					<div class="form-group">
 						<label class="form-label sr-only" for="signup_mobile">Mobile/Phone</label>
-						<input type="text" id="signup_mobile" class="form-control"
+						<input type="text" id="mobile" class="form-control"
 							placeholder="{{ _('Mobile/Phone') }}" required>
-					</div> -->
+					</div>
 					<!-- <div class="form-group">
 						<label class="form-label sr-only" for="signup_id">National/IQAMA ID</label>
-						<input type="text" id="signup_id" class="form-control"
+						<input type="text" id="national_id" class="form-control"
 							placeholder="{{ _('National/IQAMA ID') }}" required>
 					</div> -->
 				</div>
 				<div class="page-card-actions">
-					<button class="btn btn-sm btn-primary btn-block btn-signup"
-						type="submit">{{ _("Sign up") }}</button>
+						<button class="btn btn-sm btn-primary btn-block btn-signup"
+							type="submit">{{ _("Sign up") }}</button>
 
 					<p class="text-center sign-up-message">
 						<a href="#login" class="blue">{{ _("Have an account? Login") }}</a>
@@ -216,7 +211,7 @@
 {% endblock %}
 
 {% block script %}
-<script>{% include "templates/includes/login/login.js" %}</script>
+<script src="templates/includes/login/login.js"> </script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}

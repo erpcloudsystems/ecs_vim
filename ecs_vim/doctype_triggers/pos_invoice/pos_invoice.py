@@ -439,9 +439,6 @@ def before_validate(doc, method=None):
     pass
 
 
-@frappe.whitelist()
-def on_cancel(doc, method=None):
-    pass
 
 
 @frappe.whitelist()
