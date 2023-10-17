@@ -1,0 +1,64 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+{% macro logo_section() %}
+<div class="page-card-head">
+	<img class="app-logo" src="{{ logo }}">
+	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
+</div>
+{% endmacro %}
+
+<div class = "d-flex" style="width: 100%; align-items: center; height: 80vh;">
+
+    <section class='for-signup' style="padding: 5rem 1rem; border-radius: 1rem; background-color: #EEE; width: 100%;">
+        <form style="width: 100%;">
+            <h2 class="p-0 " style="font-size: 2rem; margin-bottom: rem; margin-top: 0;">Add your information</h2>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Password</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress">Address</label>
+              <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Address 2</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">City</label>
+                <input type="text" class="form-control" id="inputCity">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="inputState">State</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="inputZip">Zip</label>
+                <input type="text" class="form-control" id="inputZip">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="btn" style="background-image: linear-gradient(to right, #7311EA , #523D82); color: #fff">Continue</button>
+          </form>
+    
+    </section>
+</div>
+ {% endblock %}

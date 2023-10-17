@@ -11,9 +11,9 @@
 {{docname}}
 {{phone_no}}
 {{sent}}
-<div style="display: flex; justify-content: center;  align-items: center;">
+<div style="display: flex; justify-content: center;  align-items: center; height: 80vh;">
 
-    <section class='for-signup' style="width: 30%;">
+    <section class='for-signup' style="width: 30%; padding: 5rem 1rem; border-radius: 1rem; background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
         <div class="login-content page-card">
             {%- if True -%}
             <form class="form-signin form-signup form-otp" role="form">
@@ -26,12 +26,10 @@
                     
                 </div>
                 <div class="page-card-actions">
-                        <button class="btn btn-sm btn-primary btn-block btn-signup"
-                            type="submit">{{ _("Submit") }}</button>
-    
-                    <p class="text-center sign-up-message">
-                        <a href="/login" class="blue">{{ _("Have an account? Login") }}</a>
-                    </p>
+                    <!-- <span class="d-block text-white" style="font-size: .7rem;">You Can Ask New Code After:</span> -->
+                    <br>
+                        <button class="btn btn-sm btn-primary btn-signup" style="background-image: linear-gradient(to right, #7311EA , #523D82);"
+                            type="submit">{{ _("Verify") }}</button>
                 </div>
             </form>
             {%- else -%}

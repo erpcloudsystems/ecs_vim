@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:ticket_name",
+ "creation": "2023-10-10 09:12:00.147499",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "barcode",
+  "ticket_name",
+  "booklet",
+  "customer",
+  "code",
+  "item",
+  "valid_branches_section",
+  "branches_ticket"
+ ],
+ "fields": [
+  {
+   "fieldname": "barcode",
+   "fieldtype": "Barcode",
+   "in_list_view": 1,
+   "label": "Barcode",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ticket_name",
+   "fieldtype": "Data",
+   "label": "Ticket Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "booklet",
+   "fieldtype": "Link",
+   "label": "Booklet",
+   "options": "Booklets"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Int",
+   "label": "code"
+  },
+  {
+   "fieldname": "valid_branches_section",
+   "fieldtype": "Section Break",
+   "label": "Valid Branches"
+  },
+  {
+   "fieldname": "branches_ticket",
+   "fieldtype": "Table",
+   "label": "Branches Ticket",
+   "options": "Branches Ticket"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-10-10 11:44:45.730744",
+ "modified_by": "Administrator",
+ "module": "Ecs Vim",
+ "name": "Tickets",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

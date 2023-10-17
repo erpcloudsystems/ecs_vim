@@ -1,0 +1,90 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-10-10 09:44:52.149625",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "no_of_tickets",
+  "no_of_tickets_per_booklet",
+  "column_break_d15tw",
+  "item",
+  "amended_from",
+  "valid_branches_section",
+  "branches_ticket"
+ ],
+ "fields": [
+  {
+   "fieldname": "no_of_tickets",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "No Of Tickets",
+   "reqd": 1
+  },
+  {
+   "default": "10",
+   "fieldname": "no_of_tickets_per_booklet",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "No of Tickets Per Booklet",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Create Bulk Tickets",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_d15tw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "valid_branches_section",
+   "fieldtype": "Section Break",
+   "label": "Valid Branches"
+  },
+  {
+   "fieldname": "branches_ticket",
+   "fieldtype": "Table",
+   "label": "Branches Ticket",
+   "options": "Branches Ticket"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-10-10 11:53:35.834489",
+ "modified_by": "Administrator",
+ "module": "Ecs Vim",
+ "name": "Create Bulk Tickets",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

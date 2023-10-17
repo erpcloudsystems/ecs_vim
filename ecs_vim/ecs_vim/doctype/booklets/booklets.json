@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:booklet_name",
+ "creation": "2023-10-10 09:37:50.386294",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "print_tickets",
+  "section_break_5rtjf",
+  "booklet_name",
+  "no_of_tickets",
+  "column_break_djexd",
+  "item",
+  "code",
+  "amended_from",
+  "section_break_ewzbd",
+  "tickets",
+  "valid_branches_section",
+  "branches_ticket"
+ ],
+ "fields": [
+  {
+   "fieldname": "booklet_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Booklet Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "no_of_tickets",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "No Of Tickets",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Booklets",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "tickets",
+   "fieldtype": "Table",
+   "label": "Tickets",
+   "options": "Booklet Tickets"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Int",
+   "label": "code"
+  },
+  {
+   "fieldname": "print_tickets",
+   "fieldtype": "Button",
+   "label": "Print Tickets"
+  },
+  {
+   "fieldname": "section_break_5rtjf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "valid_branches_section",
+   "fieldtype": "Section Break",
+   "label": "Valid Branches"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "branches_ticket",
+   "fieldtype": "Table",
+   "label": "Branches Ticket",
+   "options": "Branches Ticket"
+  },
+  {
+   "fieldname": "column_break_djexd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "section_break_ewzbd",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-10-10 12:18:42.176989",
+ "modified_by": "Administrator",
+ "module": "Ecs Vim",
+ "name": "Booklets",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

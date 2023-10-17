@@ -1,25 +1,25 @@
 frappe.ui.form.on('Sales Order', {
-    onload_post_render:function(frm){
-        frm.set_query("item_code", "items", function() {
+    // onload_post_render:function(frm){
+    //     frm.set_query("item_code", "items", function() {
             
-            return {
-                query: "erpnext.controllers.queries.item_query",
-                filters: {'is_sales_item': 1, 'is_fixed_asset':0,
-                'is_stock_item':1,
-                'has_variants':0}
-            }
-        });
-    },
+    //         return {
+    //             query: "erpnext.controllers.queries.item_query",
+    //             filters: {'is_sales_item': 1, 'is_fixed_asset':0,
+    //             'is_stock_item':1,
+    //             'has_variants':0}
+    //         }
+    //     });
+    // },
    setup:function(frm){
-    frm.set_query("select_event", function() {
+    // frm.set_query("select_event", function() {
             
-        return {
-            query: "ecs_vim.doctype_triggers.selling.sales_order.sales_order.get_item_list",
-            filters: {'is_sales_item': 1, 'is_fixed_asset':0,
-            'is_stock_item':1,
-            'has_variants':0}
-        }
-    });
+    //     return {
+    //         query: "ecs_vim.doctype_triggers.selling.sales_order.sales_order.get_item_list",
+    //         filters: {'is_sales_item': 1, 'is_fixed_asset':0,
+    //         'is_stock_item':1,
+    //         'has_variants':0}
+    //     }
+    // });
    },
     refresh:function(frm){
         if(frm.doc.docstatus == 1){

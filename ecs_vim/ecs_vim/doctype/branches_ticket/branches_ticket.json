@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-10-10 11:08:41.203555",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "branch",
+  "name_warehouse"
+ ],
+ "fields": [
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Branch",
+   "options": "Warehouse"
+  },
+  {
+   "fetch_from": "branch.warehouse_name",
+   "fieldname": "name_warehouse",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name Warehouse"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-10-10 11:31:27.635575",
+ "modified_by": "Administrator",
+ "module": "Ecs Vim",
+ "name": "Branches Ticket",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

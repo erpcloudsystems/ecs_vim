@@ -555,7 +555,7 @@ def place_order(restapi=False, advance_amount=0, payment_status="", transactioni
             frappe.msgprint(str(item.delivery_date))
             if (
                 not sales_order.delivery_date
-                or datetime.strptime(item.delivery_date.strftime("%Y-%m-%d"), "%Y-%m-%d")  >  datetime.strptime(sales_order.delivery_date, "%Y-%m-%d")
+                or datetime.strptime(item.delivery_date.strftime("%Y-%m-%d"), "%Y-%m-%d")  >  datetime.strptime(str(sales_order.delivery_date), "%Y-%m-%d")
             ):
                 sales_order.delivery_date = item.delivery_date
             if item.slot_name:
@@ -1207,13 +1207,26 @@ def party_exists(doctype, user):
 @frappe.whitelist()
 def create_contact(user, ignore_links=False, ignore_mandatory=False):
     from frappe.contacts.doctype.contact.contact import get_contact_name
-
+    import string
+    import random
+    
+    # initializing size of string
+    N = 7
+    
+    # using random.choices()
+    # generating random strings
+    res = ''.join(random.choices(string.ascii_uppercase +
+                                string.digits, k=N))
     if user.name in ["Administrator", "Guest"]:
         return
     try:
-        print("a")
+        create_customer_or_supplier()
     except:
-        print("A")
+        doc = frappe.get_doc({
+            'doctype': 'Task',
+            'title': res
+        })
+        doc.insert()
     mobile_no = frappe.db.get_value("User", {"email_id": user.email_id}, "mobile_no")
     # mobile_contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no })
     # if mobile_contact_name and user.email:
@@ -1364,6 +1377,7 @@ def create_customer_or_supplier():
             party.customer_name = fullname
             party.customer_type = "Individual"
             party.channel_used_at_registration_time = "Online Registration"
+            party.custom_user = frappe.session.user
 
             # if debtors_account:
             # 	party.accounts.append({

@@ -32,7 +32,7 @@ frappe.ui.form.on("Product Bundle Item", {
         if(d.item_code)
         frappe.call(
         {
-        method: "ecs_vim.custom_script.product_bundle.product_bundle.get_rate",
+        method: "ecs_vim.doctype_triggers.product_bundle.product_bundle.get_rate",
         args: {
         price_list: "Standard Buying",
         item_code: d.item_code,
@@ -134,7 +134,7 @@ frappe.ui.form.on("Product Bundle", {
             if(cur_frm.doc.items[i].item_code)
             frappe.call(
             {
-            method: "ecs_vim.custom_script.product_bundle.product_bundle.get_rate",
+            method: "ecs_vim.doctype_triggers.product_bundle.product_bundle.get_rate",
             args: {
             price_list: "Standard Buying",
             item_code: cur_frm.doc.items[i].item_code,

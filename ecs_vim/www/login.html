@@ -1,6 +1,10 @@
 {% extends "templates/web.html" %}
 
 {% macro email_login_body() -%}
+<script
+    src="https://kit.fontawesome.com/4b9cd3dbd3.js"
+    crossorigin="anonymous"
+  ></script>
 <div class="page-card-body">
 	<div class="form-group">
 		<label class="form-label sr-only" for="login_email">{{ login_label or _("Email")}}</label>
@@ -37,12 +41,12 @@
 		</div>
 	</div>
 
-	<p class="forgot-password-message">
-		<a href="#forgot">{{ _("Forgot Password?") }}</a></p>
+	<p class="forgot-password-message  ">
+		<a href="#forgot" class="text-white">{{ _("Forgot Password?") }}</a></p>
 </div>
 
 <div class="page-card-actions">
-	<button class="btn btn-sm btn-primary btn-block btn-login" type="submit">
+	<button class="btn btn-sm btn-primary btn-login" style="background-image: linear-gradient(to right, #7311EA , #523D82);" type="submit">
 		{{ _("Login") }}</button>
 
 	{% if ldap_settings and ldap_settings.enabled %}
@@ -57,8 +61,148 @@
 {% endblock %}
 
 {% macro logo_section() %}
-<div class="page-card-head">
-	<img class="app-logo" src="{{ logo }}">
+<div class="page-card-head" style="display: flex;
+justify-content: center;
+position: relative">
+	<div style="
+	position: absolute;
+	left: 30px;
+	top: 11px;
+	">
+		<div style="position: absolute; left: 0; top: -30px; opacity: 0.25;">
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 0;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 30px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 60px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 90px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 120px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 150px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 180px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 210px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 240px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 270px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 300px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 330px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 360px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 390px;"></i> -->
+		</div>
+		<div style="position: absolute; left: -20px; top: 0; opacity: 0.25;">
+				<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 0;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 30px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 60px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 90px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 120px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 150px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 180px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 210px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 240px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 270px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 300px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 330px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 360px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 390px;"></i> -->
+		</div>
+		<div style="position: absolute; left: 0;  top: 30px; opacity: 0.25;">
+				<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 0;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 30px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 60px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 90px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 120px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 150px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 180px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 210px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 240px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 270px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 300px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 330px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 360px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 390px;"></i> -->
+		</div>
+		<div style="position: absolute; left: -20px; top: 60px; opacity: 0.25;">
+				<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 0;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 30px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 60px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 90px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 120px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 150px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 180px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 210px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 240px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 270px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 300px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 330px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 360px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 390px;"></i> -->
+		</div>
+		<div style="position: absolute; left: 0;  top: 90px; opacity: 0.25;">
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: -30px;"></i> -->
+
+				<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 0;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 30px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 60px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 90px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 120px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 150px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 180px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 210px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 240px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 270px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 300px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 330px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 360px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 390px;"></i> -->
+		</div>
+		<div style="position: absolute; left: -20px;  top: 120px; opacity: 0.25;">
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: -30px;"></i> -->
+
+				<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 0;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 30px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 60px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 90px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 120px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 150px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 180px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 210px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 240px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 270px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 300px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 330px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 360px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 390px;"></i> -->
+		</div>
+		<div style="position: absolute; left: -40px;  top: 150px; opacity: 0.25;">
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: -23px;"></i> -->
+
+				<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 0;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 30px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 60px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 90px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 120px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 150px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 180px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 210px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 240px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 270px;"></i> -->
+			<i class="fa-solid fa-bolt text-white" style="position: absolute; left: 300px;"></i>
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 330px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 360px;"></i> -->
+			<!-- <i class="fa-solid fa-bolt text-white" style="position: absolute; left: 390px;"></i> -->
+		</div>
+
+	</div>
+	<!-- <img class="app-logo" src="{{ logo }}"> -->
+	<div style="border: 3px solid #fff;
+	width: 10rem;
+	height: 10rem;
+	border-radius: 50%;">
+
+		<i class="fa-regular fa-user fa-2xl text-white" style="display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 10rem;
+		font-size: 4rem;"></i>
+
+
+	</div>
 	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
 </div>
 {% endmacro %}
@@ -74,7 +218,7 @@
 		</div>
 	</noscript>
 	<section class='for-login'>
-		<div class="login-content page-card">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
 			{{ logo_section() }}
 			<form class="form-signin form-login" role="form">
 				{%- if social_login -%}
@@ -113,7 +257,7 @@
 
 	{%- if social_login -%}
 	<section class='for-email-login'>
-		<div class="login-content page-card">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
 			{{ logo_section() }}
 			<form class="form-signin form-login" role="form">
 			{{ email_login_body() }}
@@ -128,7 +272,7 @@
 	</section>
 	{%- endif -%}
 	<section class='for-signup {{ "signup-disabled" if disable_signup else "" }}'>
-		<div class="login-content page-card">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
 			{{ logo_section() }}
 			{%- if not disable_signup -%}
 			<form class="form-signin form-signup hide" role="form">
@@ -155,11 +299,11 @@
 					</div> -->
 				</div>
 				<div class="page-card-actions">
-						<button class="btn btn-sm btn-primary btn-block btn-signup"
+						<button class="btn btn-sm btn-primary  btn-signup" style="background-image: linear-gradient(to right, #7311EA , #523D82);"
 							type="submit">{{ _("Sign up") }}</button>
 
 					<p class="text-center sign-up-message">
-						<a href="#login" class="blue">{{ _("Have an account? Login") }}</a>
+						<a href="#login" class=" text-white">{{ _("Have an account? Login") }}</a>
 					</p>
 				</div>
 			</form>
@@ -175,7 +319,7 @@
 	</section>
 
 	<section class='for-forgot'>
-		<div class="login-content page-card">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
 			<form class="form-signin form-forgot hide" role="form">
 				<div class="page-card-head">
 					<h4>{{ _('Forgot Password') }}</h4>
@@ -197,9 +341,9 @@
 					</div>
 				</div>
 				<div class="page-card-actions">
-					<button class="btn btn-sm btn-primary btn-block btn-forgot"
+					<button class="btn btn-sm btn-primary btn-block btn-forgot" style="background-image: linear-gradient(to right, #7311EA , #523D82);"
 						type="submit">{{ _("Reset Password") }}</button>
-					<p class="text-center sign-up-message">
+					<p class="text-center sign-up-message text-white" >
 						<a href="#login">{{ _("Back to Login") }}</a>
 					</p>
 				</div>
