@@ -4,7 +4,7 @@ from frappe import _
 from frappe.utils import flt, cint, get_datetime, add_days, getdate, formatdate
 from datetime import timedelta
 from ecs_vim.ecs_vim.doctype.ot_planner.ot_planner import applied_ot_rule
-from ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin import get_employee_shift
+# from ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin import get_employee_shift
 from ecs_vim.custom_methods import get_leve_name
 from ecs_vim import *
 from ecs_vim.doctype_triggers.common_code import raise_link_exists_exception

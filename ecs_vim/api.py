@@ -1184,7 +1184,17 @@ def party_exists(doctype, user):
             if not contact.email_id:
                 contact.add_email(user, is_primary=True)
                 contact.save(ignore_permissions=True)
-    contact_name = frappe.db.get_value("Contact", {"email_id": user})
+    contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no})
+    party_name= None
+    if frappe.db.exists("Customer", {"custom_user": user}):
+        party_name = frappe.db.get_value("Customer", {"custom_user": user}, ["name"])
+    if party_name:
+        if contact_name:
+            contact = frappe.get_doc("Contact", contact_name)
+            if not contact.links:
+                contact.append("links", dict(link_doctype=doctype, link_name=party_name))
+        contact.flags.ignore_mandatory = True
+        contact.save(ignore_permissions=True)
     if contact_name:
         contact = frappe.get_doc("Contact", contact_name)
         doctypes = [d.link_doctype for d in contact.links]
@@ -1219,14 +1229,6 @@ def create_contact(user, ignore_links=False, ignore_mandatory=False):
                                 string.digits, k=N))
     if user.name in ["Administrator", "Guest"]:
         return
-    try:
-        create_customer_or_supplier()
-    except:
-        doc = frappe.get_doc({
-            'doctype': 'Task',
-            'title': res
-        })
-        doc.insert()
     mobile_no = frappe.db.get_value("User", {"email_id": user.email_id}, "mobile_no")
     # mobile_contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no })
     # if mobile_contact_name and user.email:
@@ -1343,6 +1345,7 @@ def create_customer_or_supplier():
 
     if not doctype:
         return
+    
     # frappe.errprint(["after session",doctype,user,party_exists(doctype, user)])
     # frappe.throw("testing Login customer issue")
     if party_exists(doctype, user):
@@ -1372,9 +1375,12 @@ def create_customer_or_supplier():
                     ]
                 }
             )
+        mobile_no = frappe.db.get_value("User", {"email": user}, "mobile_no")
         if doctype == "Customer":
+            party.first_name = fullname
             party.full_name = fullname
             party.customer_name = fullname
+            party.mobile_no = mobile_no
             party.customer_type = "Individual"
             party.channel_used_at_registration_time = "Online Registration"
             party.custom_user = frappe.session.user
@@ -1391,7 +1397,7 @@ def create_customer_or_supplier():
         # if user.phone:
         # 	party.add_phone(user.phone, is_primary_phone=True)
 
-        # if user.mobile_no:
+        # if mobile_no:
         # 	party.add_phone(user.mobile_no, is_primary_mobile_no=True)
     else:
         party.update(
@@ -1401,6 +1407,7 @@ def create_customer_or_supplier():
                 "supplier_type": "Individual",
             }
         )
+    frappe.msgprint(party.mobile_no)
     party.flags.ignore_mandatory = True
     party.insert(ignore_permissions=True)
 
@@ -1409,9 +1416,9 @@ def create_customer_or_supplier():
 
     alternate_doctype = "Customer" if doctype == "Supplier" else "Supplier"
 
-    if party_exists(alternate_doctype, user):
-        # if user is both customer and supplier, alter fullname to avoid contact name duplication
-        fullname += "-" + doctype
+    # if party_exists(alternate_doctype, user):
+    #     # if user is both customer and supplier, alter fullname to avoid contact name duplication
+    #     fullname += "-" + doctype
 
     create_party_contact(doctype, fullname, user, party.name)
 

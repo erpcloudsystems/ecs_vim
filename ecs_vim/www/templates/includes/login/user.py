@@ -351,14 +351,15 @@ class User(Document):
             else:
                 subject = _("Complete Registration")
         frappe.msgprint(get_url())
-        self.send_login_mail(
-            subject,
-            "new_user",
-            dict(
-                link=link,
-                site_url=get_url(),
-            ),
-        )
+        if self.send_welcome_email:
+            self.send_login_mail(
+                subject,
+                "new_user",
+                dict(
+                    link=link,
+                    site_url=get_url(),
+                ),
+            )
 
     def send_login_mail(self, subject, template, add_args, now=None):
         """send mail with login details"""
@@ -882,11 +883,13 @@ def sign_up(email, full_name,mobile, redirect_to):
             {
                 "doctype": "User",
                 "email": email,
-                "first_name": escape_html(full_name),
+                "send_welcome_email":0,
+                "first_name": full_name,
                 "enabled": 1,
                 "new_password": random_string(10),
                 "user_type": "Website User",
                 "mobile_no": mobile,
+                "username":mobile,
             }
         )
         user.flags.ignore_permissions = True

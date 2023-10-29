@@ -322,6 +322,10 @@ def get_past_order_list(search_term, status, pos_profile, limit=20):
             },
             fields=fields,
         )
+        for row in invoice_list:
+            returned_doc = frappe.db.get_value("POS Invoice", {"return_against":row["name"]}, ["name"])
+            if returned_doc:
+                invoice_list[invoice_list.index(row)]["status"]= "Return"
 
     return invoice_list
 
@@ -868,7 +872,7 @@ def get_return_packed_items(pos_invoice):
     items_data = frappe.db.sql(
         """
 		SELECT parent_item, item_code,set_no, sum(packed_quantity) packed_quantity
-FROM vimdev.`tabSelected Packed Items` inner join `tabPOS Invoice` on `tabPOS Invoice`.name=`tabSelected Packed Items`.parent   where `tabPOS Invoice`.return_against='{0}'
+FROM `tabSelected Packed Items` inner join `tabPOS Invoice` on `tabPOS Invoice`.name=`tabSelected Packed Items`.parent   where `tabPOS Invoice`.return_against='{0}'
 group by parent_item, item_code,set_no
 		""".format(
             pos_invoice

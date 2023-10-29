@@ -18,7 +18,9 @@
   "status",
   "verfication_id",
   "remarks",
-  "sent"
+  "sent",
+  "contact_row_name",
+  "verified"
  ],
  "fields": [
   {
@@ -82,11 +84,22 @@
    "fieldname": "sent",
    "fieldtype": "Check",
    "label": "sent"
+  },
+  {
+   "fieldname": "contact_row_name",
+   "fieldtype": "Data",
+   "label": "contact_row_name"
+  },
+  {
+   "default": "0",
+   "fieldname": "verified",
+   "fieldtype": "Check",
+   "label": "verified"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-10-05 14:12:04.670881",
+ "modified": "2023-10-25 10:14:25.951819",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
  "name": "Session OTP Users",

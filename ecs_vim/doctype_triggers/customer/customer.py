@@ -245,9 +245,9 @@ def make_contact(args, is_primary_contact=1):
     else:
         contact = frappe.get_doc("Contact", contact_name)
     contact.is_primary_contact = is_primary_contact
-    if args.get("email_id"):
+    if args.get("email_id") and not contact.user:
         contact.add_email(args.get("email_id"), is_primary=True)
-    if args.get("mobile_no") or mobile_no:
+    if args.get("mobile_no") or mobile_no and not contact.mobile_no:
         contact.add_phone(args.get("mobile_no"), is_primary_mobile_no=True)
     contact.save(ignore_permissions=True)
 

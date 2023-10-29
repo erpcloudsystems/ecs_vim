@@ -4,6 +4,10 @@
 {% block content %}
 
 {% macro main_content() %}
+<script
+src="https://kit.fontawesome.com/4b9cd3dbd3.js"
+crossorigin="anonymous"
+></script>
 <div class="page-content-wrapper">
 	<!-- breadcrumbs -->
 	<div class="page-breadcrumbs">
@@ -30,10 +34,11 @@
 			{%- block page_content -%}{%- endblock -%}
 		</div>
 
-		<div class="page-footer">
-			{%- block page_footer -%}{%- endblock -%}
-		</div>
+		
 	</main>
+	<div class="page-footer">
+		{%- block page_footer -%}{%- endblock -%}
+	</div>
 	{% endblock %}
 </div>
 {% endmacro %}

@@ -209,7 +209,62 @@ position: relative">
 
 {% block page_content %}
 <!-- {{ for_test }} -->
-<div>
+<div class="row">
+	<div class="col-md-6" style="  margin: 70px 0;">
+		<style>
+			.swiper {
+	height: 100%;
+	}
+
+		</style>
+		<link
+		  rel="stylesheet"
+		  href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+		/>
+		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-element-bundle.min.js"></script>
+		<!-- Slider main container -->
+		<div class="swiper">
+			<!-- Additional required wrapper -->
+			<div class="swiper-wrapper">
+			  <!-- Slides -->
+			  <div class="swiper-slide"><img src="/files/sklyline_park_atlanta_slide_0.jpg" alt=""></div>
+			  <div class="swiper-slide"><img src="/files/Puttshack-Atlanta.png" alt=""></div>
+			  <div class="swiper-slide"><img src="Playpad-Bucks-Wolkin-e1675022736535.jpg" alt=""></div>
+			  ...
+			</div>
+			<!-- If we need pagination -->
+			<div class="swiper-pagination"></div>
+		  
+			<!-- If we need navigation buttons -->
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		  
+			<!-- If we need scrollbar -->
+			<div class="swiper-scrollbar"></div>
+		  </div>
+		  <script type="module">
+			 import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.mjs'
+		const swiper = new Swiper('.swiper', {
+		  // Optional parameters
+		  
+		  loop: true,
+		  autoplay: {
+				delay: 5000,
+			},
+		  // Navigation arrows
+		  navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+		  },
+		
+		});
+		
+		
+		
+		</script>  
+		</div>
+
+<div class="col-md-6">
 	<noscript>
 		<div class="text-center my-5">
 			<h4>{{ _("Javascript is disabled on your browser") }}</h4>
@@ -218,9 +273,9 @@ position: relative">
 		</div>
 	</noscript>
 	<section class='for-login'>
-		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);   padding: 5rem 1rem;">
 			{{ logo_section() }}
-			<form class="form-signin form-login" role="form">
+			<form class="form-signin form-login" style="margin: 4rem auto 0; " role="form">
 				{%- if social_login -%}
 				<div class="page-card-body">
 					<div class="social-logins text-center">
@@ -235,7 +290,7 @@ position: relative">
 									{{ _("Login With {0}").format(provider.provider_name) }}</a>
 							</div>
 							{% endfor %}
-							<p class="text-muted login-divider">{{ _("or") }}</p>
+							<p class=" login-divider" style="color: #fff;">{{ _("or") }}</p>
 						</div>
 					</div>
 					<a href="#email"
@@ -257,7 +312,7 @@ position: relative">
 
 	{%- if social_login -%}
 	<section class='for-email-login'>
-		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%); padding: 5rem 1rem;">
 			{{ logo_section() }}
 			<form class="form-signin form-login" role="form">
 			{{ email_login_body() }}
@@ -272,25 +327,27 @@ position: relative">
 	</section>
 	{%- endif -%}
 	<section class='for-signup {{ "signup-disabled" if disable_signup else "" }}'>
-		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%); padding: 5rem 1rem;">
 			{{ logo_section() }}
 			{%- if not disable_signup -%}
 			<form class="form-signin form-signup hide" role="form">
 				<div class="page-card-body">
 					<div class="form-group">
 						<label class="form-label sr-only" for="signup_fullname">Full Name</label>
-						<input type="text" id="signup_fullname" class="form-control" placeholder="{{ _('Jane Doe') }}"
+						<input type="text" id="signup_fullname" class="form-control" placeholder="{{ _('Salah Eldien') }}"
 							required autofocus>
 					</div>
 					<div class="form-group">
 						<label class="form-label sr-only" for="signup_email">Email</label>
 						<input type="email" id="signup_email" class="form-control"
-							placeholder="{{ _('jane@example.com') }}" required>
+							placeholder="{{ _('salah@example.com') }}" required>
 					</div>
-					<div class="form-group">
+					<div class="form-group" style="display: flex;">
 						<label class="form-label sr-only" for="signup_mobile">Mobile/Phone</label>
-						<input type="text" id="mobile" class="form-control"
-							placeholder="{{ _('Mobile/Phone') }}" required>
+						<input type="text" id="country_code" class="form-control" style="width: 17%;margin-right: 1vh;"
+							value="966" disabled>
+						<input type="text" id="mobile" class="form-control" style="width: 83%;"
+							placeholder="58121212312" required>
 					</div>
 					<!-- <div class="form-group">
 						<label class="form-label sr-only" for="signup_id">National/IQAMA ID</label>
@@ -319,7 +376,7 @@ position: relative">
 	</section>
 
 	<section class='for-forgot'>
-		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
+		<div class="login-content page-card" style = "background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%); padding: 5rem 1rem;">
 			<form class="form-signin form-forgot hide" role="form">
 				<div class="page-card-head">
 					<h4>{{ _('Forgot Password') }}</h4>
@@ -351,11 +408,31 @@ position: relative">
 			</form>
 		</div>
 	</section>
+	
+
+</div>
+
 </div>
 {% endblock %}
 
 {% block script %}
 <script src="templates/includes/login/login.js"> </script>
+<script>
+
+	frappe.ready(function(){
+		document.querySelector(".page-footer").innerHTML = `<div class="left-images">
+	<div class="d-flex align-items-end" style="border-top: 3px solid #000;margin: 8rem 0px 0;">
+	  <div>
+		<img src="/files/3-Logo-L.png" width="100" height="100">
+	  </div>
+	  <div style="font-weight: bold; font-size: .8rem;">
+		<a href="mailto:info@vim.sa (+ 966) 800-244-0306" style="color: black;">info@vim.sa (+ 966) 800-244-0306</a>
+	  </div> 
+	</div>
+  </div>`
+	})
+</script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
+

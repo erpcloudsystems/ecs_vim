@@ -22,7 +22,7 @@ app_include_js = [
 ]
 
 
-on_session_creation = "ecs_vim.api.successful_login"
+# on_session_creation = "ecs_vim.api.successful_login"
 
 jenv = {
     "methods": [
@@ -202,12 +202,12 @@ doc_events = {
         "before_save": "ecs_vim.doctype_triggers.crm.opportunity.opportunity.before_save",
         "on_update": "ecs_vim.doctype_triggers.crm.opportunity.opportunity.on_update",
     },
-    "Payroll Period": {
-        "validate": "ecs_vim.custom_script.payroll_period.payroll_period.validate"
-    },
+    # "Payroll Period": {
+    #     "validate": "ecs_vim.custom_script.payroll_period.payroll_period.validate"
+    # },
     "Employee": {
-        "onload": ["ecs_vim.custom_script.employee.employee.onload"],
-        "validate": ["ecs_vim.custom_script.employee.employee.validate"],
+        # "onload": ["ecs_vim.custom_script.employee.employee.onload"],
+        # "validate": ["ecs_vim.custom_script.employee.employee.validate"],
         "before_insert": "ecs_vim.doctype_triggers.hr.employee.employee.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.employee.employee.after_insert",
         # "onload": "ecs_vim.doctype_triggers.hr.employee.employee.onload",
@@ -218,7 +218,7 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.employee.employee.on_update",
     },
     "Employee Checkin": {
-        "validate": "ecs_vim.custom_script.employee_checkin.employee_checkin.validate",
+        # "validate": "ecs_vim.custom_script.employee_checkin.employee_checkin.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.employee_checkin.employee_checkin.onload",
@@ -252,12 +252,12 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.additional_salary.additional_salary.on_update",
     },
     "Attendance": {
-        "validate": "ecs_vim.custom_script.attendance.attendance.validate",
-        "on_cancel": "ecs_vim.custom_script.attendance.attendance.on_cancel",
-        "after_insert": "ecs_vim.custom_script.attendance.attendance.after_insert",
+        # "validate": "ecs_vim.custom_script.attendance.attendance.validate",
+        # "on_cancel": "ecs_vim.custom_script.attendance.attendance.on_cancel",
+        # "after_insert": "ecs_vim.custom_script.attendance.attendance.after_insert",
         # 	"on_submit": ["ecs_vim.custom_script.attendance.attendance.on_submit"],
         # 	"before_cancel": ["ecs_vim.custom_script.attendance.attendance.before_cancel"],
-        "on_trash": ["ecs_vim.custom_script.attendance.attendance.on_trash"],
+        # "on_trash": ["ecs_vim.custom_script.attendance.attendance.on_trash"],
         "before_insert": "ecs_vim.doctype_triggers.hr.attendance.attendance.before_insert",
         # "after_insert": "ecs_vim.doctype_triggers.hr.attendance.attendance.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.attendance.attendance.onload",
@@ -310,14 +310,14 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.expense_claim.expense_claim.on_update",
     },
     "Leave Application": {
-        "validate": "ecs_vim.custom_script.leave_application.leave_application.validate",
-        "before_cancel": "ecs_vim.custom_script.leave_application.leave_application.before_cancel",
-        "on_cancel": "ecs_vim.custom_script.leave_application.leave_application.on_cancel",
-        "on_trash": "ecs_vim.custom_script.leave_application.leave_application.on_trash",
-        "before_save": "ecs_vim.custom_script.leave_application.leave_application.get_user_role",
+        # "validate": "ecs_vim.custom_script.leave_application.leave_application.validate",
+        # "before_cancel": "ecs_vim.custom_script.leave_application.leave_application.before_cancel",
+        # "on_cancel": "ecs_vim.custom_script.leave_application.leave_application.on_cancel",
+        # "on_trash": "ecs_vim.custom_script.leave_application.leave_application.on_trash",
+        # "before_save": "ecs_vim.custom_script.leave_application.leave_application.get_user_role",
         # "before_cancel" :"ecs_vim.custom_script.leave_application.leave_application.cancel_wf_doc",
         # "on_trash":"ecs_vim.custom_script.leave_application.leave_application.delete_wf",
-        "before_submit": "ecs_vim.custom_script.leave_application.leave_application.get_user_role_validation",
+        # "before_submit": "ecs_vim.custom_script.leave_application.leave_application.get_user_role_validation",
         "before_insert": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.onload",
@@ -331,9 +331,9 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.leave_application.leave_application.on_update",
     },
     "Loan": {
-        "validate": "ecs_vim.custom_script.loan.loan.validate",
-        "on_cancel": "ecs_vim.custom_script.loan.loan.on_cancel",
-        "on_trash": ["ecs_vim.custom_script.loan.loan.on_trash"],
+        # "validate": "ecs_vim.custom_script.loan.loan.validate",
+        # "on_cancel": "ecs_vim.custom_script.loan.loan.on_cancel",
+        # "on_trash": ["ecs_vim.custom_script.loan.loan.on_trash"],
         "before_insert": "ecs_vim.doctype_triggers.hr.loan.loan.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.loan.loan.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.loan.loan.onload",
@@ -347,7 +347,7 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.loan.loan.on_update",
     },
     "Loan Application": {
-        "validate": "ecs_vim.custom_script.loan_application.loan_application.validate",
+        # "validate": "ecs_vim.custom_script.loan_application.loan_application.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.loan_application.loan_application.onload",
@@ -387,11 +387,11 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.loan_repayment.loan_repayment.on_update",
     },
     "Leave Type": {
-        "on_change": "ecs_vim.custom_script.leave_type.leave_type.on_change",
-        "on_trash": "ecs_vim.custom_script.leave_type.leave_type.on_trash",
+        # "on_change": "ecs_vim.custom_script.leave_type.leave_type.on_change",
+        # "on_trash": "ecs_vim.custom_script.leave_type.leave_type.on_trash",
     },
     "Loan Type": {
-        "validate": "ecs_vim.custom_script.loan_type.loan_type.validate",
+        # "validate": "ecs_vim.custom_script.loan_type.loan_type.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.loan_type.loan_type.onload",
@@ -418,7 +418,7 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.hr.payroll_entry.payroll_entry.on_update",
     },
     "Salary Slip": {
-        "validate": "ecs_vim.custom_script.salary_slip.salary_slip.validate",
+        # "validate": "ecs_vim.custom_script.salary_slip.salary_slip.validate",
         "before_insert": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.after_insert",
         "onload": "ecs_vim.doctype_triggers.hr.salary_slip.salary_slip.onload",
@@ -502,11 +502,11 @@ doc_events = {
         "on_update": "ecs_vim.doctype_triggers.projects.task.task.on_update",
     },
     "Timesheet": {
-        "on_submit": "ecs_vim.custom_script.timesheet.timesheet.on_submit",
+        # "on_submit": "ecs_vim.custom_script.timesheet.timesheet.on_submit",
         # "on_submit": "ecs_vim.custom_script.timesheet.timesheet.create_attendance"
-        "on_cancel": "ecs_vim.custom_script.timesheet.timesheet.on_cancel",
-        "validate": "ecs_vim.custom_script.timesheet.timesheet.validate",
-        "before_save": "ecs_vim.custom_script.timesheet.timesheet.before_save",
+        # "on_cancel": "ecs_vim.custom_script.timesheet.timesheet.on_cancel",
+        # "validate": "ecs_vim.custom_script.timesheet.timesheet.validate",
+        # "before_save": "ecs_vim.custom_script.timesheet.timesheet.before_save",
         "before_insert": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.before_insert",
         "after_insert": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.after_insert",
         "onload": "ecs_vim.doctype_triggers.projects.timesheet.timesheet.onload",
@@ -696,19 +696,19 @@ doctype_js = {
     "Lead": "doctype_triggers/crm/lead/lead.js",
     "Oppurtunity": "doctype_triggers/crm/oppurtunity/oppurtunity.js",
     ##
-    "Employee": ["custom_script/employee/employee.js"],
-    "Company": ["custom_script/company/company.js"],
-    "Attendance": ["custom_script/attendance/attendance.js"],
-    "Salary Slip": ["custom_script/salary_slip/salary_slip.js"],
-    "Leave Application": "custom_script/leave_application/leave_application.js",
-    "Payroll Entry": "custom_script/payroll_entry/payroll_entry.js",
-    "Designation": "custom_script/designation/designation.js",
-    "Holiday List": "custom_script/holiday_list/holiday_list.js",
-    "Loan Application": "custom_script/loan_application/loan_application.js",
-    "Shift Request": "custom_script/shift_request/shift_request.js",
-    "Shift Type": "custom_script/shift_type/shift_type.js",
-    "Timesheet": "custom_script/timesheet/timesheet.js",
-    "Loan": "custom_script/Loan/Loan.js",
+    # "Employee": ["custom_script/employee/employee.js"],
+    # "Company": ["custom_script/company/company.js"],
+    # "Attendance": ["custom_script/attendance/attendance.js"],
+    # "Salary Slip": ["custom_script/salary_slip/salary_slip.js"],
+    # "Leave Application": "custom_script/leave_application/leave_application.js",
+    # "Payroll Entry": "custom_script/payroll_entry/payroll_entry.js",
+    # "Designation": "custom_script/designation/designation.js",
+    # "Holiday List": "custom_script/holiday_list/holiday_list.js",
+    # "Loan Application": "custom_script/loan_application/loan_application.js",
+    # "Shift Request": "custom_script/shift_request/shift_request.js",
+    # "Shift Type": "custom_script/shift_type/shift_type.js",
+    # "Timesheet": "custom_script/timesheet/timesheet.js",
+    # "Loan": "custom_script/Loan/Loan.js",
     # "Employee": "doctype_triggers/hr/employee/employee.js",
     "Employee Checkin": "doctype_triggers/hr/employee_checkin/employee_checkin.js",
     "Salary Component": "doctype_triggers/hr/salary_component/salary_component.js",
@@ -790,10 +790,10 @@ doctype_js = {
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 
-doctype_list_js = {
-    "Loan Application": "custom_script/loan_application/loan_application_list.js",
-    "Attendance": "custom_script/attendance/attendance_list.js",
-}
+# doctype_list_js = {
+#     "Loan Application": "custom_script/loan_application/loan_application_list.js",
+#     "Attendance": "custom_script/attendance/attendance_list.js",
+# }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -847,7 +847,7 @@ override_doctype_class = {
     "Item": "ecs_vim.doctype_triggers.item.item.CustomItem",
     "Communication": "ecs_vim.doctype_triggers.communication.email.Customemail",
     "Payment Entry": "ecs_vim.doctype_triggers.payment_entry.payment_entry.CustomPaymentEntry",
-    "Shift Assignment": "ecs_vim.custom_script.shift_assignment.shift_assignment.CustomShiftAssignment",
+    # "Shift Assignment": "ecs_vim.custom_script.shift_assignment.shift_assignment.CustomShiftAssignment",
     # "Auto Email Report":"ecs_vim.overrides.auto_email_report"
 }
 
@@ -937,6 +937,7 @@ override_whitelisted_methods = {
 website_route_rules = [
     # absolute location
     {"from_route": "/otp-verification/<docname>", "to_route": "otp-verification"},
+    {"from_route": "/verify-email/<hash_str>", "to_route": "verify-email"},
 ]
 # User Data Protection
 # --------------------

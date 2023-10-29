@@ -7,58 +7,383 @@
 	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
 </div>
 {% endmacro %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 
-<div class = "d-flex" style="width: 100%; align-items: center; height: 80vh;">
+{% if not access %}
+<div class="flex-center">
+
+  <div class="card">
+    <p>Lost? <strong>{{_('Please Login in Or Sign Up first')}}</strong></p>
+    <p class="card-footer"> <a href="/login#login" class=" text-white">{{ _("Have an account? Login") }}</a></p>
+    <p class="card-footer"> {{ _("Don't have an account?") }}
+      <a href="/login#signup">{{ _("Sign up") }}</a></p>
+  </div>
+</div>
+
+
+{% else %}
+<div id="alert"></div>
+<div class = "d-flex" style="width: 100%; align-items: center; ">
 
     <section class='for-signup' style="padding: 5rem 1rem; border-radius: 1rem; background-color: #EEE; width: 100%;">
-        <form style="width: 100%;">
-            <h2 class="p-0 " style="font-size: 2rem; margin-bottom: rem; margin-top: 0;">Add your information</h2>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+      <div id="cardForm" >
+
+      <div class="progress">
+        <!-- ID of prBar (By default width is 25%) -->
+        <div id="prgBar" class="progress-bar" style="width:5%">5%</div>
+    </div>
+
+    <h2 id="main-section" class="h2 text-center"></h2>
+
+    <form id="stepper-form" method="POST" class="was-validated">
+      <section id="step-1"> 
+        <!-- first form row -->
+        <h5 class="h5 text-center" style="font-weight: bold;">اضف معلوماتك  </h5>
+
+        <div class="flex-row">
+
+            <div class="form-group">
+              <!-- Label: first name -->
+              <label for="fname">الاسم الاول</label>
+              <!-- Input class: form-control and ID form-fname and name: fname -->
+              <input type="text" class="form-control" id="form-fname" placeholder="الاسم الاول" value="{{first_name}}"
+                  name="fname" required>
+                  <!-- And add a class: valid-feedback -->
+              <div class="valid-feedback">{{_('Valid.')}}</div>
+              <!-- And a class: invalid-feedback (Bootstrap class) -->
+              <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+          </div>
+          <div class="form-group">
+              <!-- Lastname -->
+              <label for="uname">الاسم الاخير</label>
+              <input type="text" class="form-control" id="form-lname" placeholder="الاسم الاخير" value="{{last_name}}"
+                  name="lname" required>
+                <!-- And add a class: valid-feedback -->
+                <div class="valid-feedback">{{_('Valid.')}}</div>
+                <!-- And a class: invalid-feedback (Bootstrap class) -->
+                <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+          </div>
+          <div class="form-group">
+              <!-- Eamil -->
+              <label for="email">البريد الالكتروني</label>
+              <input type="email" class="form-control" id="form-email" placeholder="البريد الالكتروني" value="{{email}}"
+                  name="email" required>
+                <!-- And add a class: valid-feedback -->
+                <div class="valid-feedback">{{_('Valid.')}}</div>
+                <!-- And a class: invalid-feedback (Bootstrap class) -->
+                <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+          </div>
+          
+        </div>
+        <!-- second form row -->
+        <div class="flex-row">
+
+          <div class="form-group">
+            <!-- Label: first name -->
+            <label for="phone_no">رقم الجوال</label>
+            <!-- Input class: form-control and ID form-fname and name: fname -->
+            <input type="text" class="form-control" id="form-phone_no" placeholder="رقم الجوال" value="{{mobile_no}}"
+                name="phone_no" required>
+                <!-- And add a class: valid-feedback -->
+            <div class="valid-feedback">{{_('Valid.')}}</div>
+            <!-- And a class: invalid-feedback (Bootstrap class) -->
+            <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+        </div>
+        <div class="form-group">
+            <!-- Lastname -->
+            <label for="uname">صلة القرابة للطفل</label>
+            <select  class="form-control" id="batchSelect"  required></select>
+              <!-- And add a class: valid-feedback -->
+              <div class="valid-feedback">{{_('Valid.')}}</div>
+              <!-- And a class: invalid-feedback (Bootstrap class) -->
+              <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+        </div>
+        <div class="form-group">
+            <!-- Eamil -->
+            <label for="email">العنوان</label>
+            <input type="text" class="form-control" id="form-address" placeholder="العنوان"
+                name="email" required>
+              <!-- And add a class: valid-feedback -->
+              <div class="valid-feedback">{{_('Valid.')}}</div>
+              <!-- And a class: invalid-feedback (Bootstrap class) -->
+              <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+        </div>
+      </div>
+      <!-- third form row -->
+      <div class="flex-row">
+
+        <div class="form-group">
+          <!-- Label: first name -->
+          <label for="fname">الجنسية</label>
+          <!-- Input class: form-control and ID form-fname and name: fname -->
+          <select  class="form-control" id="genderSelect" required></select>
+              <!-- And add a class: valid-feedback -->
+          <div class="valid-feedback">{{_('Valid.')}}</div>
+          <!-- And a class: invalid-feedback (Bootstrap class) -->
+          <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+      </div>
+      <div class="form-group">
+        <!-- Lastname -->
+        <label for="uname">الفرع المفضل</label>
+        <select  class="form-control" id="favorite-branch" required></select>
+        <!-- And add a class: valid-feedback -->
+          <div class="valid-feedback">{{_('Valid.')}}</div>
+          <!-- And a class: invalid-feedback (Bootstrap class) -->
+          <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+        </div>
+      <div class="form-group">
+          <!-- Lastname -->
+          <label for="uname">تاريخ الميلاد</label>
+          <input type="date" class="form-control" id="datePicker" required>
+            <!-- And add a class: valid-feedback -->
+            <div class="valid-feedback">{{_('Valid.')}}</div>
+            <!-- And a class: invalid-feedback (Bootstrap class) -->
+            <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+          </div>
+      
+    </div>
+     
+            </section>
+            <!-- Section 2 and let give ID: section 2 -->
+            <section id="step-2"> 
+              <!-- first form row -->
+              <h5 class="h5 text-center" style="font-weight: bold;">اضف معلومات الشخص الأخر</h5>
+
+              <div class="flex-row">
+      
+                  <div class="form-group">
+                    <!-- Label: first name -->
+                    <label for="fname">الاسم الاول</label>
+                    <!-- Input class: form-control and ID form-fname and name: fname -->
+                    <input type="text" class="form-control" id="form-fname2" placeholder="الاسم الاول" 
+                        name="fname" required>
+                        <!-- And add a class: valid-feedback -->
+                    <div class="valid-feedback">{{_('Valid.')}}</div>
+                    <!-- And a class: invalid-feedback (Bootstrap class) -->
+                    <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+                </div>
+                <div class="form-group">
+                    <!-- Lastname -->
+                    <label for="uname">الاسم الاخير</label>
+                    <input type="text" class="form-control" id="form-lname2" placeholder="الاسم الاخير"  
+                        name="lname" required>
+                      <!-- And add a class: valid-feedback -->
+                      <div class="valid-feedback">{{_('Valid.')}}</div>
+                      <!-- And a class: invalid-feedback (Bootstrap class) -->
+                      <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+                </div>
+                <div class="form-group">
+                    <!-- Eamil -->
+                    <label for="email">البريد الالكتروني</label>
+                    <input type="email" class="form-control" id="form-email2" placeholder="البريد الالكتروني"  
+                        name="email" required>
+                      <!-- And add a class: valid-feedback -->
+                      <div class="valid-feedback">{{_('Valid.')}}</div>
+                      <!-- And a class: invalid-feedback (Bootstrap class) -->
+                      <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+                </div>
+                
               </div>
-              <div class="form-group col-md-6">
-                <label for="inputPassword4">Password</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+              <!-- second form row -->
+              <div class="flex-row">
+      
+                <div class="form-group">
+                  <!-- Label: first name -->
+                  <label for="phone_no">رقم الجوال</label>
+                  <!-- Input class: form-control and ID form-fname and name: fname -->
+                  <input type="text" class="form-control" id="form-phone_no2" placeholder="رقم الجوال"  
+                      name="phone_no" required>
+                      <!-- And add a class: valid-feedback -->
+                  <div class="valid-feedback">{{_('Valid.')}}</div>
+                  <!-- And a class: invalid-feedback (Bootstrap class) -->
+                  <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
               </div>
+              <div class="form-group">
+                  <!-- Lastname -->
+                  <label for="uname">صلة القرابة للطفل</label>
+                  <select  class="form-control" id="batchTrackTwo"  required></select>
+                    <!-- And add a class: valid-feedback -->
+                    <div class="valid-feedback">{{_('Valid.')}}</div>
+                    <!-- And a class: invalid-feedback (Bootstrap class) -->
+                    <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+              </div>
+              <div class="form-group">
+                  <!-- Eamil -->
+                  <label for="email">العنوان</label>
+                  <input type="text" class="form-control" id="form-address2" placeholder="العنوان"
+                      name="email" required>
+                    <!-- And add a class: valid-feedback -->
+                    <div class="valid-feedback">{{_('Valid.')}}</div>
+                    <!-- And a class: invalid-feedback (Bootstrap class) -->
+                    <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+              </div>
+            </div>
+            <!-- third form row -->
+            <div class="flex-row">
+      
+              <div class="form-group">
+                <!-- Label: first name -->
+                <label for="fname">الجنسية</label>
+                <!-- Input class: form-control and ID form-fname and name: fname -->
+                <select  class="form-control" id="genderSelectTwo" required></select>
+                    <!-- And add a class: valid-feedback -->
+                <div class="valid-feedback">{{_('Valid.')}}</div>
+                <!-- And a class: invalid-feedback (Bootstrap class) -->
+                <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
             </div>
             <div class="form-group">
-              <label for="inputAddress">Address</label>
-              <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
+              <!-- Lastname -->
+              <label for="uname">الفرع المفضل</label>
+              <select  class="form-control" id="favorite-branch2" required></select>
+              <!-- And add a class: valid-feedback -->
+                <div class="valid-feedback">{{_('Valid.')}}</div>
+                <!-- And a class: invalid-feedback (Bootstrap class) -->
+                <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+              </div>
             <div class="form-group">
-              <label for="inputAddress2">Address 2</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
-              </div>
-              <div class="form-group col-md-4">
-                <label for="inputState">State</label>
-                <select id="inputState" class="form-control">
-                  <option selected>Choose...</option>
-                  <option>...</option>
-                </select>
-              </div>
-              <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                  Check me out
-                </label>
-              </div>
-            </div>
-            <button type="submit" class="btn" style="background-image: linear-gradient(to right, #7311EA , #523D82); color: #fff">Continue</button>
-          </form>
+                <!-- Lastname -->
+                <label for="uname">تاريخ الميلاد</label>
+                <input type="date" class="form-control" id="datePicker2" required>
+                  <!-- And add a class: valid-feedback -->
+                  <div class="valid-feedback">{{_('Valid.')}}</div>
+                  <!-- And a class: invalid-feedback (Bootstrap class) -->
+                  <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+                </div>
+            
+          </div>
+           
+                  </section>
+          <!-- /End of section 2 -->
+          
+          <section id="step-3"> 
+            <h5 class="h5 text-center" style="font-weight: bold;">اضف معلومات الطفل</h5>
+            <!-- first form row -->
     
+            <div >
+    
+                <div class="form-group">
+                  <!-- Label: first name -->
+                  <label for="fname">الاسم الاول</label>
+                  <!-- Input class: form-control and ID form-fname and name: fname -->
+                  <input type="text" class="form-control" id="form-fname3" placeholder="الاسم الاول" 
+                      name="fname" required>
+                      <!-- And add a class: valid-feedback -->
+                  <div class="valid-feedback">{{_('Valid.')}}</div>
+                  <!-- And a class: invalid-feedback (Bootstrap class) -->
+                  <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+              </div>
+              
+              <div class="form-group">
+                <!-- Label: first name -->
+                <label for="fname">اكتب بعض الشخصيات المفضلة للطفل</label>
+                <!-- Input class: form-control and ID form-fname and name: fname -->
+                <textarea
+                class="form-control"
+                  name="textarea"
+                  rows="5"
+                  cols="30"
+                  placeholder="اكتب بعض الشخصيات المفضلة للطفل"></textarea>
+    
+                    <!-- And add a class: valid-feedback -->
+                <div class="valid-feedback">{{_('Valid.')}}</div>
+                <!-- And a class: invalid-feedback (Bootstrap class) -->
+                <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+            </div>
+            </div>
+            <!-- second form row -->
+        <div class="flex-row">
+
+          <div class="form-group">
+            <!-- Lastname -->
+            <label for="uname">تاريخ الميلاد</label>
+            <input type="date" class="form-control" id="datePicker2" required>
+              <!-- And add a class: valid-feedback -->
+              <div class="valid-feedback">{{_('Valid.')}}</div>
+              <!-- And a class: invalid-feedback (Bootstrap class) -->
+              <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+            </div>
+          </div>
+          <!-- third form row -->
+          <div class="flex-row">
+    
+            <div class="form-group">
+              <!-- Label: first name -->
+              <label for="fname">الجنس</label>
+              <!-- Input class: form-control and ID form-fname and name: fname -->
+              <select  class="form-control" id="genderSelectthree" required></select>
+                  <!-- And add a class: valid-feedback -->
+              <div class="valid-feedback">{{_('Valid.')}}</div>
+              <!-- And a class: invalid-feedback (Bootstrap class) -->
+              <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+          </div>
+        </div>
+          <div class="flex-row">
+    
+            <div class="form-group">
+              <!-- Label: first name -->
+              <label for="fname">المدرسة</label>
+              <!-- Input class: form-control and ID form-fname and name: fname -->
+              <input type="text" class="form-control" id="school" placeholder="المدرسة" 
+              name="fname" required>
+                  <!-- And add a class: valid-feedback -->
+              <div class="valid-feedback">{{_('Valid.')}}</div>
+              <!-- And a class: invalid-feedback (Bootstrap class) -->
+              <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+          </div>
+        </div>       
+        <div class="flex-row">
+    
+          <div class="form-group">
+            <!-- Label: first name -->
+            <label for="fname">اللون المفضل</label>
+            <!-- Input class: form-control and ID form-fname and name: fname -->
+            <input type="text" class="form-control" id="color" placeholder="اللون المفضل" 
+            name="fname" required>
+                <!-- And add a class: valid-feedback -->
+            <div class="valid-feedback">{{_('Valid.')}}</div>
+            <!-- And a class: invalid-feedback (Bootstrap class) -->
+            <div class="invalid-feedback">{{_('Please fill out this field.')}}</div>
+        </div>
+      </div>      
+                </section>
+          <!-- /End of section 3 -->
+          <div class="containerp">
+            <button id="prev" type="button" class="btn btn-primary" style="background-image: linear-gradient(to right, #7311EA , #523D82); color: #fff">السابق</button>
+            <button id="next" type="button" style="background-image: linear-gradient(to right, #7311EA , #523D82); color: #fff" class="btn btn-primary">استمرار</button>
+            <div class="popup" id="popup">
+              <h2>تمت إضافة معلوماتك بنجاح</h2>
+              <p>هل تريد إضافة مرافق أخر لطفلك ؟</p>
+              <button id="yes" type="button" >نعم</button>
+              <button id="no" type="button" >لا</button>
+            </div>  
+          
+          </div>
+          <!-- Button preview (Back) with ID: of prev-->
+          <!-- Button next and submit with ID: next -->
+          <!-- <button id="next" type="button" class="btn btn-primary" style="background-image: linear-gradient(to right, #7311EA , #523D82); color: #fff">Next</button> -->
+          </form>
+
+    
+        </div>
     </section>
+    
 </div>
+{% endif %}
+
+
+<script>
+
+	frappe.ready(function(){
+		document.querySelector(".page-footer").innerHTML = `<div class="left-images">
+	<div class="d-flex align-items-end" style="border-top: 3px solid #000;margin: 8rem 0px 0;">
+	  <div>
+		<img src="/files/3-Logo-L.png" width="100" height="100">
+	  </div>
+	  <div style="font-weight: bold; font-size: .8rem;">
+		<a href="mailto:info@vim.sa (+ 966) 800-244-0306" style="color: black;">info@vim.sa (+ 966) 800-244-0306</a>
+	  </div> 
+	</div>
+  </div>`
+	})
+</script>
  {% endblock %}

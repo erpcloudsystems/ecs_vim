@@ -9,7 +9,9 @@ let frappe_call = (args) => {
         callback: function(r) {
             if (r) {
                 if (r.message[0].status == "V") {
+                    frappe.model.set_value("Session OTP Users", args.session_doc, "verified", 1);
                     window.location.href = frappe.utils.sanitise_redirect(r.message[1]);
+                    
 
                 } else {
                     alert(r.message[0].remarks)

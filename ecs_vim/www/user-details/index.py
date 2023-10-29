@@ -1,114 +1,65 @@
-# import frappe
-# from ecs_vim.ecs_vim.api import create_customer_or_supplier
-# def get_context(context):
-#     from frappe.contacts.doctype.contact.contact import get_contact_name
-#     import string
-#     import random
-#     user = frappe.session.user
-#     ignore_links=False 
-#     ignore_mandatory=False    
-#     # initializing size of string
-#     N = 7
+import frappe
+
+from ecs_vim.api import create_customer_or_supplier
+from frappe.rate_limiter import rate_limit
+
+def get_context(context):
+    user = frappe.get_doc("User", frappe.session.user)  
+    context.access = True
+    # if user.name == "Guest" or not frappe.db.exists("Session OTP Users", {"verified":1, "user":user.name,"phone_no":user.mobile_no}):
+    if user.name == "Guest" :
+        context.access = False
+        return context
+    create_customer_or_supplier()
+    prepare_input_values(context, user)
+
+
+def prepare_input_values(context, user):
+    customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no, "custom_user":user.name})
+    # no he have customer and user docs
+    # initialize DOM inputs
+    context.first_name = user.first_name or ""
+    context.last_name  = user.last_name or ""
+    context.email  = user.email or ""
+    context.mobile_no  = user.mobile_no or ""
+    context.custom_finished_details  = customer.custom_finished_details
+
     
-#     # using random.choices()
-#     # generating random strings
-#     res = ''.join(random.choices(string.ascii_uppercase +
-#                                 string.digits, k=N))
-#     if user.name in ["Administrator", "Guest"]:
-#         return
-#     try:
-#         create_customer_or_supplier()
-#     except:
-#         doc = frappe.get_doc({
-#             'doctype': 'Task',
-#             'title': res
-#         })
-#         doc.insert()
-#     mobile_no = frappe.db.get_value("User", {"email_id": user.email_id}, "mobile_no")
-#     # mobile_contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no })
-#     # if mobile_contact_name and user.email:
-#     # 	mob_contact =  frappe.get_doc("Contact", mobile_contact_name)
-#     # 	mob_contact.add_email(user.email, is_primary=True)
-#     # 	mob_contact.save(ignore_permissions=True)
+@frappe.whitelist(allow_guest=True)
+@rate_limit(limit=20000, seconds=24 * 60 * 60)
+def verify_account():
 
-#     for d in frappe.get_list(
-#         "Contact",
-#         fields=("name"),
-#         or_filters={"email_id": user.email, "user": user.email, "mobile_no": mobile_no},
-#     ):
-#         contact_name = frappe.db.get_value("Contact", d.name)
-#         if contact_name:
-#             contact = frappe.get_doc("Contact", contact_name)
-#             doctypes = [d.link_doctype for d in contact.links]
-#             tosave = False
-#             if not contact.mobile_no:
-#                 contact.mobile_no = mobile_no
-#                 tosave = True
-#             if not contact.email_id or not contact.user:
-#                 contact.email_id = user
-#                 contact.user = user
-#                 contact.add_email(user, is_primary=True)
-#                 tosave = True
-#             if tosave:
-#                 contact.save(ignore_permissions=True)
-#                 frappe.db.commit()
-#                 return
+    user = frappe.session.user
+    contact = frappe.get_doc("Contact", {"user":user})
+    verification_status = {}
+    for row in contact.email_ids:
+        verification_status["email"] = row.email_id
+        verification_status["email_verified"] = row.custom_is_verified
+    
+    for row in contact.phone_nos:
+        verification_status["mobile_no"] = row.phone
+        verification_status["mobile_no_verified"] = row.custom_is_verified
 
-#     contact_name = get_contact_name(user.email)
-#     if not contact_name:
-#         contact = frappe.get_doc(
-#             {
-#                 "doctype": "Contact",
-#                 "first_name": user.first_name,
-#                 "last_name": user.last_name,
-#                 "user": user.name,
-#                 "gender": user.gender,
-#             }
-#         )
+    return verification_status
 
-#         if user.email:
-#             contact.add_email(user.email, is_primary=True)
+@frappe.whitelist(allow_guest=True)
+@rate_limit(limit=20000, seconds=24 * 60 * 60)
+def finished_details():
 
-#         if user.phone:
-#             contact.add_phone(user.phone, is_primary_phone=True)
+    user = frappe.session.user
+    if user != "Guest":
 
-#         if user.mobile_no:
-#             contact.add_phone(user.mobile_no, is_primary_mobile_no=True)
-#         contact.insert(
-#             ignore_permissions=True,
-#             ignore_links=ignore_links,
-#             ignore_mandatory=ignore_mandatory,
-#         )
-#     else:
-#         contact = frappe.get_doc("Contact", contact_name)
-#         contact.first_name = user.first_name
-#         contact.last_name = user.last_name
-#         contact.gender = user.gender
+        customer = frappe.get_doc("Customer", {"custom_user":user})
+        customer.custom_finished_details = 1
+        customer.flags.ignore_mandatory = True
+        customer.save(ignore_permissions=True)
 
-#         # Add mobile number if phone does not exists in contact
-#         if user.phone and not any(
-#             new_contact.phone == user.phone for new_contact in contact.phone_nos
-#         ):
-#             # Set primary phone if there is no primary phone number
-#             contact.add_phone(
-#                 user.phone,
-#                 is_primary_phone=not any(
-#                     new_contact.is_primary_phone == 1
-#                     for new_contact in contact.phone_nos
-#                 ),
-#             )
-
-#         # Add mobile number if mobile does not exists in contact
-#         if user.mobile_no and not any(
-#             new_contact.phone == user.mobile_no for new_contact in contact.phone_nos
-#         ):
-#             # Set primary mobile if there is no primary mobile number
-#             contact.add_phone(
-#                 user.mobile_no,
-#                 is_primary_mobile_no=not any(
-#                     new_contact.is_primary_mobile_no == 1
-#                     for new_contact in contact.phone_nos
-#                 ),
-#             )
-
-#         contact.save(ignore_permissions=True)
+@frappe.whitelist(allow_guest=True)
+def checked_finished_details():
+    user = frappe.session.user
+    if user != "Guest":
+        customer = frappe.get_doc("Customer", {"custom_user":user})
+        if customer.custom_finished_details == 1:
+            return "/customer-details"
+        return False
+    

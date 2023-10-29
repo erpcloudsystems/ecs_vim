@@ -11,10 +11,14 @@ class OTP():
         self.base_url = "http://REST.GATEWAY.SA/api/"
         self.api_id =  self.api_params.get("api_id")
         self.api_password =  self.api_params.get("api_password")
-        self.brand = self.api_params.get("sms_type")
-        self.phonenumber = phonenumber
+        self.brand = self.api_params.get("sms_text")
+        self.country_code = self.api_params.get("country_code")
         self.sender_id = self.api_params.get("sender_id")
-
+        self.phonenumber = self.clean(phonenumber)
+    def clean(self, phonenumber):
+        if phonenumber.startswith(self.country_code):
+            return phonenumber.removeprefix(self.country_code)
+        return phonenumber
     @staticmethod
     def get_api_params():
         parameters = frappe.get_doc("SMS Settings")
@@ -28,7 +32,7 @@ class OTP():
             "api_id": self.api_id,
             "api_password":self.api_password,
             "brand":self.brand,
-            "phonenumber":self.phonenumber,
+            "phonenumber":self.country_code  + self.phonenumber,
             "sender_id": self.sender_id,
         }
         response = requests.get(self.base_url + "Verify", params=params)
@@ -68,6 +72,8 @@ def get_context(context):
         otp = OTP(user_ip.phone_no)
         response = otp.send_otp()
         context.response = str(response)
+        context.country_code = otp.country_code
+        context.phonenumber = otp.phonenumber
         OTP.update_session_otp_status(user_ip, response)
     else:
         context.response = "Message Already sent Please Wait"
@@ -86,6 +92,11 @@ def verify_otp(otp, session_doc):
             response = OTP.checking_verification_status(session_otp_user, otp)
             if response:
                 user = frappe.get_doc("User", session_otp_user.user)
+                ## update contact verified
+                contact = frappe.get_doc("Contact", {"user":user.name})
+                contact_phone = frappe.get_doc("Contact Phone", {"parent":contact.name, "is_primary_mobile_no":1,"phone":session_otp_user.phone_no } )
+                contact_phone.custom_is_verified = 1
+                contact_phone.save(ignore_permissions=True)
                 return  response , user.reset_password()
             else:
                 return "Message Already sent Please Wait"

@@ -50,6 +50,15 @@ frappe.ui.form.on('POS Closing Entry', {
 	before_save: function(frm) {
         frappe.freeze
         frm.set_value("change_amount",0)
+		let new_pos_transactions = []
+		for (let row of frm.doc.pos_transactions) {
+			if (row["grand_total"] == 0){
+				row["grand_total"] = 0.00011
+			}
+			new_pos_transactions.push(row)
+			
+		}
+		frm.doc.pos_transactions  = new_pos_transactions
 		for (let row of frm.doc.pos_transactions) {
 			
 			frappe.db.get_doc("POS Invoice", row.pos_invoice).then(doc => {

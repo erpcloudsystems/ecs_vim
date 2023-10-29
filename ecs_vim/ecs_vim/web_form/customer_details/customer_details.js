@@ -10,11 +10,14 @@ frappe.ready(function() {
 	document.querySelector("#navbarSupportedContent").childNodes[3].appendChild(li)
 	// change the footer
 	document.querySelector(".page-footer").innerHTML = `<div class="left-images">
-	<img src=" /files/Asset 5.png" alt="Image 1" />
-	<p>
-	  <img src=" /files/Asset 6.png" alt="Image 2" />
-	  <span style="color: black">info@vim.sa (+ 966) 800-244-0306</span>
-	</p>
+	<div class="d-flex align-items-end" style="border-top: 3px solid #000">
+      <div>
+        <img src="/files/3-Logo-L.png" width="100" height="100">
+      </div>
+      <div style="font-weight: bold; font-size: .8rem;">
+        <a href="mailto:info@vim.sa (+ 966) 800-244-0306" style="color: black;">info@vim.sa (+ 966) 800-244-0306</a>
+      </div> 
+    </div>
   </div>`
   // change the logo in the navbar
   document.querySelector(".navbar-brand").innerHTML = `<img src="/files/Asset 4.png" href="/" alt="Logo" />`

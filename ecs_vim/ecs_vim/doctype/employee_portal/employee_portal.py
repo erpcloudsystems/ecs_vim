@@ -99,9 +99,14 @@ class EmployeePortal(Document):
                 "data": bi_data,
                 "link": [
                     {
-                        "label": _("Leave"),
+                        "label": _("Leave Request"),
                         "action": "form_route",
                         "method": "create_leave_request",
+                    },
+                    {
+                        "label": _("Attendance Request"),
+                        "action": "form_route",
+                        "method": "create_attendance_request",
                     },
                     {
                         "label": _("Late Coming"),
@@ -113,18 +118,9 @@ class EmployeePortal(Document):
                         "action": "form_route",
                         "method": "create_early_request",
                     },
+
                     {
-                        "label": _("Vacation Leave"),
-                        "action": "form_route",
-                        "method": "create_vacation_appl",
-                    },
-                    {
-                        "label": _("Vacation Rejoining"),
-                        "action": "form_route",
-                        "method": "create_vacation_rejoining_appl",
-                    },
-                    {
-                        "label": _("Overtime"),
+                        "label": _("Overtime Request"),
                         "action": "form_route",
                         "method": "create_ot_request",
                     },
@@ -332,8 +328,9 @@ class EmployeePortal(Document):
 
     @frappe.whitelist()
     def create_late_request(self):
-        clr_doc = frappe.new_doc("Late Coming Request")
+        clr_doc = frappe.new_doc("Excuse Request")
         clr_doc.employee = self.get("employee")
+        clr_doc.leave_type = "Late Coming"
         clr_doc.employee_name = frappe.db.get_value(
             "Employee", self.get("employee"), "employee_name"
         )
@@ -342,40 +339,19 @@ class EmployeePortal(Document):
 
     @frappe.whitelist()
     def create_early_request(self):
-        cer_doc = frappe.new_doc("Early Going Request")
+        cer_doc = frappe.new_doc("Excuse Request")
         cer_doc.employee = self.get("employee")
+        cer_doc.leave_type = "Early Going"
         cer_doc.employee_name = frappe.db.get_value(
             "Employee", self.get("employee"), "employee_name"
         )
 
         return cer_doc.as_dict()
 
-    @frappe.whitelist()
-    def create_vacation_appl(self):
-        vac_doc = frappe.new_doc("Vacation Leave Application")
-        vac_doc.employee_id = self.get("employee")
-        vac_doc.employee_name = frappe.db.get_value(
-            "Employee", self.get("employee"), "employee_name"
-        )
-
-        return vac_doc.as_dict()
-
-    @frappe.whitelist()
-    def create_vacation_rejoining_appl(self):
-        vac_rejoin_doc = frappe.new_doc("Vacation Rejoining")
-        vac_rejoin_doc.employee_id = self.get("employee")
-        vac_rejoin_doc.employee_name = frappe.db.get_value(
-            "Employee", self.get("employee"), "employee_name"
-        )
-        vac_rejoin_doc.company = frappe.db.get_value(
-            "Employee", self.get("employee"), "company"
-        )
-
-        return vac_rejoin_doc.as_dict()
 
     @frappe.whitelist()
     def create_ot_request(self):
-        ot_doc = frappe.new_doc("OT Request")
+        ot_doc = frappe.new_doc("Overtime Request")
         ot_doc.applicant = self.get("employee")
         ot_doc.applicant_name = frappe.db.get_value(
             "Employee", self.get("employee"), "employee_name"
@@ -387,7 +363,17 @@ class EmployeePortal(Document):
 
     @frappe.whitelist()
     def create_leave_request(self):
-        leave_doc = frappe.new_doc("Leave Request")
+        leave_doc = frappe.new_doc("Leave Application")
+        leave_doc.employee = self.get("employee")
+        leave_doc.employee_name = frappe.db.get_value(
+            "Employee", self.get("employee"), "employee_name"
+        )
+
+        return leave_doc.as_dict()
+
+    @frappe.whitelist()
+    def create_attendance_request(self):
+        leave_doc = frappe.new_doc("Attendance Request")
         leave_doc.employee = self.get("employee")
         leave_doc.employee_name = frappe.db.get_value(
             "Employee", self.get("employee"), "employee_name"

@@ -26,6 +26,9 @@ def on_submit(self, method):
     net_total = 0
     for trans in self.pos_transactions:
         doc = frappe.get_doc("POS Invoice", trans.pos_invoice)
+        if doc.grand_total == 0:
+            doc.grand_total = 0.00011
+            doc.save(ignore_permissions=True)
         grand_total += doc.grand_total
         net_total += doc.net_total
     if grand_total != self.grand_total or net_total != self.net_total:

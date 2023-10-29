@@ -1,0 +1,95 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+{% macro logo_section() %}
+<div class="page-card-head">
+	<img class="app-logo" src="{{ logo }}">
+	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
+</div>
+{% endmacro %}
+
+{% if not access %}
+<div class="flex-center">
+
+  <div class="card">
+    <p style="color: black;">Lost? <strong>{{_('Please Login in Or Sign Up first')}}</strong></p>
+    <p class="card-footer" style="color: black;"> <a href="/login#login" class=" text-white">{{ _("Have an account? Login") }}</a></p>
+    <p class="card-footer"> {{ _("Don't have an account?") }}
+      <a href="/login#signup">{{ _("Sign up") }}</a></p>
+  </div>
+</div>
+
+
+{% else %}
+{% if email_verified %}
+<label style="width: 100%;">
+  <input type="checkbox" class="alertCheckbox" autocomplete="off" />
+  <div class="alert warning">
+    <span class="alertClose">X</span>
+    <span class="alertText">Your Account {{email_verified}} Not Verified. we will send mail to you<a href=""> Verify Now?</a> 
+    <br class="clear"/></span>
+  </div>
+</label>
+{% endif %}
+<div class="containercontainer">
+
+    <div class="row">
+        <div class="left col-lg-4">
+          <div class="photo-left">
+            <img class="photo" src="/files/3-Logo-L.png"/>
+            <div class="active"></div>
+          </div>
+          <h4 class="name">{{first_name}} {{last_name}}</h4>
+          <p class="info">{{username}}</p>
+          <p class="info">{{email}}</p>
+          <div class="stats row">
+            <div class="stat col-xs-4">
+              <p class="number-stat">{{adults_count}}</p>
+              <p class="desc-stat">Adults</p>
+            </div>
+            <div class="stat col-xs-4">
+              <p class="number-stat">{{childrens_count}}</p>
+              <p class="desc-stat">Childrens</p>
+            </div>
+            <div class="stat col-xs-4">
+              <p class="number-stat">1</p>
+              <p class="desc-stat">Coupons</p>
+            </div>
+          </div>
+          <p class="desc"> Coupons : xxxxx</p>
+          <div class="social">
+            <i class="fa fa-facebook-square" aria-hidden="true"></i>
+            <i class="fa fa-twitter-square" aria-hidden="true"></i>
+            <i class="fa fa-pinterest-square" aria-hidden="true"></i>
+            <i class="fa fa-tumblr-square" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="right col-lg-8">
+          <ul class="navnav">
+            <li>Adults</li>
+            <li>Childrens</li>
+            <li>Coupons</li>
+            <li>About</li>
+          </ul>
+          <span class="follow">Add New</span>
+          <div class="row gallery">
+            {% for row in customer_family_detail %}
+
+            <div class="col-md-4" style="display: flex;justify-content: center;">
+
+              <div class="card">
+                <div class="category"> {{row.person_name}}</div>
+                <div class="heading"> Relation / {{row.relation}}
+                    <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
+                </div>
+            </div>
+            </div>
+
+            {% endfor %}
+           
+          </div>
+        </div>
+  </div>
+</div>
+  {% endif %}
+    {% endblock %}

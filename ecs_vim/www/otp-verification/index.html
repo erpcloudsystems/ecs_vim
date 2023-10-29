@@ -7,10 +7,7 @@
 	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
 </div>
 {% endmacro %}
-{{response}}
-{{docname}}
-{{phone_no}}
-{{sent}}
+
 <div style="display: flex; justify-content: center;  align-items: center; height: 80vh;">
 
     <section class='for-signup' style="width: 30%; padding: 5rem 1rem; border-radius: 1rem; background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
@@ -43,4 +40,19 @@
     
     </section>
 </div>
+<script>
+
+	frappe.ready(function(){
+		document.querySelector(".page-footer").innerHTML = `<div class="left-images">
+	<div class="d-flex align-items-end" style="border-top: 3px solid #000;margin: 8rem 0px 0;">
+	  <div>
+		<img src="/files/3-Logo-L.png" width="100" height="100">
+	  </div>
+	  <div style="font-weight: bold; font-size: .8rem;">
+		<a href="mailto:info@vim.sa (+ 966) 800-244-0306" style="color: black;">info@vim.sa (+ 966) 800-244-0306</a>
+	  </div> 
+	</div>
+  </div>`
+	})
+</script>
  {% endblock %}
