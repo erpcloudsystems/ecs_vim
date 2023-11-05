@@ -3,13 +3,15 @@
  * Description:
  * Author: Chris Shabani Muswamba (smstudio)
  */
+frappe.dom.freeze()
 frappe.call({
     method: "ecs_vim.www.user-details.index.checked_finished_details",
     callback: function(r){
-        console.log(r)
         if (r.message){
 
             window.location.href = frappe.utils.sanitise_redirect(r.message);
+        }else{
+            frappe.dom.unfreeze()
         }
     },
     freeze: true,
@@ -29,7 +31,7 @@ step2.style.display = "none";
 // Step 3 display: none 
 step3.style.display = "none";
 
-//Inptus 
+//Inputs 
 var fname = document.getElementById("form-fname");
 var lname = document.getElementById("form-lname");
 var email = document.getElementById("form-email");
@@ -41,7 +43,7 @@ var datePicker = document.getElementById("datePicker");
 var phone = document.getElementById('form-phone');
 // step two inputs
 
-//Inptus 
+//Inputs 2
 var fname2 = document.getElementById("form-fname2");
 var lname2 = document.getElementById("form-lname2");
 var email2 = document.getElementById("form-email2");
@@ -51,6 +53,14 @@ var formAddress2 = document.getElementById("form-address2");
 var genderSelectTwo2 = document.getElementById("genderSelectTwo");
 var datePicker2 = document.getElementById("datePicker2");
 var phone2 = document.getElementById('form-phone2');
+
+//Inputs 3
+var fname3 = document.getElementById("form-fname3");
+var favoriteCharacter = document.getElementById("favorite-character");
+var datePicker3 = document.getElementById("datePicker3");
+var genderSelectid = document.getElementById("genderSelectthree");
+var school = document.getElementById("school");
+var favoriteColor = document.getElementById("favorite-color");
 
 // Define form and prevent default submittion 
 let form = document.getElementById("stepper-form").addEventListener("click", (e) => {
@@ -103,6 +113,27 @@ progressBar.style.width = "75%";
 progressBar.style.backgroundColor = "lightgreen";
 // Set progress bar innerHTML text to = 98%
 progressBar.innerHTML = "75%";
+let innerDivv = document.getElementById('other-color')
+innerDivv.style.display = "none"
+
+const select = document.getElementById('favorite-color');
+
+select.addEventListener('change', function handleChange(event) {
+  if (event.target.value == "Other") {
+    let innerDivv = document.getElementById('other-color')
+    // Now create and append to iDiv
+    innerDivv.style.display = "flex"
+  } else {
+    let innerDivv = document.getElementById('other-color')
+
+    if (innerDivv !== null) {
+        innerDivv.style.display = "none"
+    }
+    
+  }
+
+});
+
 }
 let appendToUL = (value)=> {
             let ul = document.createElement('ul');
@@ -137,8 +168,8 @@ const getcheckEmailVerification = async () => {
         method: "ecs_vim.www.user-details.index.verify_account",
         callback: function(r) {
             if (r) {
-               console.log(r)
-            if (r["message"]["emailemail_verified"] && r["message"]["mobile_no_verified"]) {
+                if (r["message"]["email_verified"] && r["message"]["mobile_no_verified"]) {
+                    console.log(r)  
 
                 //Set progress bar width
                 progressBar.style.width = "100%";
@@ -146,9 +177,8 @@ const getcheckEmailVerification = async () => {
                 progressBar.style.backgroundColor = "green";
                 // Change the progress innnerHTML = 100%
                 progressBar.innerHTML = "100%";
-                
                 //Change the innerHTML text = submit
-                next.innerHTML = "Submit";
+                next.innerHTML = "تسجيل";
             } 
             
             if (!r["message"]["email_verified"]) {
@@ -164,7 +194,7 @@ const getcheckEmailVerification = async () => {
                 progressBar.innerHTML = "85%";
                 
                 //Change the innerHTML text = submit
-                next.innerHTML = "Submit";
+                next.innerHTML = "تسجيل";
             }
             if (!r["message"]["mobile_no_verified"]) {
                 appendToUL(`Mobile Number ${r["message"]["mobile_no"]} `)
@@ -175,7 +205,7 @@ const getcheckEmailVerification = async () => {
                 progressBar.innerHTML = "85%";
                 
                 //Change the innerHTML text = submit
-                next.innerHTML = "Submit";
+                next.innerHTML = "تسجيل";
             }
 
             }
@@ -198,12 +228,18 @@ next.addEventListener("click", (event) => {
         // check all fields have value 
         let validDataRespnse = validData(fname, lname, email, phone_no, batchSelect, formAddress, gender, datePicker);
         if (validDataRespnse) {
-            alert("الرجاء ادخال باقي البيانات المطلوبه")
+            frappe.throw("الرجاء ادخال باقي البيانات المطلوبه")
         } else {
         // show popup confirm
         let popup = document.getElementById('popup')
         let yes = document.getElementById('yes')
         let no = document.getElementById('no')
+        let windowH = window.innerHeight;
+        if (windowH > 720){
+
+            window.scrollTo(0, 620);
+        }
+
         popup.classList.add('open-popup')
         yes.addEventListener("click", (event) => {
             closePopup()
@@ -221,7 +257,7 @@ next.addEventListener("click", (event) => {
     }else if (step2.style.display === "block" && step3.style.display === "none" && step1.style.display === "none" ) {
         let validDataRespnse = validData(fname2, lname2, email2, phone_no2, batchSelectTwo, formAddress2, genderSelectTwo2, datePicker2);
         if (validDataRespnse) {
-            alert("الرجاء ادخال باقي البيانات المطلوبه")
+            frappe.throw("الرجاء ادخال باقي البيانات المطلوبه")
         } else {
             renderStepthree()
 
@@ -233,21 +269,28 @@ next.addEventListener("click", (event) => {
         // check for email and mobile verification 
         // check for email and mobile verification 
         // check for email and mobile verification 
-        // check for email and mobile verification 
-        // check for email and mobile verification 
-        let stepperForm = document.getElementById("stepper-form").style.display = "none";
-            // let title = document.getElementById("main-section").innerHTML = 'لم يتم تفعيلة';
-            
-            checkEmailVerification()            
-            frappe.call({
-        method: "ecs_vim.www.user-details.index.finished_details",
-        callback: function(r){
+        let validDataRespnse = validData(fname3, favoriteCharacter, datePicker3, genderSelectid, school, favoriteColor, true, true);
+        if (validDataRespnse) {
+            frappe.throw("الرجاء ادخال باقي البيانات المطلوبه")
+        } else {
+        
 
-        },
-        freeze: true,
-        freeze_message: "Verifying Phone No",
-    });
-            return false;
+            let stepperForm = document.getElementById("stepper-form").style.display = "none";
+                // let title = document.getElementById("main-section").innerHTML = 'لم يتم تفعيلة';
+                
+                checkEmailVerification()            
+                frappe.call({
+                    method: "ecs_vim.www.user-details.index.finished_details",
+                    callback: function(r){
+    
+                    },
+                    freeze: true,
+                    freeze_message: "Verifying Phone No",
+                });
+                window.location.href = frappe.utils.sanitise_redirect("/customer-details");
+                return false;
+        }
+        // check for email and mobile verification 
             
             } 
     return false;
@@ -259,7 +302,7 @@ prev.addEventListener("click", () => {
   if (step3.style.display === "block" && step2.style.display === "none" && step1.style.display === "none") {
       step1.style.display = "none";
       step2.style.display = "block";
-      next.innerHTML = "Next";
+      next.innerHTML = "استمرار";
       next.disabled = false;
       //Set progress bar width
       progressBar.style.backgroundColor = "lightgreen";
@@ -297,13 +340,18 @@ function validData (a,b,c,d,e,f,g, h){
 //  relation input drop down list
 const batchTrack = document.getElementById("batchSelect");
 const getPost = async () => {
-    const response = await fetch("https://erp.vim.sa/api/resource/Family Relation");
+    const response = await fetch("https://erp.vim.sa/api/resource/Family Relation?order_by=order_sequence%20asc");
     const data = response.json();
     return data;
 };
 
 const displayOption = async () => {
     const options = await getPost();
+
+    const newOption = document.createElement("option");
+    newOption.value = "";
+    newOption.text = "";
+    batchTrack.appendChild(newOption);
     options.data.forEach(option => {
 
         const newOption = document.createElement("option");
@@ -338,13 +386,18 @@ displayGender();
 //  relation input drop down list
 const batchTrackTwo = document.getElementById("batchTrackTwo");
 const getPostTwo = async () => {
-    const response = await fetch("https://erp.vim.sa/api/resource/Family Relation");
+    const response = await fetch("https://erp.vim.sa/api/resource/Family Relation?order_by=order_sequence%20asc");
     const data = response.json();
     return data;
 };
 
 const displayOptionTwo = async () => {
     const options = await getPostTwo();
+    
+    const newOption = document.createElement("option");
+    newOption.value = "";
+    newOption.text = "";
+    batchTrackTwo.appendChild(newOption);   
     options.data.forEach(option => {
         const newOption = document.createElement("option");
         newOption.value = option.name;
@@ -396,7 +449,6 @@ const favoriteBranch = document.getElementById("favorite-branch");
 const getfavoriteBranch = async () => {
     const response = await fetch("https://erp.vim.sa/api/resource/Branch");
     const data = response.json();
-    console.log(data)
     return data;
 };
 
@@ -416,7 +468,6 @@ const favoriteBranch2 = document.getElementById("favorite-branch2");
 const getfavoriteBranch2 = async () => {
     const response = await fetch("https://erp.vim.sa/api/resource/Branch");
     const data = response.json();
-    console.log(data)
     return data;
 };
 
@@ -431,3 +482,258 @@ const displayfavoriteBranch2 = async () => {
     });
 };
 displayfavoriteBranch2();
+
+
+const country2 = document.getElementById("country2");
+const getcountry2 = async () => {
+    const response = await fetch("https://erp.vim.sa/api/resource/Country?order_by=custom_order_sequence%20asc");
+    const data = response.json();
+    return data;
+};
+
+const displaycountry2 = async () => {
+    const options = await getcountry2();
+    const newOption = document.createElement("option");
+    newOption.value = "";
+    newOption.text = "";
+    country2.appendChild(newOption);
+    options.data.forEach(option => {
+        const newOption = document.createElement("option");
+        newOption.value = option.name;
+        newOption.text = option.name;
+        country2.appendChild(newOption);
+
+    });
+};
+displaycountry2();
+
+
+const country = document.getElementById("country");
+const getcountry = async () => {
+    const response = await fetch("https://erp.vim.sa/api/resource/Country?order_by=custom_order_sequence%20asc");
+    const data = response.json();
+    return data;
+};
+
+const displaycountry = async () => {
+    const options = await getcountry();
+    const newOption = document.createElement("option");
+    newOption.value = "";
+    newOption.text = "";
+    country.appendChild(newOption);
+    options.data.forEach(option => {
+        const newOption = document.createElement("option");
+        newOption.value = option.name;
+        newOption.text = option.name;
+        country.appendChild(newOption);
+
+    });
+};
+displaycountry();
+
+
+const favorite = document.getElementById("favorite-color");
+const getfavorite = async () => {
+    const response = await fetch("https://erp.vim.sa/api/resource/Color");
+    const data = response.json();
+    return data;
+};
+
+const displayfavorite = async () => {
+    const options = await getfavorite();
+    const newOption = document.createElement("option");
+    newOption.value = "";
+    newOption.text = "";
+    favorite.appendChild(newOption);
+    options.data.forEach(option => {
+        const newOption = document.createElement("option");
+        newOption.value = option.name;
+        newOption.text = option.name;
+        favorite.appendChild(newOption);
+
+    });
+};
+displayfavorite();
+
+
+
+const favoritechar = document.getElementById("favorite-character");
+const getfavoritechar = async () => {
+    const response = await fetch("https://erp.vim.sa/api/resource/Cartoon Character");
+    const data = response.json();
+    return data;
+};
+
+const displayfavoritechar = async () => {
+    const options = await getfavoritechar();
+    const newOption = document.createElement("option");
+    newOption.value = "";
+    newOption.text = "";
+    favoritechar.appendChild(newOption);
+    options.data.forEach(option => {
+        const newOption = document.createElement("option");
+        newOption.value = option.name;
+        newOption.text = option.name;
+        favoritechar.appendChild(newOption);
+
+    });
+};
+displayfavoritechar();
+
+
+// multi select
+
+
+Array.prototype.search = function(elem) {
+    for(var i = 0; i < this.length; i++) {
+        if(this[i] == elem) return i;
+    }
+    
+    return -1;
+};
+
+var Multiselect = function(selector) {
+    if(!$(selector)) {
+        console.error("ERROR: Element %s does not exist.", selector);
+        return;
+    }
+
+    this.selector = selector;
+    this.selections = [];
+
+    (function(that) {
+        that.events();
+    })(this);
+};
+
+Multiselect.prototype = {
+    open: function(that) {
+        var target = $(that).parent().attr("data-target");
+
+        // If we are not keeping track of this one's entries, then
+        // start doing so.
+        if(!this.selections) {
+            this.selections = [ ];
+        }
+
+        $(this.selector + ".multiselect").toggleClass("active");
+    },
+
+    close: function() {
+        $(this.selector + ".multiselect").removeClass("active");
+    },
+
+    events: function() {
+        var that = this;
+
+        $(document).on("click", that.selector + ".multiselect > .title", function(e) {
+            if(e.target.className.indexOf("close-icon") < 0) {
+                that.open();
+            }
+        });
+
+        $(document).on("click", that.selector + ".multiselect option", function(e) {
+            var selection = $(this).attr("value");
+            var target = $(this).parent().parent().attr("data-target");
+
+            var io = that.selections.search(selection);
+
+            if(io < 0) that.selections.push(selection);
+            else that.selections.splice(io, 1);
+
+            that.selectionStatus();
+            that.setSelectionsString();
+        });
+
+        $(document).on("click", that.selector + ".multiselect > .title > .close-icon", function(e) {
+            that.clearSelections();
+        });
+
+        $(document).click(function(e) {
+            if(e.target.className.indexOf("title") < 0) {
+                if(e.target.className.indexOf("text") < 0) {
+                    if(e.target.className.indexOf("-icon") < 0) {
+                        if(e.target.className.indexOf("selected") < 0 ||
+                           e.target.localName != "option") {
+                            that.close();
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    selectionStatus: function() {
+        var obj = $(this.selector + ".multiselect");
+
+        if(this.selections.length) obj.addClass("selection");
+        else obj.removeClass("selection");
+    },
+
+    clearSelections: function() {
+        this.selections = [];
+        this.selectionStatus();
+        this.setSelectionsString();
+    },
+
+    getSelections: function() {
+        return this.selections;
+    },
+
+    setSelectionsString: function() {
+        var selects = this.getSelectionsString().split(", ");
+        $(this.selector + ".multiselect > .title").attr("title", selects);
+
+        var opts = $(this.selector + ".multiselect option");
+
+        if(selects.length > 6) {
+            var _selects = this.getSelectionsString().split(", ");
+            _selects = _selects.splice(0, 6);
+            $(this.selector + ".multiselect > .title > .text")
+                .text(_selects + " [...]");
+        }
+        else {
+            $(this.selector + ".multiselect > .title > .text")
+                .text(selects);
+        }
+
+        for(var i = 0; i < opts.length; i++) {
+            $(opts[i]).removeClass("selected");
+        }
+
+        for(var j = 0; j < selects.length; j++) {
+            var select = selects[j];
+
+            for(var i = 0; i < opts.length; i++) {
+                if($(opts[i]).attr("value") == select) {
+                    $(opts[i]).addClass("selected");
+                    break;
+                }
+            }
+        }
+    },
+
+    getSelectionsString: function() {
+        if(this.selections.length > 0)
+            return this.selections.join(", ");
+        else return "Select";
+    },
+
+    setSelections: function(arr) {
+        if(!arr[0]) {
+            error("ERROR: This does not look like an array.");
+            return;
+        }
+
+        this.selections = arr;
+        this.selectionStatus();
+        this.setSelectionsString();
+    },
+};
+
+$(document).ready(function() {
+    var multi = new Multiselect("#countries");
+});
+
+
+// date 

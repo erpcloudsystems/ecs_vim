@@ -31,8 +31,29 @@
   </div>
 </label>
 {% endif %}
-<div class="containercontainer">
 
+{% if not first_login %}
+<div style="display: flex; justify-content: center;">
+  <label >
+    <input type="checkbox" class="alertCheckbox" autocomplete="off" />
+    <div class="alert congratz">
+      <span class="alertClose">X</span>
+      <span class="alertText">
+        <span style="font-size: 19pts;">
+
+          مبروك اكملت التسجيل بنجاح
+        </span>
+  <br>
+  <br>
+  سيصلك كود خصم ٥٠ ريال على بريدك الالكتروني
+      <br class="clear"/></span>
+    </div>
+  </label>
+</div>
+{% endif %}
+
+
+<div class="containercontainer">
     <div class="row">
         <div class="left col-lg-4">
           <div class="photo-left">
@@ -52,11 +73,14 @@
               <p class="desc-stat">Childrens</p>
             </div>
             <div class="stat col-xs-4">
-              <p class="number-stat">1</p>
+              <p class="number-stat">{{list_of_coupons|length}}</p>
               <p class="desc-stat">Coupons</p>
             </div>
           </div>
-          <p class="desc"> Coupons : xxxxx</p>
+          {% if coupon_code %}
+          <p class="desc"> Available Coupon : {{coupon_code}}</p>
+          
+          {% endif %}
           <div class="social">
             <i class="fa fa-facebook-square" aria-hidden="true"></i>
             <i class="fa fa-twitter-square" aria-hidden="true"></i>
@@ -65,26 +89,109 @@
           </div>
         </div>
         <div class="right col-lg-8">
-          <ul class="navnav">
-            <li>Adults</li>
-            <li>Childrens</li>
-            <li>Coupons</li>
-            <li>About</li>
+          <ul class="navnav" id="nav_link">
+            <li class="underline" id="1">Adults</li>
+            <li id="2">Childrens</li>
+            <li id="3">Coupons</li>
+            <li id="4">Contact Us</li>
           </ul>
           <span class="follow">Add New</span>
-          <div class="row gallery">
+          <div class="row gallery show one">
             {% for row in customer_family_detail %}
+                {% if row.relation != "self" %}
+                  {% if row.relation not in  ["Son", "Daughter"] %}
+                      <div class="col-md-4" style="display: flex;justify-content: center;">
+                            <div class="card">
+                              <div class="category"> {{row.person_name}}</div>
+                              <div class="heading"> Relation / {{row.relation}}
+                                  <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
+                              </div>
+                          </div>
+                      </div>
+                  {% endif %}
+                {% endif %}        
+            {% endfor %}
+          </div>
 
-            <div class="col-md-4" style="display: flex;justify-content: center;">
+          <div class="row gallery two">
+            {% for row in customer_family_detail %}
+                {% if row.relation != "self" %}
+                  {% if row.relation in  ["Son", "Daughter"] %}
+                      <div class="col-md-4" style="display: flex;justify-content: center;">
+                            <div class="card">
+                              <div class="category"> {{row.person_name}}</div>
+                              <div class="heading"> 
+                                Relation / {{row.relation}}
+                                  <div class="author"> Mobile No <span class="name">
+                                    {% if row.phone_no %}
 
-              <div class="card">
-                <div class="category"> {{row.person_name}}</div>
-                <div class="heading"> Relation / {{row.relation}}
-                    <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
+                                    {{row.phone_no}}
+                                  {% else %}
+                                  --
+                                  {% endif %}
+                                  </span> <br> {{row.creation}}</div>
+                              </div>
+                          </div>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                 
+          
+                  
+            {% endfor %}
+           
+          </div>
+          <div class="row gallery three">
+            {% for row in list_of_coupons %}
+                <div class="col-md-4" style="display: flex;justify-content: center;">
+                      <div class="card">
+                        <div class="category"> {{row.pricing_rule}}</div>
+                        <div class="heading">Coupon Code {{row.coupon_code}}
+                            <div class="author"> Maximum Use <span class="name">{{row.maximum_use}}</span> <br>
+                              {% if row.used %}
+                               <span style="color: red;">Used</span>
+                               {% else %}
+                               <span style="color: green;">Available</span>
+
+                                {% endif %}
+
+                              </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            </div>
-
+            {% endfor %}
+           
+          </div>
+          <div class="row gallery four">
+            {% for row in customer_family_detail %}
+                {% if row.relation != "self" %}
+                <div class="col-md-4" style="display: flex;justify-content: center;">
+                      <div class="card">
+                        <div class="category"> {{row.person_name}}</div>
+                        <div class="heading"> Relation / {{row.relation}}
+                            <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
+                        </div>
+                    </div>
+                </div>
+                  {% endif %}
+                  <div class="col-md-4" style="display: flex;justify-content: center;">
+                    <div class="card">
+                      <div class="category"> {{row.person_name}}</div>
+                      <div class="heading"> Relation / {{row.relation}}
+                          <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4" style="display: flex;justify-content: center;">
+                <div class="card">
+                  <div class="category"> {{row.person_name}}</div>
+                  <div class="heading"> Relation / {{row.relation}}
+                      <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
+                  </div>
+              </div>
+          </div>
+          
+                  
             {% endfor %}
            
           </div>

@@ -12,6 +12,14 @@ def get_context(context):
         return context
     create_customer_or_supplier()
     prepare_input_values(context, user)
+    user = frappe.session.user
+    if user != "Guest":
+        customer = frappe.get_doc("Customer", {"custom_user":user})
+        if customer.custom_finished_details == 1:
+            context.redirect = True 
+        context.redirect = False
+
+
 
 
 def prepare_input_values(context, user):

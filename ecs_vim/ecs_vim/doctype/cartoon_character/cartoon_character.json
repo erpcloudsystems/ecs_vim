@@ -1,33 +1,41 @@
 {
  "actions": [],
- "autoname": "field:relation",
- "creation": "2021-12-18 21:46:00.539791",
+ "allow_rename": 1,
+ "autoname": "field:hero_name",
+ "creation": "2023-10-30 12:47:08.119653",
+ "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "relation",
+  "hero_name",
+  "sub_hero_name",
   "order_sequence"
  ],
  "fields": [
   {
-   "fieldname": "relation",
+   "fieldname": "hero_name",
    "fieldtype": "Data",
-   "label": "Relation",
+   "label": "Hero Name",
    "unique": 1
+  },
+  {
+   "fieldname": "sub_hero_name",
+   "fieldtype": "Data",
+   "label": "Sub Hero Name"
   },
   {
    "fieldname": "order_sequence",
    "fieldtype": "Int",
-   "label": "Order"
+   "label": "Order Sequence"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-10-29 17:08:28.785696",
+ "modified": "2023-10-30 12:47:08.119653",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
- "name": "Family Relation",
+ "name": "Cartoon Character",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
@@ -46,6 +54,5 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "track_changes": 1
+ "states": []
 }
