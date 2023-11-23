@@ -64,7 +64,26 @@ passlibctx = CryptContext(
     ],
 )
 
-
+def get_sold_items(pos_profile, item_code, warehouse):
+    from datetime import datetime
+    from datetime import timedelta
+    import pytz
+    now = datetime.now(pytz.timezone('Asia/Riyadh'))
+    start_of_day = datetime(now.year,now.month,now.day)
+    delta_since_start_of_day = now - start_of_day.astimezone()
+    delta_till_end_of_day = timedelta(days=1) - delta_since_start_of_day
+    end_of_day = start_of_day + timedelta(days=1)
+    items = frappe.db.sql("""
+        SELECT 
+            sum(pos_items.qty) as qty
+        FROM `tabPOS Invoice` pos_inv
+        JOIN `tabPOS Invoice Item` pos_items ON pos_inv.name =  pos_items.parent 
+        where pos_inv.set_warehouse = "{set_warehouse}"
+        and pos_items.item_code = "{item_code}"
+        and pos_inv.creation between '{start_of_day}' and '{end_of_day}' 
+        and pos_inv.docstatus = 1
+    """.format(set_warehouse=warehouse,pos_profile=pos_profile,item_code=item_code,user=frappe.session.user,start_of_day=str(start_of_day),end_of_day=str(end_of_day) ), as_dict=1)
+    return items[0].qty or 0
 @frappe.whitelist()
 def get_pos_items(
     start, page_length, price_list, item_group, pos_profile, search_value=""
@@ -190,12 +209,13 @@ def get_pos_items(
             item_code = item.item_code
             item_price = item_prices.get(item_code) or {}
             item_bundle = item_bundles.get(item_code) or {}
-            if allow_negative_stock:
-                # item_stock_qty = get_stock_availability(item_code, warehouse)
-                item_stock_qty = get_stock_availability(item_code, warehouse)
-                # item_stock_qty = frappe.db.sql("""select ifnull(sum(actual_qty), 0) from `tabBin` where item_code = %s""", item_code)[0][0]
-            else:
-                item_stock_qty = get_stock_availability(item_code, warehouse)
+            item_stock_qty = get_sold_items(pos_profile, item_code, warehouse)
+            # if allow_negative_stock:
+            #     # item_stock_qty = get_stock_availability(item_code, warehouse)
+            #     item_stock_qty = get_stock_availability(item_code, warehouse)
+            #     # item_stock_qty = frappe.db.sql("""select ifnull(sum(actual_qty), 0) from `tabBin` where item_code = %s""", item_code)[0][0]
+            # else:
+            #     item_stock_qty = get_stock_availability(item_code, warehouse)
 
             row = {}
             row.update(item)

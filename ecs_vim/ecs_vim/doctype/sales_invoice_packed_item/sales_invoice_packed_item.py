@@ -770,6 +770,7 @@ def get_item_list_bundle(self):
             frappe.throw(_("Row {0}: Qty is mandatory").format(d.idx))
 
         if has_product_bundle(d.item_code):
+            frappe.msgprint(str(self.get("packed_items")))
             for p in self.get("packed_items"):
                 if p.parent_detail_docname == d.name and p.parent_item == d.item_code:
                     # the packing details table's qty is already multiplied with parent's qty

@@ -1,15 +1,14 @@
 frappe.ui.form.on('Sales Order', {
-    // onload_post_render:function(frm){
-    //     frm.set_query("item_code", "items", function() {
+    onload_post_render:function(frm){
+        frm.set_query("item_code", "items", function() {
             
-    //         return {
-    //             query: "erpnext.controllers.queries.item_query",
-    //             filters: {'is_sales_item': 1, 'is_fixed_asset':0,
-    //             'is_stock_item':1,
-    //             'has_variants':0}
-    //         }
-    //     });
-    // },
+            return {
+                query: "erpnext.controllers.queries.item_query",
+                filters: {'is_sales_item': 1, 'is_fixed_asset':0,
+                'has_variants':0}
+            }
+        });
+    },
    setup:function(frm){
     // frm.set_query("select_event", function() {
             
@@ -89,23 +88,24 @@ frappe.ui.form.on('Sales Order', {
        
         
     },
-    before_submit:function(frm){
-        if(frm.doc.delivery_date==undefined || (frm.doc.select_event==undefined || frm.doc.select_event=="")){
-            frappe.throw("Please Enter Visit Date,Select Event")
-            validated=false;
-            return true
-        }
-        if(cur_frm.doc.select_event==undefined || frm.doc.select_event==""){
-            frappe.throw("Please Select Event")
-            validated=false;
-            return true
-        }
-        // if(cur_frm.doc.select_slot==undefined){
-        //     frappe.throw("Please Select Slot")
-        //     validated=false;
-        //     return true
-        // }
-    },
+    // before_submit:function(frm){
+        
+    //     if(frm.doc.delivery_date==undefined || (frm.doc.select_event==undefined || frm.doc.select_event=="")){
+    //         frappe.throw("Please Enter Visit Date,Select Event")
+    //         validated=false;
+    //         return true
+    //     }
+    //     if(cur_frm.doc.select_event==undefined || frm.doc.select_event==""){
+    //         frappe.throw("Please Select Event")
+    //         validated=false;
+    //         return true
+    //     }
+    //     // if(cur_frm.doc.select_slot==undefined){
+    //     //     frappe.throw("Please Select Slot")
+    //     //     validated=false;
+    //     //     return true
+    //     // }
+    // },
     validate:function(frm){
         if(frm.doc.items){
             

@@ -76,7 +76,7 @@ img {
 
 body {
     /* BACKGROUND IMAGE */
-    background: url("https://cdn.pixabay.com/photo/2020/04/27/18/33/horse-5101069_960_720.jpg");
+    background: url("/files/photo_2023-11-08_11-09-22.jpg");
     background-size: cover;
     height: 100vh;
     opacity: 0.9;

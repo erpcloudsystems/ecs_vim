@@ -22,7 +22,8 @@
   "friday",
   "saturday",
   "weekend_days",
-  "rate_for_specific_date"
+  "rate_for_specific_date",
+  "branch"
  ],
  "fields": [
   {
@@ -128,14 +129,21 @@
    "fieldname": "allow_multiple_event",
    "fieldtype": "Check",
    "label": "Allow Multiple Event"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-22 18:30:21.860148",
+ "modified": "2023-11-23 11:58:20.066276",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
  "name": "Dimension Branch",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -162,5 +170,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }

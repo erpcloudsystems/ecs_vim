@@ -30,7 +30,7 @@ def get_context(context):
 
 
 def prepare_input_values(context, user):
-    customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no, "custom_user":user.name})
+    customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no})
     context.first_login = customer.custom_first_login
     # no he have customer and user docs
     # initialize DOM inputs

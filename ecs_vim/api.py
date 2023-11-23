@@ -172,6 +172,7 @@ def update_cart(
     delivery_date=None,
     brand=None,
     branch=None,
+    parent_branch=None,
     phone=None,
     uom=None,
     with_items=False,
@@ -343,6 +344,8 @@ def update_cart(
             # 		quotation.contact_display =""
 
             # quotation.contact_email = customer_user.email_id
+        if parent_branch:
+            quotation.custom_parent_branch = parent_branch
         if branch:
             quotation.branch = branch
             branch_warehouse = frappe.db.get_list(
@@ -596,6 +599,7 @@ def place_order(restapi=False, advance_amount=0, payment_status="", transactioni
         sales_order.payment_status = "Paid"
         sales_order.payment_invoice_id = transactionid
 
+    sales_order.custom_parent_branch = quotation.custom_parent_branch
     sales_order.insert()
     sales_order.flags.ignore_permissions = True
     sales_order.submit()
@@ -612,6 +616,7 @@ def get_branch_details(item_code=None):
         brand_list = frappe.db.get_value("Item", item_code, "dimension_brand")
 
     branch_list = frappe.db.get_list("Dimension Branch", fields=["name"], as_list=True)
+    parentbranchlist = frappe.db.get_list("Branch", fields=["name"], as_list=True)
     uom = []
     if item_code and item_code != "":
         Item = frappe.get_doc("Item", item_code)
@@ -630,6 +635,7 @@ def get_branch_details(item_code=None):
     # return {"brand_list":brand_list,"branch_list":branch_list,"city_list":city_list,"phone_list":phone_list}
     return {
         "brand_list": brand_list,
+        "parentbranchlist": parentbranchlist,
         "branch_list": branch_list,
         "phone_list": phone_list,
         "uom_list": uom,
@@ -641,9 +647,23 @@ def get_branch_list(brand):
     branch_list = frappe.db.get_list(
         "Dimension Branch", fields=["name"], filters={"brand": brand}, as_list=True
     )
+    parentbranchlist = frappe.db.get_list(
+        "Branch", fields=["name"], as_list=True
+    )
 
-    return {"branch_list": branch_list}
+    return {"branch_list": branch_list, "parentbranchlist": parentbranchlist}
 
+
+@frappe.whitelist(allow_guest=True)
+def get_branch_list_based(parent_branch):
+    branch_list = frappe.db.get_list(
+        "Dimension Branch", fields=["name"], filters={"branch": parent_branch}, as_list=True
+    )
+    parentbranchlist = frappe.db.get_list(
+        "Branch", fields=["name"], as_list=True
+    )
+
+    return {"branch_list": branch_list, "parentbranchlist": parentbranchlist}
 
 @frappe.whitelist(allow_guest=True)
 def get_customer(phone):

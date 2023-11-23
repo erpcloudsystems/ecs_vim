@@ -18,9 +18,12 @@ def before_validate(doc, method=None):
 @frappe.whitelist()
 def validate(doc, method=None):
     pass
+
+
 @frappe.whitelist()
 def on_submit(doc, method=None):
     pass
+
 @frappe.whitelist()
 def on_cancel(doc, method=None):
     pass

@@ -1,0 +1,125 @@
+{
+ "actions": [],
+ "creation": "2023-11-21 16:29:54.038934",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "parent_item",
+  "item_code",
+  "packed_quantity",
+  "set_no",
+  "combo_qty",
+  "quantity",
+  "default_item",
+  "parent_detail_docname",
+  "qty",
+  "pos_closing_entry",
+  "consolidated_invoice"
+ ],
+ "fields": [
+  {
+   "fieldname": "parent_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Parent Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "packed_quantity",
+   "fieldtype": "Float",
+   "label": "Packed Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "set_no",
+   "fieldtype": "Int",
+   "label": "Set No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "combo_qty",
+   "fieldtype": "Float",
+   "label": "Combo Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "default_item",
+   "fieldtype": "Check",
+   "label": "Default Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "parent_detail_docname",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Parent Detail docname",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pos_closing_entry",
+   "fieldtype": "Link",
+   "label": "POS Closing Entry",
+   "options": "POS Closing Entry",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "consolidated_invoice",
+   "fieldtype": "Link",
+   "label": "Consolidated Sales Invoice ",
+   "options": "Sales Invoice",
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-11-21 17:29:50.835434",
+ "modified_by": "Administrator",
+ "module": "Ecs Vim",
+ "name": "Selected Packed Items Invoice",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

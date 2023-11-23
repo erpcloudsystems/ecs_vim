@@ -6,6 +6,7 @@ from frappe.rate_limiter import rate_limit
 
 
 class OTP():
+
     def __init__(self, phonenumber):
         self.api_params = OTP.get_api_params()
         self.base_url = "http://REST.GATEWAY.SA/api/"
@@ -15,9 +16,18 @@ class OTP():
         self.country_code = self.api_params.get("country_code")
         self.sender_id = self.api_params.get("sender_id")
         self.phonenumber = self.clean(phonenumber)
+
     def clean(self, phonenumber):
+
+        removed_country_code = 0
         if phonenumber.startswith(self.country_code):
+            removed_country_code = 1
+            if phonenumber.startswith("0"):
+                return phonenumber.removeprefix("0")
             return phonenumber.removeprefix(self.country_code)
+        if phonenumber.startswith("0"):
+            return phonenumber.removeprefix("0")
+        
         return phonenumber
     @staticmethod
     def get_api_params():

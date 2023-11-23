@@ -2,8 +2,6 @@ frappe.ui.form.on('POS Closing Entry', {
 	posting_time:function(frm){
 		console.log(cur_frm.doc.__islocal	)
 
-		if (cur_frm.doc.__islocal === 1 ) {
-		console.log("Ss")
 		console.log(frm.doc.payment_reconciliation)
 
 			$.each(frm.doc.payment_reconciliation, function (i, v) {
@@ -34,7 +32,7 @@ frappe.ui.form.on('POS Closing Entry', {
 			})
 			});
 			cur_frm.refresh_fields()
-		}
+		
 	},
     pos_opening_entry(frm) {
 		frm.set_value("change_amount",0)

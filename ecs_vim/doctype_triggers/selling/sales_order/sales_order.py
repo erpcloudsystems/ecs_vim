@@ -72,6 +72,7 @@ def before_submit(self, method):
             if self.select_slot:
                 doc.slot = self.select_slot
             doc.note = note
+            doc.custom_parent_branch = self.custom_parent_branch
             doc.branch = self.branch
             doc.city = self.city
             doc.brand = self.brand

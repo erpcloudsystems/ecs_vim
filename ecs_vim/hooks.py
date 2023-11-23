@@ -996,3 +996,15 @@ _erp_user.create_customer_or_supplier = _vim_api.create_customer_or_supplier
 from frappe.core.doctype.user.user import User
 
 User.reset_password = _vim_api.reset_password
+
+import ecs_vim.override_pos_invoice_merge_log as _vim_override_pos_invoice_merge_log
+from erpnext.accounts.doctype.pos_invoice_merge_log.pos_invoice_merge_log import POSInvoiceMergeLog
+
+POSInvoiceMergeLog.merge_pos_invoice_into = _vim_override_pos_invoice_merge_log.merge_pos_invoice_into
+
+POSInvoiceMergeLog.process_merging_into_sales_invoice = _vim_override_pos_invoice_merge_log.process_merging_into_sales_invoice
+POSInvoiceMergeLog.process_merging_into_credit_note = _vim_override_pos_invoice_merge_log.process_merging_into_credit_note
+
+from erpnext.accounts.doctype.sales_invoice.sales_invoice import SalesInvoice
+
+SalesInvoice.update_packing_list = _vim_override_pos_invoice_merge_log.update_packing_list

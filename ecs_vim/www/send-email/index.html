@@ -7,4 +7,26 @@
 	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
 </div>
 {% endmacro %}
+{{name}}
+{{time_remaining}}
+{% if time_remaining == 0 %}
+<div style="display: flex;
+flex-direction: column;
+align-items: center;">
+
+	<p>Hi {{user}},</p>
+	<p style="direction: rtl;">تم إرسال بريد إلكتروني إلى {{user}} </p>
+    <span class="preheader">Email Can take up to 3 minutes to arrive so please be patient.</span>
+</div>
+{% else %}
+<div style="display: flex;
+flex-direction: column;
+align-items: center;">
+
+	<p>Hi {{user}},</p>
+    <span class="preheader">Email already sent please check email again after a minute or 2 .</span>
+	<p>You can resend mail after {{time_remaining}}</p>
+</div>
+{% endif %}
+
 {%endblock%}

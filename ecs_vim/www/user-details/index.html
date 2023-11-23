@@ -1,5 +1,4 @@
 {% extends "templates/web.html" %}
-
 {% block page_content %}
 {% macro logo_section() %}
 <div class="page-card-head">
@@ -8,13 +7,11 @@
 </div>
 {% endmacro %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-
 {% if not access %}
 <div class="flex-center">
-
   <div class="card">
-    <p>Lost? <strong>{{_('Please Login in Or Sign Up first')}}</strong></p>
-    <p class="card-footer"> <a href="/login#login" class=" text-white">{{ _("Have an account? Login") }}</a></p>
+    <p><strong>{{_('Please Login in Or Sign Up first')}}</strong></p>
+    <p class="card-footer"> <a href="/login#login" style="color: #674a9e!important;">{{ _("Have an account? Login") }}</a></p>
     <p class="card-footer"> {{ _("Don't have an account?") }}
       <a href="/login#signup">{{ _("Sign up") }}</a></p>
   </div>
@@ -413,8 +410,14 @@
 <script>
 
 	frappe.ready(function(){
-		document.querySelector(".page-footer").innerHTML = `<div class="left-images">
-	<div class="d-flex align-items-end" style="border-top: 3px solid #000;margin: 8rem 0px 0;">
+		document.querySelector(".page-footer").innerHTML = `<div class="left-images" style= "background-color: #674a9e;position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    width: 100%;">
+	<div class="d-flex align-items-end" style="border-top: 3px solid #000;">
 	  <div>
 		<img src="/files/3-Logo-L.png" width="100" height="100">
 	  </div>

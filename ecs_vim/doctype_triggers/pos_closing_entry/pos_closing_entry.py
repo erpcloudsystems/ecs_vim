@@ -6,42 +6,40 @@ from frappe import utils
 
 @frappe.whitelist()
 def before_update_after_submit(self, method):
-    grand_total = 0
-    net_total = 0
-    for trans in self.pos_transactions:
-        doc = frappe.get_doc("POS Invoice", trans.pos_invoice)
-        grand_total += doc.grand_total
-        net_total += doc.net_total
-    if grand_total != self.grand_total or net_total != self.net_total:
-        logerror(
-            status="Error",
-            resp="Invalid Closing Total" + self.name,
-            method="POS Closing",
-        )
-
+    # grand_total = 0
+    # net_total = 0
+    # for trans in self.pos_transactions:
+    #     doc = frappe.get_doc("POS Invoice", trans.pos_invoice)
+    #     grand_total += doc.grand_total
+    #     net_total += doc.net_total
+    # if grand_total != self.grand_total or net_total != self.net_total:
+    #     logerror(
+    #         status="Error",
+    #         resp="Invalid Closing Total" + self.name,
+    #         method="POS Closing",
+    #     )
+    pass
 
 @frappe.whitelist()
 def on_submit(self, method):
-    grand_total = 0
-    net_total = 0
-    for trans in self.pos_transactions:
-        doc = frappe.get_doc("POS Invoice", trans.pos_invoice)
-        if doc.grand_total == 0:
-            doc.grand_total = 0.00011
-            doc.save(ignore_permissions=True)
-        grand_total += doc.grand_total
-        net_total += doc.net_total
-    if grand_total != self.grand_total or net_total != self.net_total:
-        logerror(
-            status="Error",
-            resp="Invalid Closing Total("
-            + self.name
-            + "), Calculated Total: "
-            + str(grand_total)
-            + "Closing Total: "
-            + str(self.grand_total),
-            method="POS Closing",
-        )
+    # grand_total = 0
+    # net_total = 0
+    # for trans in self.pos_transactions:
+    #     doc = frappe.get_doc("POS Invoice", trans.pos_invoice)
+    #     grand_total += doc.grand_total
+    #     net_total += doc.net_total
+    # if grand_total != self.grand_total or net_total != self.net_total:
+    #     logerror(
+    #         status="Error",
+    #         resp="Invalid Closing Total("
+    #         + self.name
+    #         + "), Calculated Total: "
+    #         + str(grand_total)
+    #         + "Closing Total: "
+    #         + str(self.grand_total),
+    #         method="POS Closing",
+    #     )
+    pass
 
 
 def logerror(status=None, resp=None, method=None):

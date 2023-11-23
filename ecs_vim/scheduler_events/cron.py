@@ -4,4 +4,8 @@ from frappe import _
 
 frappe.whitelist()
 def cron():
-    pass
+    # cleaning packed_items
+    frappe.db.sql(f"""
+                DELETE FROM `tabPacked Item`
+                WHERE custom_pos_closing_entry IS NOT NULL
+        """)

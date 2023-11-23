@@ -12,9 +12,9 @@ def get_context(context):
         return context
     create_customer_or_supplier()
     prepare_input_values(context, user)
-    user = frappe.session.user
-    if user != "Guest":
-        customer = frappe.get_doc("Customer", {"custom_user":user})
+    user_session = frappe.session.user
+    if user_session != "Guest":
+        customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no})
         if customer.custom_finished_details == 1:
             context.redirect = True 
         context.redirect = False
@@ -23,7 +23,13 @@ def get_context(context):
 
 
 def prepare_input_values(context, user):
-    customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no, "custom_user":user.name})
+    if frappe.db.exists("Customer", {"mobile_no": user.mobile_no}):
+        customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no})
+        customer.custom_user == user.name
+        customer.save(ignore_permissions=True)
+    else:
+        customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no, "custom_user":user.name})
+
     # no he have customer and user docs
     # initialize DOM inputs
     context.first_name = user.first_name or ""
@@ -56,8 +62,9 @@ def finished_details():
 
     user = frappe.session.user
     if user != "Guest":
+        user = frappe.get_doc("User", frappe.session.user)  
 
-        customer = frappe.get_doc("Customer", {"custom_user":user})
+        customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no})
         customer.custom_finished_details = 1
         customer.flags.ignore_mandatory = True
         customer.save(ignore_permissions=True)
@@ -65,8 +72,10 @@ def finished_details():
 @frappe.whitelist(allow_guest=True)
 def checked_finished_details():
     user = frappe.session.user
-    if user != "Guest":
-        customer = frappe.get_doc("Customer", {"custom_user":user})
+    user = frappe.get_doc("User", frappe.session.user)  
+
+    if user.name != "Guest":
+        customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no})
         if customer.custom_finished_details == 1:
             return "/customer-details"
         return False
