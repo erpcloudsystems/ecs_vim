@@ -45,6 +45,16 @@ def prepare_input_values(context, user):
     context.custom_branch  = customer.custom_branch or ""
     context.dob  = customer.customer_family_detail[0].dob or "" if len(customer.customer_family_detail)>0 else ""
     context.custom_finished_details  = customer.custom_finished_details
+    context.first_name2 = ""
+    context.last_name2  = ""
+    context.email2  = ""
+    context.mobile_no2  = ""
+    context.relation2  = ""
+    context.address2  = ""
+    context.gender2  =  ""
+    context.nationality2  = ""
+    context.custom_branch2  = ""
+    context.dob2  = ""
     if len(customer.customer_family_detail)>1 and customer.customer_family_detail[1].adult:
         context.first_name2 = customer.customer_family_detail[1].first_name or ""
         context.last_name2  = customer.customer_family_detail[1].last_name or ""

@@ -20,7 +20,7 @@ def get_context(context):
             for row in contact.email_ids:
                 if row.email_id == frappe.session.user:
                     row.custom_is_verified = 1
-            email_sent.verified = 1
+                    email_sent.verified = 1
             contact.save(ignore_permissions=True)
             email_sent.save(ignore_permissions=True)
             frappe.db.commit()

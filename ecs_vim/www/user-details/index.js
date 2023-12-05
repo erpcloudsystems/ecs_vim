@@ -36,6 +36,7 @@ function  get_available_stock() {
 
 let updateCustomer = async (first_name, last_name, email_id, mobile_no, relation, customer_primary_address, gender, 
     territory, custom_branch, dob, page)=>{
+        console.log(page)
     let inputparams = {
         first_name,
         last_name,
@@ -55,7 +56,7 @@ let updateCustomer = async (first_name, last_name, email_id, mobile_no, relation
             inputparams:JSON.stringify(inputparams)
         },
         callback: function(r) {
-            
+            console.log(r)
         },
     });
 }

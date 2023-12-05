@@ -249,7 +249,7 @@ def make_contact(args, is_primary_contact=1):
         contact.add_email(args.get("email_id"), is_primary=True)
     if args.get("mobile_no") or mobile_no and not contact.mobile_no:
         contact.add_phone(args.get("mobile_no"), is_primary_mobile_no=True)
-    contact.save(ignore_permissions=True)
+    contact.db_update()
 
     return contact
 
