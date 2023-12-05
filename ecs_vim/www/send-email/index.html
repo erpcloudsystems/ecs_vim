@@ -7,8 +7,6 @@
 	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
 </div>
 {% endmacro %}
-{{name}}
-{{time_remaining}}
 {% if time_remaining == 0 %}
 <div style="display: flex;
 flex-direction: column;
@@ -25,7 +23,7 @@ align-items: center;">
 
 	<p>Hi {{user}},</p>
     <span class="preheader">Email already sent please check email again after a minute or 2 .</span>
-	<p>You can resend mail after {{time_remaining}}</p>
+	<span> try refresh after {{time_remaining}} to resend mail again</span>
 </div>
 {% endif %}
 

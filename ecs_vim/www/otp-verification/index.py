@@ -75,7 +75,13 @@ class OTP():
             return {"error": "no response found"}
 def get_context(context):
     # get current user session data
-    user_ip = frappe.get_doc("Session OTP Users", frappe.form_dict.docname)
+    if frappe.session.user != "Guest":
+        user_ip = frappe.get_doc("Session OTP Users", {"user":frappe.session.user})
+    else:
+        try:
+            user_ip = frappe.get_doc("Session OTP Users", frappe.form_dict.docname)
+        except :
+            raise "User Not Found"
     context.user_ip = user_ip
     
     if user_ip.phone_no and not user_ip.sent:
@@ -98,6 +104,20 @@ def verify_otp(otp, session_doc):
     user_ip = frappe.local.request_ip
     if frappe.db.exists("Session OTP Users", {"name":session_doc}):
         session_otp_user = frappe.get_doc("Session OTP Users", session_doc)
+        if session_otp_user.sent:
+            response = OTP.checking_verification_status(session_otp_user, otp)
+            if response:
+                user = frappe.get_doc("User", session_otp_user.user)
+                ## update contact verified
+                contact = frappe.get_doc("Contact", {"user":user.name})
+                contact_phone = frappe.get_doc("Contact Phone", {"parent":contact.name, "is_primary_mobile_no":1,"phone":session_otp_user.phone_no } )
+                contact_phone.custom_is_verified = 1
+                contact_phone.save(ignore_permissions=True)
+                return  response , user.reset_password()
+            else:
+                return "Message Already sent Please Wait"
+    elif frappe.db.exists("Session OTP Users", {"user":frappe.session.user}):
+        session_otp_user = frappe.get_doc("Session OTP Users", {"user":frappe.session.user})
         if session_otp_user.sent:
             response = OTP.checking_verification_status(session_otp_user, otp)
             if response:

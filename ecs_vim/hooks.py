@@ -986,12 +986,13 @@ _erp_utils.party_exists = _vim_api.party_exists
 
 
 import frappe.core.doctype.user.user as _erp_user
+import erpnext.portal.utils as _erp_utils
 
 _erp_user.create_contact = _vim_api.create_contact
 
 _erp_user.create_party_contact = _vim_api.create_party_contact
 
-_erp_user.create_customer_or_supplier = _vim_api.create_customer_or_supplier
+_erp_utils.create_customer_or_supplier = _vim_api.create_customer_or_supplier
 
 from frappe.core.doctype.user.user import User
 

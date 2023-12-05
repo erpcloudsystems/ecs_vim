@@ -3,6 +3,7 @@ cart_settings = shopping_cart.cart_settings %} {% set product_info =
 shopping_cart.product_info %} {%- set non_sharable_slot =
 frappe.db.get_value('Item', doc.item_code, 'non_sharable_slot') %}
 
+
 <style>
   /* {box-sizing: border-box;} */
 
@@ -641,7 +642,6 @@ frappe.db.get_value('Item', doc.item_code, 'non_sharable_slot') %}
           }
         },
       });
-   
     });
     var options = [];
     quantity = $(".number-spinner input").val();
@@ -823,11 +823,12 @@ frappe.db.get_value('Item', doc.item_code, 'non_sharable_slot') %}
               frappe.call({
               method: "ecs_vim.api.get_branch_list_based",
               async: true,
-              args: { parent_branch: parent_branch },
+              args: { parent_branch, brand },
               // args:{item_name:select_event?select_event:'',is_new:0,delivery_date:delivery_date?delivery_date:''},
               callback: function (r) {
                 branch = "";
                 branchlist = r.message["branch_list"] || [];
+                console.log(branchlist) 
                 window.branch_field.df.options = branchlist;
                 window.branch_field.refresh();
                 if (
@@ -979,6 +980,8 @@ frappe.db.get_value('Item', doc.item_code, 'non_sharable_slot') %}
       args: { item_code: item_code ? item_code : "" },
       // args:{item_name:select_event?select_event:'',is_new:0,delivery_date:delivery_date?delivery_date:''},
       callback: function (r) {
+        console.log(r)
+
         // brandlist = (r.message['brand_list'] || []);
         parentbranchlist = r.message["parentbranchlist"] || [];
         branchlist = r.message["branch_list"] || [];
@@ -992,6 +995,7 @@ frappe.db.get_value('Item', doc.item_code, 'non_sharable_slot') %}
         }
         if (window.parent_branch) {
           window.parent_branch.df.options = parentbranchlist;
+          console.log(parentbranchlist)
           window.parent_branch.refresh();
         }
 
@@ -1007,11 +1011,12 @@ frappe.db.get_value('Item', doc.item_code, 'non_sharable_slot') %}
           frappe.call({
             method: "ecs_vim.api.get_branch_list",
             async: true,
-            args: { brand: brand },
+            args: { brand },
             // args:{item_name:select_event?select_event:'',is_new:0,delivery_date:delivery_date?delivery_date:''},
             callback: function (r) {
               branch = "";
               branchlist = r.message["branch_list"] || [];
+              console.log(branchlist)
               window.branch_field.df.options = branchlist;
               window.branch_field.refresh();
               if (

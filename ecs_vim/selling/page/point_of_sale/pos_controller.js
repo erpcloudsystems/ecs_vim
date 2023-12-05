@@ -1297,18 +1297,20 @@ erpnext.PointOfSale.Controller = class {
 			const  res = await frappe.db.get_value("Item",  item_row.item_code, "is_stock_item");
 			if(res.message.is_stock_item==1)
              {
-			frappe.model.clear_doc(item_row.doctype, item_row.name);
-			frappe.throw({
-				title: __("Not Available"),
-				message: __('Item Code: {0} is not available under warehouse {1}.', [bold_item_code, bold_warehouse])
-			})
+			// frappe.model.clear_doc(item_row.doctype, item_row.name);
+			// frappe.throw({
+			// 	title: __("Not Available"),
+			// 	message: __('Item Code: {0} is not available under warehouse {1}.', [bold_item_code, bold_warehouse])
+			// })
+			console.log("ss")
 		}
 		} else if (available_qty < qty_needed) {
-			frappe.show_alert({
-				message: __('Stock quantity not enough for Item Code: {0} under warehouse {1}. Available quantity {2}.', [bold_item_code, bold_warehouse, bold_available_qty]),
-				indicator: 'orange'
-			});
-			frappe.utils.play_sound("error");
+			// frappe.show_alert({
+			// 	message: __('Stock quantity not enough for Item Code: {0} under warehouse {1}. Available quantity {2}.', [bold_item_code, bold_warehouse, bold_available_qty]),
+			// 	indicator: 'orange'
+			// });
+			// frappe.utils.play_sound("error");
+			console.log("ss")
 		}
 		frappe.dom.freeze();
 	}

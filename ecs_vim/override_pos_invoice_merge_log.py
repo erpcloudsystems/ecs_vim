@@ -36,7 +36,7 @@ def on_submit_si(doc, seleceted_packed_items):
                     i["packed_quantity"] = i["packed_quantity"] + item["packed_quantity"]
                     i["combo_qty"] = i["combo_qty"] + item["combo_qty"]
                     i["quantity"] = i["quantity"] + item["quantity"]
-                    i["qty"] = i["qty"] + item["qty"]
+                    i["qty"] = i["qty"] + item["qty"] 
 
 
             if not found:
@@ -293,7 +293,7 @@ def get_product_bundle_items(item_code,item_qty, self):
             self.stock_uom = stock_uom or None
             self.descriptions = description or None
     packed_items = []
-    for row in self.packed_items:
+    for row in self.packed_items: # 39
         if row.parent_item == item_code:
             packed_items.append(PackedItems(**{
                 "item_code":row.item_code,
@@ -301,6 +301,8 @@ def get_product_bundle_items(item_code,item_qty, self):
                 "stock_uom": frappe.db.get_value("Item", row.item_code, ["stock_uom"]),
                 "description":frappe.db.get_value("Item", row.item_code, ["description"]),
             }))
+            self.packed_items.remove(row)
+
     return packed_items
     
 

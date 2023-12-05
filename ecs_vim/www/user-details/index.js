@@ -3,25 +3,69 @@
  * Description:
  * Author: Chris Shabani Muswamba (smstudio)
  */
-frappe.dom.freeze()
-frappe.call({
-    method: "ecs_vim.www.user-details.index.checked_finished_details",
-    callback: function(r){
-        if (r.message){
+function  get_available_stock() {
+    return frappe.call({
+        method: "ecs_vim.www.user-details.index.checked_finished_details",
+        callback: function (r) {
+            if (r.message) {
+                //Set progress bar width
+                let stepperForm = document.getElementById("stepper-form").style.display = "none";
+                progressBar.style.width = "100%";
+                //And change the progress bar color
+                progressBar.style.backgroundColor = "green";
+                // Change the progress innnerHTML = 100%
+                progressBar.innerHTML = "100%";
+                //Change the innerHTML text = submit
+                let cardForm = document.getElementById("cardForm")
+                let done = document.createElement('div');
+                done.id = 'redirect-to';
+                done.className = 'containerp';
+                done.innerHTML = `
+                <div style="display:flex; justify-content:center;">
+                مبروك انهيت ملئ بياناتك
+                </div>
+                <div>redirecting ...</div>
+                `
+                cardForm.append(done)
+                window.location.href = frappe.utils.sanitise_redirect("/customer-details");
+            }
+        },
+    })
+}
 
-            window.location.href = frappe.utils.sanitise_redirect(r.message);
-        }else{
-            frappe.dom.unfreeze()
-        }
-    },
-    freeze: true,
-    freeze_message: "Verifying...",
-});
+
+let updateCustomer = async (first_name, last_name, email_id, mobile_no, relation, customer_primary_address, gender, 
+    territory, custom_branch, dob, page)=>{
+    let inputparams = {
+        first_name,
+        last_name,
+        email_id,
+        mobile_no,
+        relation,
+        customer_primary_address,
+        gender,
+        territory,
+        custom_branch,
+        dob,
+        page,
+    }
+     await frappe.call({
+        method: "ecs_vim.www.user-details.index.update_customer",
+        args:{
+            inputparams:JSON.stringify(inputparams)
+        },
+        callback: function(r) {
+            
+        },
+    });
+}
 
 //Get sections (steps)
 var step1 = document.getElementById("step-1");
 var step2 = document.getElementById("step-2");
 var prev = document.getElementById('prev');
+prev.setAttribute("style", "display:none;")
+
 var step3 = document.getElementById("step-3");
 // Default style step display: block
 step1.style.display = "block";
@@ -41,6 +85,9 @@ var formAddress = document.getElementById("form-address");
 var gender = document.getElementById("genderSelect");
 var datePicker = document.getElementById("datePicker");
 var phone = document.getElementById('form-phone');
+let country = document.getElementById("country");
+let favoriteBranch = document.getElementById("favorite-branch");
+
 // step two inputs
 
 //Inputs 2
@@ -53,6 +100,9 @@ var formAddress2 = document.getElementById("form-address2");
 var genderSelectTwo2 = document.getElementById("genderSelectTwo");
 var datePicker2 = document.getElementById("datePicker2");
 var phone2 = document.getElementById('form-phone2');
+let country2 = document.getElementById("country2");
+let favoriteBranch2 = document.getElementById("favorite-branch2");
+
 
 //Inputs 3
 var fname3 = document.getElementById("form-fname3");
@@ -61,22 +111,25 @@ var datePicker3 = document.getElementById("datePicker3");
 var genderSelectid = document.getElementById("genderSelectthree");
 var school = document.getElementById("school");
 var favoriteColor = document.getElementById("favorite-color");
+localStorage.setItem("form", 0);
 
 // Define form and prevent default submittion 
 let form = document.getElementById("stepper-form").addEventListener("click", (e) => {
     // Prevent default submittion
-     e.preventDefault();
+    //  e.preventDefault();
     //On click we call functions next and prev 
     //  Next function (next button)
      next;
     //Preview or back (button)
      prev;
+     
 });
 
 //Progress bar (The progress by default 25%, so when section is completed += 25% width and so on.)
 var progressBar = document.getElementById("prgBar");
 // Default color is orange (on 50% width color will change, 75% and 99 %)
 progressBar.style.backgroundColor = "orange";
+get_available_stock()
 
 //Next(Button) step function. (When this function is excute, we change the style for current sectino to none, the next section to be block) 
 var next = document.getElementById("next");
@@ -85,6 +138,8 @@ function closePopup(){
     }
 //On click we change the style 
 let renderStepTwo = ()=>{
+    localStorage.setItem("form", 1);
+
     step2.style.display = "block";
     //Set progress bar width
     progressBar.style.width = "25%";
@@ -100,6 +155,8 @@ let renderStepTwo = ()=>{
     step3.style.display = "none";
 }
 let renderStepthree = ()=> {
+    localStorage.setItem("form", 2);
+
 // Add style display none for step 2 (section)
 // Add style display none for step 2 (section)
 step2.style.display = "none";
@@ -135,7 +192,7 @@ select.addEventListener('change', function handleChange(event) {
 });
 
 }
-let appendToUL = (value)=> {
+let appendToUL = (value, url)=> {
             let ul = document.createElement('ul');
             ul.className = "list-group list-group-flush";    
             // Create a list 
@@ -157,7 +214,7 @@ let appendToUL = (value)=> {
             //Append text 
             item2.innerHTML = `<p>برجاء تفعيل الحساب أولا للحصول على كوبون الخصم</p>
             <br>
-            <a href="/send-email"> Verifiy Now</a> 
+            <a href="${url}"> Verifiy Now</a> 
             `;
             ul.append(item2);
 
@@ -169,7 +226,6 @@ const getcheckEmailVerification = async () => {
         callback: function(r) {
             if (r) {
                 if (r["message"]["email_verified"] && r["message"]["mobile_no_verified"]) {
-                    console.log(r)  
 
                 //Set progress bar width
                 progressBar.style.width = "100%";
@@ -178,11 +234,22 @@ const getcheckEmailVerification = async () => {
                 // Change the progress innnerHTML = 100%
                 progressBar.innerHTML = "100%";
                 //Change the innerHTML text = submit
-                next.innerHTML = "تسجيل";
+                let cardForm = document.getElementById("cardForm")
+                let done = document.createElement('div');
+                done.id = 'redirect-to';
+                done.className = 'containerp';
+                done.innerHTML = `
+                <div style="display:flex; justify-content:center;">
+                مبروك انهيت ملئ بياناتك
+                </div>
+                <div>redirecting ...</div>
+                `
+                cardForm.append(done)
+                window.location.href = frappe.utils.sanitise_redirect("/customer-details");
             } 
             
             if (!r["message"]["email_verified"]) {
-                appendToUL(`Email ${r["message"]["email"]}`)
+                appendToUL(`Email ${r["message"]["email"]}`, "/send-email")
                 let alert = document.getElementById('alert');
                 // send email
 
@@ -197,7 +264,7 @@ const getcheckEmailVerification = async () => {
                 next.innerHTML = "تسجيل";
             }
             if (!r["message"]["mobile_no_verified"]) {
-                appendToUL(`Mobile Number ${r["message"]["mobile_no"]} `)
+                appendToUL(`Mobile Number ${r["message"]["mobile_no"]}`, "/otp-verification")
                 progressBar.style.width = "85%";
                 //And change the progress bar color
                 progressBar.style.backgroundColor = "red";
@@ -222,14 +289,19 @@ const checkEmailVerification = async () => {
 };
 next.addEventListener("click", (event) => {
 
-    //Check for step to be displayed 
+    //Check for step to be displayed
     if (step1.style.display === "block" && step2.style.display === "none" && step3.style.display === "none") {
+        localStorage.setItem("form", 0);
         // check if wanna add another person
         // check all fields have value 
         let validDataRespnse = validData(fname, lname, email, phone_no, batchSelect, formAddress, gender, datePicker);
         if (validDataRespnse) {
             frappe.throw("الرجاء ادخال باقي البيانات المطلوبه")
         } else {
+            updateCustomer(fname.value, lname.value, email.value, phone_no.value,
+                 batchSelect.value, formAddress.value, gender.value,country.value,
+                  favoriteBranch.value, datePicker.value, localStorage.getItem("form"))
+
         // show popup confirm
         let popup = document.getElementById('popup')
         let yes = document.getElementById('yes')
@@ -243,10 +315,13 @@ next.addEventListener("click", (event) => {
         popup.classList.add('open-popup')
         yes.addEventListener("click", (event) => {
             closePopup()
+            prev.style.display = "block"
             renderStepTwo()
         })
         no.addEventListener("click", (event) => {
             closePopup()
+            prev.style.display = "block"
+
             renderStepthree()
         })
         
@@ -255,10 +330,16 @@ next.addEventListener("click", (event) => {
 
       //Check for next (Section) to displayed
     }else if (step2.style.display === "block" && step3.style.display === "none" && step1.style.display === "none" ) {
-        let validDataRespnse = validData(fname2, lname2, email2, phone_no2, batchSelectTwo, formAddress2, genderSelectTwo2, datePicker2);
+        let validDataRespnse = validData(fname2, lname2, email2, phone_no2, batchSelectTwo, 
+            formAddress2, genderSelectTwo2, datePicker2);
+        localStorage.setItem("form", 1);
+        
         if (validDataRespnse) {
             frappe.throw("الرجاء ادخال باقي البيانات المطلوبه")
         } else {
+            updateCustomer(fname2.value, lname2.value, email2.value, phone_no2.value,
+                batchSelectTwo.value, formAddress2.value, genderSelectTwo2.value,country2.value,
+                favoriteBranch2.value, datePicker2.value, localStorage.getItem("form"))
             renderStepthree()
 
         }
@@ -269,25 +350,38 @@ next.addEventListener("click", (event) => {
         // check for email and mobile verification 
         // check for email and mobile verification 
         // check for email and mobile verification 
-        let validDataRespnse = validData(fname3, favoriteCharacter, datePicker3, genderSelectid, school, favoriteColor, true, true);
+        localStorage.setItem("form", 2);
+
+        let validDataRespnse = validData(fname3, favoriteCharacter, datePicker3, genderSelectid,
+             school, favoriteColor, true, true);
         if (validDataRespnse) {
             frappe.throw("الرجاء ادخال باقي البيانات المطلوبه")
         } else {
-        
-
+            let otherColor = document.getElementById("other-input")
+            let selected_favChar = []
+            for (let idx =0; idx<favoriteCharacter.children.length; idx++) {
+                if (favoriteCharacter.children[idx].className == 'selected') {
+                    selected_favChar.push(favoriteCharacter .children[idx].value);
+                }
+            }
+            updateCustomer(fname3.value, "", "", otherColor.value,
+            favoriteColor.value, school.value, genderSelectid.value,
+             selected_favChar,
+                "", datePicker3.value, localStorage.getItem("form"))
+            
             let stepperForm = document.getElementById("stepper-form").style.display = "none";
                 // let title = document.getElementById("main-section").innerHTML = 'لم يتم تفعيلة';
                 
-                checkEmailVerification()            
-                frappe.call({
+                 frappe.call({
                     method: "ecs_vim.www.user-details.index.finished_details",
                     callback: function(r){
-    
+                        
                     },
                     freeze: true,
                     freeze_message: "Verifying Phone No",
                 });
-                window.location.href = frappe.utils.sanitise_redirect("/customer-details");
+                checkEmailVerification()            
+                
                 return false;
         }
         // check for email and mobile verification 
@@ -300,6 +394,7 @@ next.addEventListener("click", (event) => {
 prev.addEventListener("click", () => {
  //Check for active step and add to it a style.display none
   if (step3.style.display === "block" && step2.style.display === "none" && step1.style.display === "none") {
+    localStorage.setItem("form", 1);
       step1.style.display = "none";
       step2.style.display = "block";
       next.innerHTML = "استمرار";
@@ -311,6 +406,7 @@ prev.addEventListener("click", () => {
       progressBar.style.width = "50%";
       step3.style.display = "none";
     }else if (step3.style.display === "none" && step2.style.display === "block" && step1.style.display === "none") {
+        localStorage.setItem("form", 0);
         step1.style.display = "block";
         step2.style.display = "none";
         step3.style.display = "none";
@@ -445,7 +541,6 @@ const displaygenderSelectthree = async () => {
 };
 displaygenderSelectthree();
 
-const favoriteBranch = document.getElementById("favorite-branch");
 const getfavoriteBranch = async () => {
     const response = await fetch("https://erp.vim.sa/api/resource/Branch");
     const data = response.json();
@@ -464,7 +559,6 @@ const displayfavoriteBranch = async () => {
 };
 displayfavoriteBranch();
 
-const favoriteBranch2 = document.getElementById("favorite-branch2");
 const getfavoriteBranch2 = async () => {
     const response = await fetch("https://erp.vim.sa/api/resource/Branch");
     const data = response.json();
@@ -484,7 +578,6 @@ const displayfavoriteBranch2 = async () => {
 displayfavoriteBranch2();
 
 
-const country2 = document.getElementById("country2");
 const getcountry2 = async () => {
     const response = await fetch("https://erp.vim.sa/api/resource/Country?order_by=custom_order_sequence%20asc");
     const data = response.json();
@@ -508,7 +601,6 @@ const displaycountry2 = async () => {
 displaycountry2();
 
 
-const country = document.getElementById("country");
 const getcountry = async () => {
     const response = await fetch("https://erp.vim.sa/api/resource/Country?order_by=custom_order_sequence%20asc");
     const data = response.json();

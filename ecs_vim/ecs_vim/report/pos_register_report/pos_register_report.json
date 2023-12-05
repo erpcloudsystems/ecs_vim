@@ -1,0 +1,31 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2023-12-04 18:37:05.967462",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "letter_head": "VIM Letter Head",
+ "modified": "2023-12-04 18:37:14.686572",
+ "modified_by": "Administrator",
+ "module": "Ecs Vim",
+ "name": "POS Register Report",
+ "owner": "Administrator",
+ "prepared_report": 1,
+ "ref_doctype": "POS Invoice",
+ "report_name": "POS Register Report",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  }
+ ]
+}

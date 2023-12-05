@@ -13,6 +13,9 @@
   "school_name",
   "dob",
   "hijri_dob",
+  "address",
+  "nationality",
+  "branch",
   "column_break_5",
   "adult",
   "middle_name",
@@ -23,7 +26,8 @@
   "email_id",
   "favorite_character",
   "favourite_colour",
-  "colour"
+  "colour",
+  "other_colour"
  ],
  "fields": [
   {
@@ -144,15 +148,37 @@
   {
    "depends_on": "eval:doc.child==1;",
    "fieldname": "favorite_character",
+   "fieldtype": "Data",
+   "label": "Favorite Character"
+  },
+  {
+   "fieldname": "address",
    "fieldtype": "Link",
-   "label": "Favorite Character",
-   "options": "Characters"
+   "label": "Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Link",
+   "label": "Nationality",
+   "options": "Country"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "other_colour",
+   "fieldtype": "Data",
+   "label": "Other Color"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-08-22 18:30:20.220620",
+ "modified": "2023-12-04 12:30:58.341448",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
  "name": "Customer Family Detail",
@@ -160,5 +186,6 @@
  "permissions": [],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }

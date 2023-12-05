@@ -87,7 +87,10 @@
         <div class="form-group">
             <!-- Lastname -->
             <label for="uname">صلة القرابة </label>
-            <select  class="form-control" id="batchSelect"  required></select>
+            <select  class="form-control" id="batchSelect"  required>
+              <option value="{{relation}}">{{relation}}</option>
+              <option value=""></option>
+            </select>
               <!-- And add a class: valid-feedback -->
               <div class="valid-feedback">صالح</div>
               <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -97,7 +100,7 @@
             <!-- Eamil -->
             <label for="email">العنوان</label>
             <input type="text" class="form-control" id="form-address" placeholder="العنوان"
-                name="email" required>
+                name="email" value="{{address}}" required>
               <!-- And add a class: valid-feedback -->
               <div class="valid-feedback">صالح</div>
               <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -111,7 +114,11 @@
           <!-- Label: first name -->
           <label for="fname">الجنس</label>
           <!-- Input class: form-control and ID form-fname and name: fname -->
-          <select  class="form-control" id="genderSelect" required></select>
+          <select  class="form-control" id="genderSelect" required>
+            <option value="{{gender}}">{{gender}}</option>
+          <option value=""></option>
+
+          </select>
               <!-- And add a class: valid-feedback -->
           <div class="valid-feedback">صالح</div>
           <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -121,7 +128,11 @@
         <!-- Label: first name -->
         <label for="fname">الجنسية</label>
         <!-- Input class: form-control and ID form-fname and name: fname -->
-        <select  class="form-control" id="country" required></select>
+        <select  class="form-control" id="country" required>
+          <option value="{{nationality}}">{{nationality}}</option>
+          <option value=""></option>
+
+        </select>
             <!-- And add a class: valid-feedback -->
         <div class="valid-feedback">صالح</div>
         <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -130,16 +141,19 @@
       <div class="form-group">
         <!-- Lastname -->
         <label for="uname">الفرع المفضل</label>
-        <select  class="form-control" id="favorite-branch" required></select>
+        <select  class="form-control" id="favorite-branch" required>
+          <option value="{{custom_branch}}">{{custom_branch}}</option>
+          <option value=""></option>
+
+        </select>
         <!-- And add a class: valid-feedback -->
           <div class="valid-feedback">صالح</div>
           <!-- And a class: invalid-feedback (Bootstrap class) -->
           <div class="invalid-feedback">برجاء ادخال البيانات</div>
         </div>
       <div class="form-group">
-          <!-- Lastname -->
           <label for="uname">تاريخ الميلاد</label>
-          <input type="date"  name="dateofbirth"  id="datePicker" required>
+          <input type="date"  name="dateofbirth"  id="datePicker" value="{{dob}}" required>
 
           <!-- <input type="date" class="form-control" id="datePicker" required> -->
             <!-- And add a class: valid-feedback -->
@@ -164,7 +178,7 @@
                     <label for="fname">الاسم الاول</label>
                     <!-- Input class: form-control and ID form-fname and name: fname -->
                     <input type="text" class="form-control" id="form-fname2" placeholder="الاسم الاول" 
-                        name="fname" required>
+                        name="fname" value="{{first_name2}}" required>
                         <!-- And add a class: valid-feedback -->
                     <div class="valid-feedback">صالح</div>
                     <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -174,7 +188,7 @@
                     <!-- Lastname -->
                     <label for="uname">الاسم الاخير</label>
                     <input type="text" class="form-control" id="form-lname2" placeholder="الاسم الاخير"  
-                        name="lname" required>
+                        name="lname" value="{{last_name2}}" required>
                       <!-- And add a class: valid-feedback -->
                       <div class="valid-feedback">صالح</div>
                       <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -184,7 +198,7 @@
                     <!-- Eamil -->
                     <label for="email">البريد الالكتروني</label>
                     <input type="email" class="form-control" id="form-email2" placeholder="البريد الالكتروني"  
-                        name="email" required>
+                        name="email" value="{{email2}}" required>
                       <!-- And add a class: valid-feedback -->
                       <div class="valid-feedback">صالح</div>
                       <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -200,7 +214,7 @@
                   <label for="phone_no">رقم الجوال</label>
                   <!-- Input class: form-control and ID form-fname and name: fname -->
                   <input type="text" class="form-control" id="form-phone_no2" placeholder="رقم الجوال"  
-                      name="phone_no" required>
+                      name="phone_no" value="{{mobile_no2}}" required>
                       <!-- And add a class: valid-feedback -->
                   <div class="valid-feedback">صالح</div>
                   <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -209,7 +223,11 @@
               <div class="form-group">
                   <!-- Lastname -->
                   <label for="uname">صلة القرابة</label>
-                  <select  class="form-control" id="batchTrackTwo"  required></select>
+                  <select  class="form-control" id="batchTrackTwo"  required>
+
+                    <option value="{{relation2}}">{{relation2}}</option>
+                    <option value=""></option>
+                  </select>
                     <!-- And add a class: valid-feedback -->
                     <div class="valid-feedback">صالح</div>
                     <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -219,7 +237,7 @@
                   <!-- Eamil -->
                   <label for="email">العنوان</label>
                   <input type="text" class="form-control" id="form-address2" placeholder="العنوان"
-                      name="email" required>
+                      name="email" value="{{address2}}" required>
                     <!-- And add a class: valid-feedback -->
                     <div class="valid-feedback">صالح</div>
                     <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -233,7 +251,10 @@
                 <!-- Label: first name -->
                 <label for="fname">الجنس</label>
                 <!-- Input class: form-control and ID form-fname and name: fname -->
-                <select  class="form-control" id="genderSelectTwo" required></select>
+                <select  class="form-control" id="genderSelectTwo" required>
+                  <option value="{{gender2}}">{{gender2}}</option>
+                  <option value=""></option>
+                </select>
                     <!-- And add a class: valid-feedback -->
                 <div class="valid-feedback">صالح</div>
                 <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -243,7 +264,10 @@
               <!-- Label: first name -->
               <label for="fname">الجنسية</label>
               <!-- Input class: form-control and ID form-fname and name: fname -->
-              <select  class="form-control" id="country2" required></select>
+              <select  class="form-control" id="country2" required>
+                <option value="{{nationality2}}">{{nationality2}}</option>
+                <option value=""></option>
+              </select>
                   <!-- And add a class: valid-feedback -->
               <div class="valid-feedback">صالح</div>
               <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -252,7 +276,10 @@
             <div class="form-group">
               <!-- Lastname -->
               <label for="uname">الفرع المفضل</label>
-              <select  class="form-control" id="favorite-branch2" required></select>
+              <select  class="form-control" id="favorite-branch2" required>
+                <option value="{{custom_branch2}}">{{custom_branch2}}</option>
+                <option value=""></option>
+              </select>
               <!-- And add a class: valid-feedback -->
                 <div class="valid-feedback">صالح</div>
                 <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -261,7 +288,7 @@
             <div class="form-group">
                 <!-- Lastname -->
                 <label for="uname">تاريخ الميلاد</label>
-                <input type="date" class="form-control" id="datePicker2" required>
+                <input type="date"  id="datePicker2" value="{{dob2}}" required>
                   <!-- And add a class: valid-feedback -->
                   <div class="valid-feedback">صالح</div>
                   <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -284,7 +311,7 @@
                   <label for="fname">الاسم الاول</label>
                   <!-- Input class: form-control and ID form-fname and name: fname -->
                   <input type="text" class="form-control" id="form-fname3" placeholder="الاسم الاول" 
-                      name="fname" required>
+                      name="fname" value="{{first_name3}}" required>
                       <!-- And add a class: valid-feedback -->
                   <div class="valid-feedback">صالح</div>
                   <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -319,7 +346,7 @@
           <div class="form-group">
             <!-- Lastname -->
             <label for="uname">تاريخ الميلاد</label>
-            <input type="date" class="form-control" id="datePicker3" required>
+            <input type="date"  id="datePicker3" value="{{dob3}}" required>
               <!-- And add a class: valid-feedback -->
               <div class="valid-feedback">صالح</div>
               <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -333,7 +360,10 @@
               <!-- Label: first name -->
               <label for="fname">الجنس</label>
               <!-- Input class: form-control and ID form-fname and name: fname -->
-              <select  class="form-control" id="genderSelectthree" required></select>
+              <select  class="form-control" id="genderSelectthree" required>
+                <option value="{{gender3}}">{{gender3}}</option>
+                <option value=""></option>
+              </select>
                   <!-- And add a class: valid-feedback -->
               <div class="valid-feedback">صالح</div>
               <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -346,7 +376,7 @@
               <!-- Label: first name -->
               <label for="fname">المدرسة</label>
               <!-- Input class: form-control and ID form-fname and name: fname -->
-              <input type="text" class="form-control" id="school" placeholder="المدرسة" 
+              <input type="text" class="form-control" id="school" value="{{school_name3}}" placeholder="المدرسة" 
               name="fname" required>
                   <!-- And add a class: valid-feedback -->
               <div class="valid-feedback">صالح</div>
@@ -360,7 +390,10 @@
             <!-- Label: first name -->
             <label for="fname">اللون المفضل</label>
             <!-- Input class: form-control and ID form-fname and name: fname -->
-            <select  class="form-control" id="favorite-color" required></select>
+            <select  class="form-control" id="favorite-color" required>
+              <option value="{{fav_color3}}">{{fav_color3}}</option>
+              <option value=""></option>
+            </select>
                 <!-- And add a class: valid-feedback -->
             <div class="valid-feedback">صالح</div>
             <!-- And a class: invalid-feedback (Bootstrap class) -->
@@ -374,14 +407,14 @@
           <label for="fname">ادخل اللون المفضل</label>
           <!-- Input class: form-control and ID form-fname and name: fname -->
           <input type="text" class="form-control" id="other-input" placeholder="اللون" 
-          name="fname" required>
+          name="fname" value="{{other_color}}" required>
               <!-- And add a class: valid-feedback -->
           <div class="valid-feedback">صالح</div>
           <!-- And a class: invalid-feedback (Bootstrap class) -->
           <div class="invalid-feedback">برجاء ادخال البيانات</div>
       </div>
-    </div> 
-                </section>
+    </div>
+              </section>
           <!-- /End of section 3 -->
           <div class="containerp">
             <button id="prev" type="button" class="btn btn-primary" style="background-image: linear-gradient(to right, #7311EA , #523D82); color: #fff">السابق</button>
@@ -407,25 +440,4 @@
 {% endif %}
 
 
-<script>
-
-	frappe.ready(function(){
-		document.querySelector(".page-footer").innerHTML = `<div class="left-images" style= "background-color: #674a9e;position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    width: 100%;">
-	<div class="d-flex align-items-end" style="border-top: 3px solid #000;">
-	  <div>
-		<img src="/files/3-Logo-L.png" width="100" height="100">
-	  </div>
-	  <div style="font-weight: bold; font-size: .8rem;">
-		<a href="mailto:info@vim.sa (+ 966) 800-244-0306" style="color: black;">info@vim.sa (+ 966) 800-244-0306</a>
-	  </div> 
-	</div>
-  </div>`
-	})
-</script>
  {% endblock %}

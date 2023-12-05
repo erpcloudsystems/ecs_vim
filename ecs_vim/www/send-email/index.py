@@ -27,7 +27,7 @@ def get_context(context):
             context.email_verified = row.email_id
     
     email_args = {
-				"recipients": [context.email_verified],
+				"recipients": [frappe.session.user],
 				"template": "verification_mail",
 				"subject": 'Email Verification',
         "args":dict(
@@ -42,17 +42,30 @@ def get_context(context):
     where user_id = "{frappe.session.user}"
     """, as_dict=1)
     if email_sent_creation and email_sent_creation[0]["creation"]:
-      from frappe.utils import now, pretty_date
       import datetime
-
+      import pytz
       time_change = datetime.timedelta(minutes=3, seconds=10) 
-      if email_sent_creation[0]["creation"] + time_change < datetime.datetime.now():
-        enqueue(method=frappe.sendmail, queue='short', timeout=10,**email_args)
+      if (pytz.timezone("Asia/Riyadh").localize(email_sent_creation[0]["creation"])  + time_change) < datetime.datetime.now(tz=pytz.timezone("Asia/Riyadh")):
+        create_mail(user, hash_str)
+        enqueue(method=frappe.sendmail, queue='short',**email_args)
       else:
-        context.time_remaining = datetime.datetime.now() - (email_sent_creation[0]["creation"] + time_change)
+
+        formatted = strfdelta((pytz.timezone("Asia/Riyadh").localize(email_sent_creation[0]["creation"])  + time_change) - datetime.datetime.now(tz=pytz.timezone("Asia/Riyadh")), "{minutes} minutes and {seconds} seconds")
+        context.time_remaining = formatted
     else:
-        doc = frappe.new_doc('Emails Sent')
-        doc.user_id = user.name
-        doc.insert()
-        frappe.db.commit()
-        enqueue(method=frappe.sendmail, queue='short', timeout=10,**email_args)
+        create_mail(user, hash_str)
+
+        enqueue(method=frappe.sendmail, queue='short',**email_args)
+
+def create_mail(user, hash_str):
+  doc = frappe.new_doc('Emails Sent')
+  doc.user_id = user.name
+  doc.hash_str = hash_str
+  doc.insert()
+  frappe.db.commit()
+
+def strfdelta(tdelta, fmt):
+  d = {}
+  d["hours"], rem = divmod(tdelta.seconds, 3600)
+  d["minutes"], d["seconds"] = divmod(rem, 60)
+  return fmt.format(**d)

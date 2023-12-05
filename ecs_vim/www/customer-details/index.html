@@ -32,7 +32,7 @@
 </label>
 {% endif %}
 
-{% if not first_login %}
+{% if  custom_first_login %}
 <div style="display: flex; justify-content: center;">
   <label >
     <input type="checkbox" class="alertCheckbox" autocomplete="off" />
@@ -51,6 +51,27 @@
   </label>
 </div>
 {% endif %}
+
+{% if not  verified_customer %}
+<div style="display: flex; justify-content: center;">
+  <label >
+    <input type="checkbox" class="alertCheckbox" autocomplete="off" />
+    <div class="alert congratz">
+      <span class="alertClose">X</span>
+      <span class="alertText">
+        <span style="font-size: 19pts;">
+
+          لم تنتهي من الخطوات المطلوبه لإستلام كوبون الخصم
+        </span>
+  <br>
+  <br>
+        <a href="/user-details"> تابع الخطوات الأن</a>
+      <br class="clear"/></span>
+    </div>
+  </label>
+</div>
+{% endif %}
+
 
 
 <div class="containercontainer">
@@ -95,49 +116,49 @@
             <li id="3">Coupons</li>
             <li id="4">Contact Us</li>
           </ul>
-          <span class="follow">Add New</span>
+          <!-- <span class="follow">Add New</span> -->
           <div class="row gallery show one">
             {% for row in customer_family_detail %}
-                {% if row.relation != "self" %}
-                  {% if row.relation not in  ["Son", "Daughter"] %}
+                {% if row.adult %}
                       <div class="col-md-4" style="display: flex;justify-content: center;">
                             <div class="card">
                               <div class="category"> {{row.person_name}}</div>
-                              <div class="heading"> Relation / {{row.relation}}
-                                  <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
+                              <div class="heading"> Relation: {{row.relation}}
+                                  <div class="author"> Mobile No: <span class="name">{{row.phone_no}}</span> <br> created {{row.creation}}</div>
                               </div>
                           </div>
                       </div>
-                  {% endif %}
-                {% endif %}        
+                      {% endif %}
             {% endfor %}
           </div>
 
           <div class="row gallery two">
             {% for row in customer_family_detail %}
-                {% if row.relation != "self" %}
-                  {% if row.relation in  ["Son", "Daughter"] %}
-                      <div class="col-md-4" style="display: flex;justify-content: center;">
-                            <div class="card">
-                              <div class="category"> {{row.person_name}}</div>
-                              <div class="heading"> 
-                                Relation / {{row.relation}}
-                                  <div class="author"> Mobile No <span class="name">
-                                    {% if row.phone_no %}
+                {% if row.child  %}
+                <div class="col-md-4" style="display: flex;justify-content: center;">
+                  <div class="card">
+                    <div class="category"> {{row.child_name}}</div>
+                    <div class="heading"> 
+                      {% if row.gender == "Male"%}
+                      Relation: Son
+                      {% else %}
+                      Relation: Daughter
+                      {% endif %}
+                        <div class="author"> School Name: <span style="font-weight: bold; font-size: large;">
+                          {% if row.school_name %}
 
-                                    {{row.phone_no}}
-                                  {% else %}
-                                  --
-                                  {% endif %}
-                                  </span> <br> {{row.creation}}</div>
-                              </div>
-                          </div>
-                      </div>
-                    {% endif %}
+                          {{row.school_name}}
+                        {% else %}
+                        --
+                        {% endif %}
+                        </span> <br> 
+                        dob: {{row.dob}}
+                        <br>
+                        created {{row.creation}}</div>
+                    </div>
+                </div>
+            </div>
                   {% endif %}
-                 
-          
-                  
             {% endfor %}
            
           </div>
@@ -163,37 +184,7 @@
            
           </div>
           <div class="row gallery four">
-            {% for row in customer_family_detail %}
-                {% if row.relation != "self" %}
-                <div class="col-md-4" style="display: flex;justify-content: center;">
-                      <div class="card">
-                        <div class="category"> {{row.person_name}}</div>
-                        <div class="heading"> Relation / {{row.relation}}
-                            <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
-                        </div>
-                    </div>
-                </div>
-                  {% endif %}
-                  <div class="col-md-4" style="display: flex;justify-content: center;">
-                    <div class="card">
-                      <div class="category"> {{row.person_name}}</div>
-                      <div class="heading"> Relation / {{row.relation}}
-                          <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4" style="display: flex;justify-content: center;">
-                <div class="card">
-                  <div class="category"> {{row.person_name}}</div>
-                  <div class="heading"> Relation / {{row.relation}}
-                      <div class="author"> Mobile No <span class="name">{{row.phone_no}}</span> <br> {{row.creation}}</div>
-                  </div>
-              </div>
-          </div>
-          
-                  
-            {% endfor %}
-           
+            
           </div>
         </div>
   </div>

@@ -9,19 +9,23 @@
  "field_order": [
   "user_id",
   "sent_datetime",
-  "sent"
+  "sent",
+  "hash_str",
+  "verified"
  ],
  "fields": [
   {
    "fieldname": "sent_datetime",
    "fieldtype": "Datetime",
-   "label": "sent datetime"
+   "label": "sent datetime",
+   "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "sent",
    "fieldtype": "Check",
-   "label": "sent"
+   "label": "sent",
+   "read_only": 1
   },
   {
    "fieldname": "user_id",
@@ -29,11 +33,24 @@
    "label": "User",
    "options": "User",
    "read_only": 1
+  },
+  {
+   "fieldname": "hash_str",
+   "fieldtype": "Data",
+   "label": "hash_str",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "verified",
+   "fieldtype": "Check",
+   "label": "verified",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-11-19 17:48:18.164338",
+ "modified": "2023-12-04 16:58:52.828434",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
  "name": "Emails Sent",

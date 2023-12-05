@@ -169,12 +169,13 @@ def customer_query(doctype, txt, searchfield, start, page_len, filters):
     searchfields = " or ".join(
         ["a." + field + " like %(txt)s" for field in searchfields]
     )
+
     return frappe.db.sql(
         """select {fields} from `tabCustomer` a
 	left outer join `tabCustomer Family Detail` b on b.parent = a.name 
 		where a.docstatus < 2
 			and (({scond}) or b.phone_no like %(_txt)s ) and a.disabled=0
-			{fcond} {mcond}
+			{fcond} 
 		order by
 			if(locate(%(_txt)s, a.name), locate(%(_txt)s, a.name), 99999),
 			if(locate(%(_txt)s, a.customer_name), locate(%(_txt)s, a.customer_name), 99999),
@@ -184,7 +185,6 @@ def customer_query(doctype, txt, searchfield, start, page_len, filters):
             **{
                 "fields": ", ".join(fields),
                 "scond": searchfields,
-                "mcond": get_match_cond(doctype),
                 "fcond": get_filters_cond(doctype, filters, conditions).replace(
                     "%", "%%"
                 ),

@@ -616,7 +616,9 @@ def get_branch_details(item_code=None):
         brand_list = frappe.db.get_value("Item", item_code, "dimension_brand")
 
     branch_list = frappe.db.get_list("Dimension Branch", fields=["name"], as_list=True)
-    parentbranchlist = frappe.db.get_list("Branch", fields=["name"], as_list=True)
+    parentbranchlist = frappe.db.get_list("Dimension Branch", fields=["branch"], as_list=True)
+    if brand_list:
+        parentbranchlist = frappe.db.get_list("Dimension Branch", filters={"brand":brand_list}, fields=["DISTINCT branch"], as_list=True)
     uom = []
     if item_code and item_code != "":
         Item = frappe.get_doc("Item", item_code)
@@ -648,16 +650,16 @@ def get_branch_list(brand):
         "Dimension Branch", fields=["name"], filters={"brand": brand}, as_list=True
     )
     parentbranchlist = frappe.db.get_list(
-        "Branch", fields=["name"], as_list=True
+        "Dimension Branch", fields=["name"], filters={"brand": brand}, as_list=True
     )
 
     return {"branch_list": branch_list, "parentbranchlist": parentbranchlist}
 
 
 @frappe.whitelist(allow_guest=True)
-def get_branch_list_based(parent_branch):
+def get_branch_list_based(parent_branch, brand):
     branch_list = frappe.db.get_list(
-        "Dimension Branch", fields=["name"], filters={"branch": parent_branch}, as_list=True
+        "Dimension Branch", fields=["name"], filters={"branch": parent_branch, "brand": brand}, as_list=True
     )
     parentbranchlist = frappe.db.get_list(
         "Branch", fields=["name"], as_list=True
@@ -1456,7 +1458,7 @@ def create_party_contact(doctype, fullname, user, party_name):
             contact = frappe.get_doc("Contact", contact_name)
             doctypes = [d.link_doctype for d in contact.links]
             if not contact.email_id:
-                contact.add_email(user.email, is_primary=True)
+                contact.add_email(user, is_primary=True)
                 contact.save(ignore_permissions=True)
     contact_name = frappe.db.get_value("Contact", {"mobile_no": mobile_no})
     if contact_name:
@@ -1547,3 +1549,19 @@ def send_renew_sms(reference_id=None):
                 )
             )
             frappe.db.commit()
+
+@frappe.whitelist()
+def get_none_consalidated_invoices(item_code, warehouse):
+    item_type = frappe.db.exists("Product Bundle", {"new_item_code": item_code})
+    
+    if not item_type:
+        return frappe.db.sql("""
+        SELECT SUM(items.qty) items_qty
+        FROM `tabPOS Invoice` pos 
+        JOIN `tabPOS Invoice Item` items on items.parent = pos.name
+        where pos.set_warehouse = "{warehouse}"
+        and items.item_code = "{item_code}"
+        and pos.status != "Consolidated"
+        and pos.docstatus = 1
+
+        """.format(warehouse=warehouse, item_code=item_code), as_dict=1)[0].items_qty

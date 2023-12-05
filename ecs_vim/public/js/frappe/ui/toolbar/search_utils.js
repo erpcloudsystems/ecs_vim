@@ -1,5 +1,5 @@
 frappe.provide('frappe.search');
-frappe.provide("frappe.ui.toolbar");
+
 frappe.search.utils = {
 	setup_recent: function() {
 		this.recent = JSON.parse(frappe.boot.user.recent || "[]") || [];

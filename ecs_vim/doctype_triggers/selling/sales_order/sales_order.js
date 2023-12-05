@@ -64,9 +64,9 @@ frappe.ui.form.on('Sales Order', {
             }, __("HyperBill"));
         }
 
-        if(frm.doc.__islocal==1 && (cur_frm.doc.amended_from ==undefined)){
-            frm.doc.items=[]
-        }
+        // if(frm.doc.__islocal==1 && (cur_frm.doc.amended_from ==undefined)){
+        //     frm.doc.items=[]
+        // }
       
     //    frm.trigger("item_list_value")
        const fieldname_arr = ['item_code','item_name','delivery_date','qty','uom','description','against_blanket_order','ensure_delivery_based_on_produced_serial_no','additional_notes','delivered_by_supplier','suppplier','rate'];
