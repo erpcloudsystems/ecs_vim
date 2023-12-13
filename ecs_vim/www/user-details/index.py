@@ -13,11 +13,11 @@ def get_context(context):
     create_customer_or_supplier()
     prepare_input_values(context, user)
     user_session = frappe.session.user
-    if user_session != "Guest":
-        customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no})
-        if customer.custom_finished_details == 1:
-            context.redirect = True 
-        context.redirect = False
+    # if user_session != "Guest":
+    #     customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no})
+    #     if customer.custom_finished_details == 1:
+    #         context.redirect = True 
+    #     context.redirect = False
 
 
 
@@ -30,8 +30,28 @@ def prepare_input_values(context, user):
             customer.last_name = user.name.split("@")[0]
         customer.save(ignore_permissions=True)
     else:
-        customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no, "custom_user":user.name})
-
+        try:
+            customer = frappe.get_doc("Customer", {"mobile_no": user.mobile_no, "custom_user":user.name})
+        except: 
+            customer_phone_no = frappe.db.sql(f"""
+            SELECT f.phone_no  as phone_no, c.name
+            FROM `tabCustomer` c
+            JOIN `tabCustomer Family Detail` f ON c.name = f.parent
+            where f.phone_no = "{str(user.mobile_no)}"
+            """, as_dict=1)
+            context.phone1 = str(user.mobile_no)
+            context.phone2 = str(customer_phone_no)
+            if customer_phone_no:
+                for row in customer_phone_no:
+                    party_name = row.name
+                    customer = frappe.get_doc("Customer", party_name)
+                    customer.mobile_no = user.mobile_no
+                    customer.custom_user = user.name
+                    cur_contact = frappe.db.get_value("Contact", {"email_id":user.name, "mobile_no":user.mobile_no}, "name")
+                    if cur_contact:
+                        customer.customer_primary_contact = cur_contact
+                    customer.save(ignore_permissions=True)
+                    frappe.db.commit()
     # no he have customer and user docs
     # initialize DOM inputs
     context.first_name = user.first_name or ""

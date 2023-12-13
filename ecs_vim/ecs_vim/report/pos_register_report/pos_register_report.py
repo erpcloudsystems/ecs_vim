@@ -73,7 +73,7 @@ def get_pos_entries(filters, group_by_field):
         """
         SELECT
             p.posting_date, p.name as pos_invoice, p.pos_profile,
-            p.owner, p.customer, p.is_return, p.base_grand_total as grand_total {select_mop_field}
+            p.owner, p.customer, p.is_return, p.base_grand_total as grand_total, p.change_amount {select_mop_field}
         FROM
             `tabPOS Invoice` p {from_sales_invoice_payment}
 
@@ -101,11 +101,15 @@ def get_pos_entries(filters, group_by_field):
         where parent = "{value.pos_invoice}"
         group by s.mode_of_payment
         """,as_dict=1)
+        last_amount = []
         for row in mode_of_payments:
             if row.amount:
                 if str(row.mode_of_payment) not in mode_of_payment_cols:
                     mode_of_payment_cols.append(str(row.mode_of_payment))
                 response[idx][str(row.mode_of_payment)] = row.amount
+                last_amount.append(str(row.mode_of_payment))
+        if response[idx]["change_amount"]:
+            response[idx][last_amount[-1]] = response[idx][last_amount[-1]] - response[idx]["change_amount"]
     return response
 
 

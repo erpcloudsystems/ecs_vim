@@ -1210,6 +1210,7 @@ def party_exists(doctype, user):
     party_name= None
     if frappe.db.exists("Customer", {"custom_user": user}):
         party_name = frappe.db.get_value("Customer", {"custom_user": user}, ["name"])
+    
     if party_name:
         if contact_name:
             contact = frappe.get_doc("Contact", contact_name)
