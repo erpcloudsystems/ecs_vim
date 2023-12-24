@@ -15,7 +15,7 @@ body {
     font-size: 15px;
     color: rgb(26, 12, 12);
     margin: 0;
-    background-color: rgb(13, 80, 80);
+    /* background-color: rgb(13, 80, 80); */
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -76,7 +76,7 @@ img {
 
 body {
     /* BACKGROUND IMAGE */
-    background: url("/files/photo_2023-11-08_11-09-22.jpg");
+    /* background: url("/files/photo_2023-11-08_11-09-22.jpg"); */
     background-size: cover;
     height: 100vh;
     opacity: 0.9;

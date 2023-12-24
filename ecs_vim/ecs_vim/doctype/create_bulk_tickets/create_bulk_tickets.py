@@ -23,8 +23,14 @@ class CreateBulkTickets(Document):
 			code_booklets += 1
 			booklets.code = code_booklets
 			booklets.booklet_name= f"B{booklets.code}"
-			booklets.branches_ticket = self.branches_ticket
+			for row in self.branches_ticket:
+					
+				booklets.append("branches_ticket", {
+					"branch":row.branch,
+					"name_warehouse":row.name_warehouse,
+				})
 			booklets.item = self.item
+			booklets.is_booklet = frappe.db.get_value("Item",self.item, ["custom_is_booklet"] )
 			booklets.insert()
 			booklets.submit()
 			booklets_needed -=1
@@ -34,8 +40,15 @@ class CreateBulkTickets(Document):
 			booklets.no_of_tickets = remaining_tickets
 			code_booklets += 1
 			booklets.code = code_booklets
+			booklets.item = self.item
+
+			booklets.is_booklet = frappe.db.get_value("Item",self.item, ["custom_is_booklet"] )
 			booklets.booklet_name= f"B{booklets.code}"
-			booklets.branches_ticket = self.branches_ticket
+			for row in self.branches_ticket:		
+				booklets.append("branches_ticket", {
+					"branch":row.branch,
+					"name_warehouse":row.name_warehouse,
+				})
 			booklets.insert()
 			booklets.submit()
 	pass

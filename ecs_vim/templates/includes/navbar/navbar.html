@@ -19,10 +19,17 @@
 	border: none
   }
   }
+  @media only screen and (max-width: 992px) {
+  .navbar .container {
+    justify-content: end;
+  display: flex;
+  width: 100%;
+  }
+}
 </style>
 
-<nav class="navbar navbar-expand-lg"  style = "background-image: linear-gradient(to right, #7311EA , #523D82);">
-	<div class="container">
+<nav class="navbar navbar-expand-lg"  style = "background-image: linear-gradient(to right, #7311EA , #523D82); display: flex;">
+	<div style="width: 10%;">
 		<a class="navbar-brand" href="{{ url_prefix }}{{ home_page or "/" }}">
 			{%- if brand_html -%}
 			<img src='/files/Asset 4.png'>
@@ -32,6 +39,9 @@
 				<span>{{ (frappe.get_hooks("brand_html") or [_("Home")])[0] }}</span>
 			{%- endif -%}
 		</a>
+	</div>
+	<div class="container" style="width: 70%;">
+		
 		<button class="navbar-toggler" type="button"
 			data-toggle="collapse"
 			data-target="#navbarSupportedContent"

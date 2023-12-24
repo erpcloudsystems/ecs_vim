@@ -7,9 +7,7 @@
 	<h4>{{ _('Login to {0}').format(app_name or _("Frappe")) }}</h4>
 </div>
 {% endmacro %}
-{% if response %}
- {{response}}
-{% endif %}
+
 <div style="display: flex; justify-content: center;  align-items: center; height: 80vh;">
 
     <section class='for-signup' style="width: 30%; padding: 5rem 1rem; border-radius: 1rem; background-image: linear-gradient(45deg, rgba(255,190,0,1) 0%, rgba(117,9,121,1) 80%);">
@@ -45,20 +43,31 @@
 </div>
 <script>
 
-	frappe.ready(function(){
-		document.querySelector(".page-footer").innerHTML = `<div class="left-images" style= "background-color: #674a9e;position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;">
-	<div class="d-flex align-items-end" style="border-top: 3px solid #000;">
-	  <div>
-		<img src="/files/3-Logo-L.png" width="100" height="100">
-	  </div>
-	  <div style="font-weight: bold; font-size: .8rem;">
-		<a href="mailto:info@vim.sa (+ 966) 800-244-0306" style="color: black;">info@vim.sa (+ 966) 800-244-0306</a>
-	  </div> 
-	</div>
-  </div>`
+frappe.ready(function(){
+		var newDiv = document.createElement('div');
+      newDiv.className = 'left-images';
+      newDiv.style.backgroundColor = '#674a9e';
+      newDiv.style.position = 'fixed';
+      newDiv.style.left = '0';
+      newDiv.style.bottom = '0';
+      newDiv.style.width = '100%';
+      newDiv.style.zIndex = '1000';
+
+      // Inner HTML for the new div
+      newDiv.innerHTML = `
+        <div class="d-flex align-items-end" style="border-top: 3px solid #000;">
+          <div>
+              <img src="/files/3-Logo-L.png" width="100" height="100">
+          </div>
+          <div style="font-weight: bold; font-size: .8rem;">
+              <a href="mailto:info@vim.sa (+ 966) 800-244-0306" style="color: black;">info@vim.sa (+ 966) 800-244-0306</a>
+          </div> 
+        </div>
+      `;
+
+      // Append the new div to the body
+      document.body.appendChild(newDiv);
+
 	})
 </script>
  {% endblock %}

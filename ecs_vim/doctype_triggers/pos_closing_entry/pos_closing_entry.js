@@ -1,37 +1,108 @@
 frappe.ui.form.on('POS Closing Entry', {
-	posting_time:function(frm){
-		console.log(cur_frm.doc.__islocal	)
-
-		console.log(frm.doc.payment_reconciliation)
-
-			$.each(frm.doc.payment_reconciliation, function (i, v) {
-				console.log(v)
-				console.log(frm.doc.cash_closing_amont)
-
-            // frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
-			// .then(({ type }) => {
-			// 	if(type=="Cash"){
-			// 		frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
-			// 		console.log(frm.doc.cash_closing_amont)
-            //     }
-            //     else{
-            //         frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
-            //     }
-				
-            // })
-			frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
-			.then(({ type }) => {
-				if(type=="Cash"){
-					frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+	after_save:function(frm){
+		if (frm.doc.payment_reconciliation){
+				$.each(frm.doc.payment_reconciliation, function (i, v) {
+					console.log(v)
 					console.log(frm.doc.cash_closing_amont)
-				}
-				else{
-					frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
-				}
-				
-			})
-			});
-			cur_frm.refresh_fields()
+	
+				// frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+				// .then(({ type }) => {
+				// 	if(type=="Cash"){
+				// 		frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+				// 		console.log(frm.doc.cash_closing_amont)
+				//     }
+				//     else{
+				//         frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+				//     }
+					
+				// })
+				frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+				.then(({ type }) => {
+					if(type=="Cash"){
+						frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+						console.log(frm.doc.cash_closing_amont)
+					}
+					else{
+						frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+					}
+					
+				})
+				});
+				cur_frm.refresh_fields()
+
+		}
+		
+	},
+	posting_time:function(frm){
+		if (frm.doc.payment_reconciliation){
+			console.log(frm.doc.payment_reconciliation)
+	
+				$.each(frm.doc.payment_reconciliation, function (i, v) {
+					console.log(v)
+					console.log(frm.doc.cash_closing_amont)
+	
+				// frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+				// .then(({ type }) => {
+				// 	if(type=="Cash"){
+				// 		frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+				// 		console.log(frm.doc.cash_closing_amont)
+				//     }
+				//     else{
+				//         frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+				//     }
+					
+				// })
+				frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+				.then(({ type }) => {
+					if(type=="Cash"){
+						frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+						console.log(frm.doc.cash_closing_amont)
+					}
+					else{
+						frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+					}
+					
+				})
+				});
+				cur_frm.refresh_fields()
+
+		}
+		
+	},
+	pos_opening_entry:function(frm){
+		if (frm.doc.payment_reconciliation){
+			console.log(frm.doc.payment_reconciliation)
+	
+				$.each(frm.doc.payment_reconciliation, function (i, v) {
+					console.log(v)
+					console.log(frm.doc.cash_closing_amont)
+	
+				// frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+				// .then(({ type }) => {
+				// 	if(type=="Cash"){
+				// 		frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+				// 		console.log(frm.doc.cash_closing_amont)
+				//     }
+				//     else{
+				//         frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+				//     }
+					
+				// })
+				frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+				.then(({ type }) => {
+					if(type=="Cash"){
+						frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+						console.log(frm.doc.cash_closing_amont)
+					}
+					else{
+						frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+					}
+					
+				})
+				});
+				cur_frm.refresh_fields()
+
+		}
 		
 	},
     pos_opening_entry(frm) {

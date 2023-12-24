@@ -16,16 +16,10 @@
   "column_break_280ts",
   "quantity",
   "booklet",
-  "currency_and_price_list_section",
-  "currency",
-  "column_break_3wrbu",
-  "selling_price_list",
+  "add_booklet",
   "section_break_yb8gr",
   "items",
   "accounting_details_section",
-  "debit_to",
-  "party_account_currency",
-  "is_opening_entry",
   "amended_from",
   "ticket_sales_invoice_section",
   "sales_invoice"
@@ -56,8 +50,7 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "Bulk Tickets Item",
-   "reqd": 1
+   "options": "Bulk Tickets Item"
   },
   {
    "fieldname": "amended_from",
@@ -73,31 +66,6 @@
    "fieldtype": "Date",
    "label": "Posting Date",
    "reqd": 1
-  },
-  {
-   "collapsible": 1,
-   "depends_on": "customer",
-   "fieldname": "currency_and_price_list_section",
-   "fieldtype": "Section Break",
-   "label": "Currency and Price List"
-  },
-  {
-   "fieldname": "currency",
-   "fieldtype": "Link",
-   "label": "Currency",
-   "options": "Currency",
-   "reqd": 1
-  },
-  {
-   "fieldname": "selling_price_list",
-   "fieldtype": "Link",
-   "label": "Price List",
-   "options": "Price List",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_3wrbu",
-   "fieldtype": "Column Break"
   },
   {
    "bold": 1,
@@ -120,29 +88,6 @@
    "fieldname": "accounting_details_section",
    "fieldtype": "Section Break",
    "label": "Accounting Details"
-  },
-  {
-   "fieldname": "debit_to",
-   "fieldtype": "Link",
-   "label": "Debit To",
-   "options": "Account",
-   "reqd": 1
-  },
-  {
-   "fieldname": "party_account_currency",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Party Account Currency",
-   "no_copy": 1,
-   "options": "Currency",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
-   "fieldname": "is_opening_entry",
-   "fieldtype": "Select",
-   "label": "Is Opening Entry",
-   "options": "No\nYes"
   },
   {
    "fieldname": "ticket_sales_invoice_section",
@@ -173,12 +118,17 @@
    "fieldtype": "Link",
    "label": "Booklet",
    "options": "Booklets"
+  },
+  {
+   "fieldname": "add_booklet",
+   "fieldtype": "Button",
+   "label": "Add"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-10 12:32:17.414466",
+ "modified": "2023-12-14 16:17:50.670532",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
  "name": "Sell Bulk Tickets",
