@@ -10,7 +10,6 @@
   "no_of_tickets",
   "no_of_tickets_per_booklet",
   "column_break_d15tw",
-  "item",
   "amended_from",
   "valid_branches_section",
   "branches_ticket"
@@ -45,13 +44,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "Test Booklet",
-   "fieldname": "item",
-   "fieldtype": "Link",
-   "label": "Item",
-   "options": "Item"
-  },
-  {
    "fieldname": "valid_branches_section",
    "fieldtype": "Section Break",
    "label": "Valid Branches"
@@ -66,7 +58,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-12-14 16:02:00.233817",
+ "modified": "2024-01-03 23:09:33.266756",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
  "name": "Create Bulk Tickets",

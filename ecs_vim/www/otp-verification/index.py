@@ -83,7 +83,7 @@ def get_context(context):
         except :
             raise "User Not Found"
     context.user_ip = user_ip
-    
+
     if user_ip.phone_no and not user_ip.sent:
         otp = OTP(user_ip.phone_no)
         response = otp.send_otp()

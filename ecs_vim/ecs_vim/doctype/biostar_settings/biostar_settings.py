@@ -2,10 +2,10 @@
 # For license information, please see license.txt
 
 # import frappe
+from datetime import timedelta
 from frappe.model.document import Document
 import frappe, requests, json, logging, datetime
 from logging.handlers import RotatingFileHandler
-
 class BiostarSettings(Document):
 	pass
 
@@ -97,8 +97,10 @@ def syn_attendance():
 				doc = frappe.new_doc("Employee Checkin")
 				doc.employee = _emp[0].name
 				doc.device_id = att["device_id"]["id"]
-				doc.time = datetime.datetime.fromisoformat(att["datetime"].split('.')[0])
-				doc.insert()
+				# I believe the time received is in GMT+0 time zone.
+				# as all branches in GMT+3 zone, add 3 hours to the received time.
+				doc.time = datetime.datetime.fromisoformat(att["datetime"].split('.')[0]) + timedelta(hours=3)
+				doc.insert()	
 				frappe.db.commit()
 				logger.info("Inserted {}".format(doc.name))
 			except frappe.ValidationError as verr:

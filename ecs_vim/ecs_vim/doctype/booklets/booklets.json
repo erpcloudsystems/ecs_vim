@@ -56,7 +56,8 @@
   {
    "fieldname": "code",
    "fieldtype": "Int",
-   "label": "code"
+   "label": "code",
+   "read_only": 1
   },
   {
    "fieldname": "print_tickets",
@@ -88,14 +89,15 @@
    "fieldname": "item",
    "fieldtype": "Link",
    "label": "Item",
-   "options": "Item"
+   "options": "Item",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_ewzbd",
    "fieldtype": "Section Break"
   },
   {
-   "default": "0",
+   "default": "1",
    "fetch_from": "item.custom_is_booklet",
    "fieldname": "is_booklet",
    "fieldtype": "Check",
@@ -106,7 +108,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-12-14 16:30:49.558798",
+ "modified": "2024-01-04 00:14:32.820868",
  "modified_by": "Administrator",
  "module": "Ecs Vim",
  "name": "Booklets",

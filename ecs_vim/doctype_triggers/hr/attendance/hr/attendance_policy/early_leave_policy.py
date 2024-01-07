@@ -19,15 +19,17 @@ class _EarlyLeavePolicy(_AttendancePolicy):
                 f"there is no {self.applied_policy} policy to apply. Please add some policies or disable it")
 
         minutes_before_grace_period = attendance.get_shift().get_leave_minutes_before_grace_period(attendance)
-        amounts = self._get_amounts(attendance, minutes_before_grace_period)
+        # amounts = self._get_amounts(attendance, minutes_before_grace_period)
+        amounts = [minutes_before_grace_period]
 
         salary_components = self._get_salary_components(minutes_before_grace_period)
 
-        policy_rows = self._get_policy_rows(minutes_before_grace_period)
+        # policy_rows = self._get_policy_rows(minutes_before_grace_period)
+        policy_row = [None]
 
         minutes = [minutes_before_grace_period] * len(amounts)
 
-        return amounts, salary_components, policy_rows, minutes
+        return amounts, salary_components, policy_row, minutes
 
 
 class _EarlyLeavePolicyDao(DAO):

@@ -1,38 +1,37 @@
 frappe.ui.form.on('POS Closing Entry', {
-	after_save:function(frm){
-		if (frm.doc.payment_reconciliation){
-				$.each(frm.doc.payment_reconciliation, function (i, v) {
-					console.log(v)
-					console.log(frm.doc.cash_closing_amont)
+	// after_save:function(frm){
+	// 	if (frm.doc.payment_reconciliation){
+	// 			$.each(frm.doc.payment_reconciliation, function (i, v) {
+	// 				console.log(v)
+	// 				console.log(frm.doc.cash_closing_amont)
 	
-				// frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
-				// .then(({ type }) => {
-				// 	if(type=="Cash"){
-				// 		frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
-				// 		console.log(frm.doc.cash_closing_amont)
-				//     }
-				//     else{
-				//         frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
-				//     }
+	// 			// frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+	// 			// .then(({ type }) => {
+	// 			// 	if(type=="Cash"){
+	// 			// 		frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+	// 			// 		console.log(frm.doc.cash_closing_amont)
+	// 			//     }
+	// 			//     else{
+	// 			//         frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+	// 			//     }
 					
-				// })
-				frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
-				.then(({ type }) => {
-					if(type=="Cash"){
-						frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
-						console.log(frm.doc.cash_closing_amont)
-					}
-					else{
-						frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
-					}
+	// 			// })
+	// 			frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
+	// 			.then(item => {
+	// 				if(item.type=="Cash"){
+	// 					frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
+	// 					console.log(frm.doc.cash_closing_amont)
+	// 				}
+	// 				else if (item.name.toLowerCase().includes("credit")) {
+	// 					frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.custom_credit_closing_amont)
+	// 				}
 					
-				})
-				});
-				cur_frm.refresh_fields()
+	// 			})
+	// 			});
+	// 			cur_frm.refresh_fields()
 
-		}
-		
-	},
+	// 	}
+	// },
 	posting_time:function(frm){
 		if (frm.doc.payment_reconciliation){
 			console.log(frm.doc.payment_reconciliation)
@@ -53,13 +52,13 @@ frappe.ui.form.on('POS Closing Entry', {
 					
 				// })
 				frappe.db.get_doc("Mode of Payment", v.mode_of_payment)
-				.then(({ type }) => {
-					if(type=="Cash"){
+				.then(item => {
+					if(item.type=="Cash"){
 						frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.cash_closing_amont)
 						console.log(frm.doc.cash_closing_amont)
 					}
-					else{
-						frappe.model.set_value(v.doctype, v.name, "closing_amount", v.expected_amount)
+					else if (item.name.toLowerCase().includes("credit")) {
+						frappe.model.set_value(v.doctype, v.name, "closing_amount", frm.doc.custom_credit_closing_amont)
 					}
 					
 				})
@@ -141,6 +140,7 @@ frappe.ui.form.on('POS Closing Entry', {
 		}
         
 		frappe.unfreeze
+		console.log("ok before save")
 	},
     validate:function(frm){
         frappe.freeze
@@ -154,7 +154,7 @@ frappe.ui.form.on('POS Closing Entry', {
             frappe.throw("Difference in calculated and selected amount.Please try Again.........",)
         }
         frappe.unfreeze
-
+		console.log("ok validate")
 
     }
    
@@ -215,3 +215,4 @@ if(grand_total!=frm.doc.grand_total || net_total!=frm.doc.net_total)
 return retval
 }
   
+
